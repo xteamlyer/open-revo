@@ -381,28 +381,28 @@ export const KeyboardLightingView: React.FC<KeyboardLightingViewProps> = ({
   };
 
   const pageTitle = isSingleColor
-    ? '键盘单色背光工作台'
+    ? 'Single-Color Keyboard Backlight'
     : isSingleZone
-    ? '单区 RGB 键盘工作台'
+    ? 'Single-Zone RGB Keyboard Studio'
     : isFourZone
-    ? '4区 RGB 键盘工作台'
-    : '键盘背光工作台';
+    ? '4-Zone RGB Keyboard Studio'
+    : 'Keyboard Backlight Studio';
 
   const badgeText = isSingleColor
-    ? '单色白光背光 [EC硬件直通]'
+    ? 'White backlight [direct EC control]'
     : isSingleZone
-    ? '单区同色 RGB [EC硬件调光]'
+    ? 'Single-zone RGB [EC hardware dimming]'
     : isFourZone
-    ? 'ITE 8291 r2 4区 RGB 控制器 (048D:CE00)'
-    : 'ITE 单键 RGB 控制器 (048D:600B)';
+    ? 'ITE 8291 r2 4-zone RGB controller (048D:CE00)'
+    : 'ITE per-key RGB controller (048D:600B)';
 
   const pageDesc = isSingleColor
-    ? '检测到当前机型为单色 LED 背光，已自动精简无效控制项，支持开关、3档亮度与闲置熄灯'
+    ? 'Monochrome LED backlight detected. Unsupported controls are hidden; power, 3 brightness levels, and idle shutoff are available.'
     : isSingleZone
-    ? '全键盘同色调光，支持纯色常亮、彩虹呼吸与4档亮度微调'
+    ? 'Single-color keyboard lighting with static, rainbow-breathing, and 4-step brightness controls'
     : isFourZone
-    ? '4 分区独立调色与 6 种原厂硬件动效，支持方向、亮度与色彩微调'
-    : '12 种硬件内建与动态特效，支持方向、亮度与色彩毫秒级直接生效';
+    ? 'Independent 4-zone color controls and 6 factory hardware effects, with direction, brightness, and color adjustments'
+    : '12 built-in hardware and dynamic effects, with instant controls for direction, brightness, and color';
 
   const isKbOn = lighting.kb_enabled && lighting.kb_brightness > 0;
 
@@ -498,10 +498,10 @@ export const KeyboardLightingView: React.FC<KeyboardLightingViewProps> = ({
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--text-secondary)' }}>
                 <Sun className="w-3.5 h-3.5" style={{ color: 'var(--status-warn)' }} />
-                全域键盘亮度
+                Overall Keyboard Brightness
               </span>
               <span style={{ color: 'var(--color-brand)', fontWeight: 700 }}>
-                {displayBrightness === 0 ? '关闭 (0)' : `${displayBrightness} 档`}
+                {displayBrightness === 0 ? 'Off (0)' : `${displayBrightness} level`}
               </span>
             </div>
             <input
@@ -557,7 +557,7 @@ export const KeyboardLightingView: React.FC<KeyboardLightingViewProps> = ({
             />
           ) : !isSingleColor && (
             <LightColorRow
-              label="定制主色调："
+              label="Customize Primary Color:"
               color={lighting.kb_color}
               onChangeColor={(hex: string) => sendKeyboard({ kb_color: hex })}
               iconColor="var(--color-brand)"

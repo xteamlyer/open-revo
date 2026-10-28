@@ -32,7 +32,7 @@ export const KbEngineSelector: React.FC<KbEngineSelectorProps> = ({
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
         <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
-          驱动引擎:
+          Rendering Engine:
         </span>
         <div style={{ display: 'flex', gap: '4px' }}>
           <button
@@ -49,9 +49,9 @@ export const KbEngineSelector: React.FC<KbEngineSelectorProps> = ({
               color: engine === 'hardware' ? 'var(--status-ok)' : 'var(--text-dim)',
               transition: 'all var(--transition-fast)',
             }}
-            title="由 ITE 8291 单片机固件内部硬件定时器渲染，系统 0% CPU 占用"
+            title="由 ITE 8291 单片机固件内部硬件定时器渲染，System 0% CPU 占用"
           >
-            <ShieldCheck size={12} className="inline mr-1" /> 原厂固件 (0% CPU)
+            <ShieldCheck size={12} className="inline mr-1" /> Factory Firmware (0% CPU)
           </button>
           <button
             type="button"
@@ -69,7 +69,7 @@ export const KbEngineSelector: React.FC<KbEngineSelectorProps> = ({
             }}
             title="由 BetterRGB 空间几何算法计算并由驱动以 60FPS 逐帧推流到键盘"
           >
-            <Zap size={12} className="inline mr-1" /> 极客高刷 (BetterRGB 算法)
+            <Zap size={12} className="inline mr-1" /> High Refresh (BetterRGB)
           </button>
           <button
             type="button"
@@ -87,14 +87,14 @@ export const KbEngineSelector: React.FC<KbEngineSelectorProps> = ({
             }}
             title="自定义动效脚本工作室：支持导入外部 .brfx 脚本与实时参数微调"
           >
-            <Sparkles size={12} className="inline mr-1" /> 定制脚本 (BetterRGB)
+            <Sparkles size={12} className="inline mr-1" /> Custom Script (BetterRGB)
           </button>
         </div>
       </div>
 
       {engine !== 'hardware' ? (
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ fontSize: '11px', color: 'var(--text-dim)', whiteSpace: 'nowrap' }}>推流高刷帧率:</span>
+          <span style={{ fontSize: '11px', color: 'var(--text-dim)', whiteSpace: 'nowrap' }}>High-refresh streaming FPS:</span>
           <div style={{ display: 'flex', gap: '3px' }}>
             {[15, 30, 45, 60].map((fpsVal) => {
               const active = fps === fpsVal;
@@ -127,7 +127,7 @@ export const KbEngineSelector: React.FC<KbEngineSelectorProps> = ({
       ) : (
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '11px', color: 'var(--status-ok)', opacity: 0.9 }}>
           <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: 'var(--radius-full)', backgroundColor: 'var(--status-ok)' }} />
-          硬件自主运算，无需主机推流
+          Rendered by hardware; no streaming from the host required
         </span>
       )}
     </div>

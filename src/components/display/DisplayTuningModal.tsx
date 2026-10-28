@@ -116,7 +116,7 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
       await invoke('apply_display_color_preset', { preset });
       await loadState();
       if (onUpdated) onUpdated();
-      showToast(`已切换至方案：${preset.name}`);
+      showToast(`Switched to preset: ${preset.name}`);
     } catch (e) {
       console.error('Failed to select preset:', e);
     }
@@ -150,7 +150,7 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
       setSelectedPresetId(res.active_preset_id || selectedPresetId);
       if (onUpdated) onUpdated();
       showToast(
-        `已撤销更改，恢复【${res.active_preset.name}】官方默认参数`
+        `Changes undone. Restored official defaults for [${res.active_preset.name}].`
       );
     } catch (e) {
       console.error('Failed to reset preset:', e);
@@ -177,9 +177,9 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
         await loadState();
         setActivePreset(imported);
         if (onUpdated) onUpdated();
-        showToast(`成功加载配色文件：${imported.name}`);
+        showToast(`Color profile loaded: ${imported.name}`);
       } catch (err: any) {
-        alert(`加载 .json 配色文件失败: ${err}`);
+        alert(`Failed to load .json color profile: ${err}`);
       }
     };
     reader.readAsText(file);
@@ -198,7 +198,7 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    showToast('已导出配色文件至下载');
+    showToast('Color profile exported to Downloads');
   };
 
   const showToast = (msg: string) => {
@@ -274,7 +274,7 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
           </div>
           <div>
             <div style={{ fontSize: '15px', fontWeight: 800, letterSpacing: '0.02em', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span>屏幕色彩增强引擎</span>
+              <span>Display Color Enhancement Engine</span>
               <span
                 style={{
                   fontSize: '10px',
@@ -286,11 +286,11 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
                   border: `1px solid ${state.enabled ? 'rgba(16, 185, 129, 0.4)' : 'rgba(148, 163, 184, 0.3)'}`,
                 }}
               >
-                {state.enabled ? 'GPU 硬件生效中' : '调色已暂停'}
+                {state.enabled ? 'GPU hardware active' : 'Color tuning paused'}
               </span>
             </div>
             <div style={{ fontSize: '11px', color: '#94a3b8' }}>
-              GPU 硬件级 LUT 查找表与全屏 DWM 渲染管线实时色彩重构
+              Real-time color reconstruction using the GPU hardware LUT and full-screen DWM rendering pipeline
             </div>
           </div>
         </div>
@@ -325,7 +325,7 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
               justifyContent: 'center',
               transition: 'all 0.2s',
             }}
-            title="关闭浮层 (ESC)"
+            title="Close overlay (ESC)"
           >
             <X size={18} />
           </button>
@@ -361,7 +361,7 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
             }}
           >
             <div style={{ fontSize: '12px', fontWeight: 700, color: '#cbd5e1' }}>
-              色彩预设方案
+              Color Presets
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
               {/* Load .json Button */}
@@ -381,10 +381,10 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
                   cursor: 'pointer',
                   fontWeight: 600,
                 }}
-                title="导入任意本地 .json 配色方案文件 (自动兼容官方出厂配置)"
+                title="Import any local .json color profile (factory profiles are supported)"
               >
                 <FolderOpen size={13} />
-                <span>加载 .json 文件</span>
+                <span>Load .json File</span>
               </button>
 
               {/* Export Button */}
@@ -403,10 +403,10 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
                   color: '#e2e8f0',
                   cursor: 'pointer',
                 }}
-                title="将当前调好的色彩参数导出为 .json 文件"
+                title="Export the current color settings as a .json file"
               >
                 <Download size={13} />
-                <span>导出当前 .json</span>
+                <span>Export Current .json</span>
               </button>
 
               {/* Undo Changes Button */}
@@ -429,10 +429,10 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
                   fontWeight: 600,
                   transition: 'all 0.2s ease',
                 }}
-                title={isModified ? "撤销对当前方案的滑块微调，恢复初始参数" : "当前方案未做任何修改"}
+                title={isModified ? "Undo slider adjustments and restore the initial parameters" : "No changes have been made to the current preset"}
               >
                 <RotateCcw size={12} />
-                <span>撤销更改</span>
+                <span>Undo Changes</span>
               </button>
             </div>
           </div>
@@ -502,9 +502,9 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
                           marginLeft: '4px',
                           whiteSpace: 'nowrap',
                         }}
-                        title="当前方案参数已微调，点击右上角【撤销更改】可一键恢复官方初始参数"
+                        title="The current preset has been adjusted. Click Undo in the upper-right to restore factory defaults."
                       >
-                        微调
+                        Fine Tune
                       </span>
                     ) : (
                       <Check size={12} className="text-pink-400" style={{ flexShrink: 0, marginLeft: '4px' }} />
@@ -529,17 +529,17 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
           }}
         >
           <div style={{ fontSize: '12px', fontWeight: 700, color: '#cbd5e1', marginBottom: '2px' }}>
-            实时显卡硬件微调 (所见即所得，毫秒级生效)
+            Real-time GPU hardware tuning (what you see is applied in milliseconds)
           </div>
 
           {/* Slider 1: Color Temp */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '6px' }}>
-              <span style={{ color: '#94a3b8' }}>色温 (Color Temperature)</span>
+              <span style={{ color: '#94a3b8' }}>Color Temperature</span>
               <span style={{ fontWeight: 700, color: '#f59e0b' }}>{activePreset.color_temp_k}K</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '10px', color: '#64748b' }}>4000K 暖黄</span>
+              <span style={{ fontSize: '10px', color: '#64748b' }}>4000K Warm</span>
               <input
                 type="range"
                 min={4000}
@@ -549,20 +549,20 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
                 onChange={(e) => handleSliderChange('color_temp_k', Number(e.target.value))}
                 style={{ flex: 1, accentColor: '#f59e0b', cursor: 'pointer', height: '6px' }}
               />
-              <span style={{ fontSize: '10px', color: '#64748b' }}>9000K 冷蓝</span>
+              <span style={{ fontSize: '10px', color: '#64748b' }}>9000K Cool</span>
             </div>
           </div>
 
           {/* Slider 2: Saturation / Vibrance */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '6px' }}>
-              <span style={{ color: '#94a3b8' }}>色彩鲜艳度 / 饱和度 (Vibrance)</span>
+              <span style={{ color: '#94a3b8' }}>Vibrance / Saturation</span>
               <span style={{ fontWeight: 700, color: '#ec4899' }}>
                 {Math.round(activePreset.saturation * 100)}%
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '10px', color: '#64748b' }}>0% 黑白</span>
+              <span style={{ fontSize: '10px', color: '#64748b' }}>0% Monochrome</span>
               <input
                 type="range"
                 min={0}
@@ -572,20 +572,20 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
                 onChange={(e) => handleSliderChange('saturation', Number(e.target.value))}
                 style={{ flex: 1, accentColor: '#ec4899', cursor: 'pointer', height: '6px' }}
               />
-              <span style={{ fontSize: '10px', color: '#64748b' }}>200% 浓艳</span>
+              <span style={{ fontSize: '10px', color: '#64748b' }}>200% Vivid</span>
             </div>
           </div>
 
           {/* Slider 3: Contrast */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '6px' }}>
-              <span style={{ color: '#94a3b8' }}>对比度 (Contrast)</span>
+              <span style={{ color: '#94a3b8' }}>Contrast</span>
               <span style={{ fontWeight: 700, color: '#38bdf8' }}>
                 {Math.round(activePreset.contrast * 100)}%
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '10px', color: '#64748b' }}>50% 柔和</span>
+              <span style={{ fontSize: '10px', color: '#64748b' }}>50% Soft</span>
               <input
                 type="range"
                 min={0.5}
@@ -595,20 +595,20 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
                 onChange={(e) => handleSliderChange('contrast', Number(e.target.value))}
                 style={{ flex: 1, accentColor: '#38bdf8', cursor: 'pointer', height: '6px' }}
               />
-              <span style={{ fontSize: '10px', color: '#64748b' }}>150% 鲜明</span>
+              <span style={{ fontSize: '10px', color: '#64748b' }}>150% Vivid</span>
             </div>
           </div>
 
           {/* Slider 4: Gamma */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '6px' }}>
-              <span style={{ color: '#94a3b8' }}>伽马曲线 (Gamma)</span>
+              <span style={{ color: '#94a3b8' }}>Gamma Curve</span>
               <span style={{ fontWeight: 700, color: '#a855f7' }}>
                 {activePreset.gamma.toFixed(2)}
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '10px', color: '#64748b' }}>0.7 暗部深沉</span>
+              <span style={{ fontSize: '10px', color: '#64748b' }}>0.7 Dark Shadows</span>
               <input
                 type="range"
                 min={0.7}
@@ -618,7 +618,7 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
                 onChange={(e) => handleSliderChange('gamma', Number(e.target.value))}
                 style={{ flex: 1, accentColor: '#a855f7', cursor: 'pointer', height: '6px' }}
               />
-              <span style={{ fontSize: '10px', color: '#64748b' }}>1.3 暗部通透</span>
+              <span style={{ fontSize: '10px', color: '#64748b' }}>1.3 Brighter Shadows</span>
             </div>
           </div>
 
@@ -638,7 +638,7 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
                 padding: '4px 0',
               }}
             >
-              <span>{showRgbChannels ? '收起' : '展开'} RGB 独立原色增益微调</span>
+              <span>{showRgbChannels ? 'Collapse' : 'Expand'} RGB 独立原色增益微调</span>
               {showRgbChannels ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
             </button>
 
@@ -646,7 +646,7 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '10px' }}>
                 {/* R Gain */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ width: '50px', fontSize: '11px', color: '#f87171' }}>红 (R): {Math.round(activePreset.gain_r * 100)}%</span>
+                  <span style={{ width: '50px', fontSize: '11px', color: '#f87171' }}>Red (R): {Math.round(activePreset.gain_r * 100)}%</span>
                   <input
                     type="range"
                     min={0.5}
@@ -659,7 +659,7 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
                 </div>
                 {/* G Gain */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ width: '50px', fontSize: '11px', color: '#4ade80' }}>绿 (G): {Math.round(activePreset.gain_g * 100)}%</span>
+                  <span style={{ width: '50px', fontSize: '11px', color: '#4ade80' }}>Green (G): {Math.round(activePreset.gain_g * 100)}%</span>
                   <input
                     type="range"
                     min={0.5}
@@ -672,7 +672,7 @@ export const DisplayTuningModal: React.FC<DisplayTuningModalProps> = ({ onClose,
                 </div>
                 {/* B Gain */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ width: '50px', fontSize: '11px', color: '#60a5fa' }}>蓝 (B): {Math.round(activePreset.gain_b * 100)}%</span>
+                  <span style={{ width: '50px', fontSize: '11px', color: '#60a5fa' }}>Blue (B): {Math.round(activePreset.gain_b * 100)}%</span>
                   <input
                     type="range"
                     min={0.5}

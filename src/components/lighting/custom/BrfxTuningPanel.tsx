@@ -83,7 +83,7 @@ export const BrfxTuningPanel: React.FC<BrfxTuningPanelProps> = ({
           }}
         >
           <Undo2 size={11} />
-          <span>恢复默认</span>
+          <span>Restore defaults</span>
         </button>
       </div>
 
@@ -159,10 +159,10 @@ export const BrfxTuningPanel: React.FC<BrfxTuningPanelProps> = ({
           </span>
           <div style={{ display: 'flex', gap: '4px' }}>
             {[
-              { id: 0, icon: ArrowRight, label: '从左至右' },
-              { id: 1, icon: ArrowLeft, label: '从右至左' },
-              { id: 2, icon: ArrowUp, label: '从下至上' },
-              { id: 3, icon: ArrowDown, label: '从上至下' },
+              { id: 0, icon: ArrowRight, label: 'Left to Right' },
+              { id: 1, icon: ArrowLeft, label: 'Right to Left' },
+              { id: 2, icon: ArrowUp, label: 'Bottom to Top' },
+              { id: 3, icon: ArrowDown, label: 'Top to Bottom' },
             ].map((d) => {
               const Icon = d.icon;
               const active = values.direction === d.id;
@@ -218,7 +218,7 @@ export const BrfxTuningPanel: React.FC<BrfxTuningPanelProps> = ({
             }}
           >
             <Activity size={13} />
-            <span>击键互动: {values.reactive ? '开启' : '关闭'}</span>
+            <span>击键互动: {values.reactive ? 'On' : 'Close'}</span>
           </button>
         </div>
       </div>
@@ -292,7 +292,7 @@ export const BrfxTuningPanel: React.FC<BrfxTuningPanelProps> = ({
             type="text"
             value={values.customText}
             onChange={(e) => onChange({ customText: e.target.value })}
-            placeholder="输入弹幕文字，例如: I LOVE OPEN-REVO"
+            placeholder="Enter marquee text, e.g. I LOVE OPEN-REVO"
             style={{
               width: '100%',
               background: 'rgba(0, 0, 0, 0.35)',

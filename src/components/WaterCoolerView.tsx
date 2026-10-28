@@ -173,7 +173,7 @@ export const WaterCoolerView: React.FC<WaterCoolerViewProps> = ({
       }, 1200);
     } catch (e) {
       console.error('Failed to connect cooler:', e);
-      setPairMsg('连接水冷箱超时，请确认水冷魔盒通电并在蓝牙覆盖范围内');
+      setPairMsg('Cooler connection timed out. Ensure it is powered on and within Bluetooth range.');
       setTimeout(() => setPairMsg(null), 4000);
     } finally {
       setTimeout(() => setIsCoolerConnecting(false), 800);
@@ -223,7 +223,7 @@ export const WaterCoolerView: React.FC<WaterCoolerViewProps> = ({
     try {
       await invoke('fill_water_cooler');
       setCoolerData((prev) => ({ ...prev, is_priming: true }));
-      setPairMsg('已启动注水排气流程（水泵将脉冲启停 8 次排除管路气泡）');
+      setPairMsg('Priming and bleeding started (the pump will pulse 8 times to remove air bubbles).');
       setTimeout(() => setPairMsg(null), 4000);
     } catch (e) {
       console.error('Failed to start fill water:', e);
@@ -237,7 +237,7 @@ export const WaterCoolerView: React.FC<WaterCoolerViewProps> = ({
       if (res) {
         setCoolerData(res);
       }
-      setPairMsg('已安全断开水冷箱连接，水泵与冷排已停机');
+      setPairMsg('Cooler disconnected safely; pump and radiator fans stopped.');
       setTimeout(() => setPairMsg(null), 3500);
     } catch (e) {
       console.error('Failed to disconnect cooler:', e);
@@ -251,7 +251,7 @@ export const WaterCoolerView: React.FC<WaterCoolerViewProps> = ({
       const res = await invoke<CoolerTelemetry>('reset_water_cooler');
       if (res) {
         setCoolerData(res);
-        setPairMsg('已恢复出厂策略：水泵标准巡航 / 冷排 75% / 幻彩流光 RGB');
+        setPairMsg('Factory settings restored: standard pump cruise / radiator 75% / RGB flow');
         setTimeout(() => setPairMsg(null), 3500);
       }
     } catch (e) {
@@ -266,12 +266,12 @@ export const WaterCoolerView: React.FC<WaterCoolerViewProps> = ({
       const res = await invoke<CoolerTelemetry>('pair_water_cooler');
       if (res) {
         setCoolerData(res);
-        setPairMsg(`配对成功！已连接水冷箱: ${res.mac_address || '已更新'}`);
+        setPairMsg(`Pairing successful! Connected to cooler: ${res.mac_address || 'updated'}`);
         setTimeout(() => setPairMsg(null), 4000);
       }
     } catch (e: any) {
       console.error('Failed to pair cooler:', e);
-      setPairMsg(`配对失败: ${typeof e === 'string' ? e : '未找到水冷箱，请确认其通电并在附近'}`);
+      setPairMsg(`Pairing failed: ${typeof e === 'string' ? e : 'Cooler not found. Ensure it is powered on and nearby.'}`);
       setTimeout(() => setPairMsg(null), 5000);
     } finally {
       setIsPairing(false);
@@ -284,7 +284,7 @@ export const WaterCoolerView: React.FC<WaterCoolerViewProps> = ({
       if (res) {
         setCoolerData(res);
       }
-      setPairMsg(`已绑定专属水冷箱: ${device.name} (${device.mac_address})`);
+      setPairMsg(`Paired cooler: ${device.name} (${device.mac_address})`);
       setTimeout(() => setPairMsg(null), 4000);
     } catch (e: any) {
       console.error('Failed to select water cooler device:', e);
@@ -394,12 +394,12 @@ export const WaterCoolerView: React.FC<WaterCoolerViewProps> = ({
             top: '12px',
             right: '16px',
             zIndex: 30,
-            background: pairMsg.includes('失败')
+            background: pairMsg.includes('Failed')
               ? 'rgba(159, 18, 57, 0.95)'
-              : pairMsg.includes('断开')
+              : pairMsg.includes('Disconnect')
                 ? 'var(--surface-overlay)'
                 : 'rgba(6, 78, 59, 0.95)',
-            border: `1px solid ${pairMsg.includes('失败') ? 'var(--status-error)' : pairMsg.includes('断开') ? 'var(--border-medium)' : 'var(--status-ok)'}`,
+            border: `1px solid ${pairMsg.includes('Failed') ? 'var(--status-error)' : pairMsg.includes('Disconnect') ? 'var(--border-medium)' : 'var(--status-ok)'}`,
             color: 'var(--text-primary)',
             padding: '8px 14px',
             borderRadius: 'var(--radius-md)',
@@ -414,9 +414,9 @@ export const WaterCoolerView: React.FC<WaterCoolerViewProps> = ({
           }}
         >
           <span style={{ display: 'flex', alignItems: 'center' }}>
-            {pairMsg.includes('失败') ? (
+            {pairMsg.includes('Failed') ? (
               <AlertTriangle size={14} className="text-rose-400" />
-            ) : pairMsg.includes('断开') ? (
+            ) : pairMsg.includes('Disconnect') ? (
               <Info size={14} className="text-slate-300" />
             ) : (
               <Check size={14} className="text-emerald-400" />

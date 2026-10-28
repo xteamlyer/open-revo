@@ -121,13 +121,13 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
               whiteSpace: 'nowrap',
             }}
           >
-            极客自定义调校
+            Enthusiast Custom Tuning
           </div>
         </div>
 
         {/* Profile Controls in Top Right */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', position: 'relative' }}>
-          <span style={{ fontSize: '11px', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>方案:</span>
+          <span style={{ fontSize: '11px', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>Preset:</span>
 
           {/* Custom Dark Glass Dropdown */}
           <div ref={dropdownRef} style={{ position: 'relative' }}>
@@ -151,12 +151,12 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
                 transition: 'all var(--transition-fast)',
                 flexShrink: 0,
               }}
-              title="选择预设方案"
+              title="Select a preset"
             >
               <span style={{ display: 'flex', alignItems: 'center', gap: '6px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
                 {renderProfileIcon(activePreset?.icon_key || 'star')}
                 <span style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis', fontSize: '12px' }}>
-                  {activePreset?.name || '未知方案'}
+                  {activePreset?.name || 'Unknown Preset'}
                 </span>
               </span>
               <ChevronDown className="w-3.5 h-3.5 shrink-0 opacity-70 ml-1" />
@@ -211,9 +211,9 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
                         <span style={{ overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>{p.name}</span>
                       </div>
                       {isUnmodified ? (
-                        <span style={{ fontSize: '10px', color: 'var(--text-dim)', marginLeft: '6px', flexShrink: 0 }}>原厂</span>
+                        <span style={{ fontSize: '10px', color: 'var(--text-dim)', marginLeft: '6px', flexShrink: 0 }}>Factory</span>
                       ) : (
-                        <span style={{ fontSize: '10px', color: 'var(--status-warn)', marginLeft: '6px', flexShrink: 0 }}>自定义</span>
+                        <span style={{ fontSize: '10px', color: 'var(--status-warn)', marginLeft: '6px', flexShrink: 0 }}>Custom</span>
                       )}
                     </div>
                   );
@@ -225,9 +225,9 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
           <button
             type="button"
             className="toolbar-icon-btn"
-            title={activePreset?.is_builtin ? '将当前参数另存为新方案' : '将当前参数另存为新方案副本'}
+            title={activePreset?.is_builtin ? 'Save Current Settings as a New Preset' : 'Save Current Settings as a Preset Copy'}
             onClick={() => {
-              setModalInputName(`${activePreset?.name || '方案'}_副本`.slice(0, 12));
+              setModalInputName(`${activePreset?.name || 'Preset'}_副本`.slice(0, 12));
               setModalMode('new');
             }}
           >
@@ -241,7 +241,7 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
               color: resetSuccess ? 'var(--status-ok)' : 'var(--text-muted)',
               borderColor: resetSuccess ? 'var(--status-ok)' : 'var(--border-medium)',
             }}
-            title="还原为默认参数（同时重置 EC 功耗握手，解除 CPU 锁 55W / GPU 锁功耗异常）"
+            title="Restore defaults (reset EC power handshakes and clear abnormal CPU 55 W / GPU power limits)"
             onClick={onResetCurrentProfile}
           >
             {resetSuccess ? <Check className="w-3.5 h-3.5" style={{ color: 'var(--status-ok)' }} /> : <RotateCcw className="w-3.5 h-3.5" />}
@@ -250,7 +250,7 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
           <button
             type="button"
             className="toolbar-icon-btn"
-            title={activePreset?.is_builtin ? '原厂预设不可重命名' : '重命名当前方案'}
+            title={activePreset?.is_builtin ? 'Factory presets cannot be renamed' : 'Rename Current Preset'}
             disabled={activePreset?.is_builtin}
             onClick={() => {
               if (activePreset && !activePreset.is_builtin) {
@@ -265,7 +265,7 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
           <button
             type="button"
             className="toolbar-icon-btn"
-            title="导出方案为独立 JSON 文件"
+            title="Export preset as a standalone JSON file"
             onClick={onExportProfile}
           >
             <Upload className="w-3.5 h-3.5" />
@@ -274,7 +274,7 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
           <button
             type="button"
             className="toolbar-icon-btn"
-            title="导入外部独立 JSON 方案"
+            title="Import a standalone JSON preset"
             onClick={() => fileInputRef.current?.click()}
           >
             <Download className="w-3.5 h-3.5" />
@@ -290,7 +290,7 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
           <button
             type="button"
             className="toolbar-icon-btn"
-            title="在资源管理器中打开 profiles 文件夹"
+            title="Open the profiles folder in File Explorer"
             onClick={onOpenProfilesFolder}
           >
             <Folder className="w-3.5 h-3.5" />
@@ -302,7 +302,7 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
             style={{
               color: activePreset?.is_builtin ? 'var(--text-dim)' : 'var(--status-error)',
             }}
-            title={activePreset?.is_builtin ? '原厂预设不可删除' : '删除当前方案文件'}
+            title={activePreset?.is_builtin ? 'Factory presets cannot be deleted' : 'Delete Current Preset'}
             disabled={activePreset?.is_builtin}
             onClick={onDeleteProfile}
           >
@@ -317,7 +317,7 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
               className="toolbar-icon-btn"
               style={{ marginLeft: '2px' }}
               onClick={onClose}
-              title="关闭调校窗口"
+              title="Close Tuning Window"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -355,14 +355,14 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div style={{ fontWeight: 700, fontSize: '13px', color: 'var(--text-primary)' }}>
-              {modalMode === 'new' ? '新建方案副本' : '重命名方案'}
+              {modalMode === 'new' ? 'Duplicate Preset' : 'Rename Preset'}
             </div>
             <input
               type="text"
               value={modalInputName}
               maxLength={12}
               autoFocus
-              placeholder="输入方案名称 (最多12字)..."
+              placeholder="Enter preset name (max 12 characters)..."
               onChange={(e) => setModalInputName(e.target.value.slice(0, 12))}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -400,7 +400,7 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
                   cursor: 'pointer',
                 }}
               >
-                取消
+                Cancel
               </button>
               <button
                 type="button"
@@ -423,7 +423,7 @@ export const TuningToolbar: React.FC<TuningToolbarProps> = ({
                   cursor: 'pointer',
                 }}
               >
-                确定
+                Confirm
               </button>
             </div>
           </div>

@@ -100,7 +100,7 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
   const handleApply = async () => {
     setIsApplying(true);
     setErrorMessage('');
-    setApplyStep('正在执行驱动安全退火与硬件复位...');
+    setApplyStep('Safely resetting the driver and hardware...');
 
     try {
       // 保证用户纠偏时如果全是 auto 则将 enabled 置为 false
@@ -121,7 +121,7 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
       });
 
       setConfig(finalCfg);
-      setApplyStep('硬件通道绑定成功！');
+      setApplyStep('Hardware channel bound successfully!');
       setTimeout(() => {
         setIsApplying(false);
         onClose();
@@ -165,7 +165,7 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
             </div>
             <div>
               <div className="sys-modal-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span>灯效硬件设备拓扑纠偏</span>
+                <span>Lighting Hardware Topology Override</span>
                 <span
                   style={{
                     fontSize: '10.5px',
@@ -177,11 +177,11 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                     border: '1px solid var(--status-info)',
                   }}
                 >
-                  超薄自适应
+                  Ultrabook Adaptive
                 </span>
               </div>
               <div className="sys-modal-subtitle">
-                若自动检测与物理硬件不符，请在此手动指定物理设备。鼠标悬停在选项或 <strong>ⓘ</strong> 上可查看硬件协议与适用机型。
+                If automatic detection does not match the physical hardware, select the device manually here. Hover over an option or <strong>ⓘ</strong> to view hardware protocols and supported models.
               </div>
             </div>
           </div>
@@ -201,7 +201,7 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                 border: '1px solid var(--status-error)',
               }}
             >
-              应用失败: {errorMessage}
+              Failed to apply: {errorMessage}
             </div>
           )}
           <div className="topology-container">
@@ -209,9 +209,9 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
             {/* 1. 键盘背光 */}
             <div className="topology-row">
               <div className="topology-row-left">
-                <span className="topology-row-title">⌨️ 1. 键盘背光硬件</span>
+                <span className="topology-row-title">⌨️ 1. Keyboard Backlight Hardware</span>
                 <span className="topology-row-hint">
-                  自动探测: <strong>{baseline.keyboard || '检测中'}</strong>
+                  Auto-detected: <strong>{baseline.keyboard || 'Checking'}</strong>
                 </span>
               </div>
               <div className="topology-radio-group">
@@ -221,16 +221,16 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('keyboard', 'per_key')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">全彩逐键 RGB</span>
-                  {baseline.keyboard === 'per_key' && <span className="topology-badge-auto">自动</span>}
+                  <span className="topology-pill-label">Full-Color Per-Key RGB</span>
+                  {baseline.keyboard === 'per_key' && <span className="topology-badge-auto">Auto</span>}
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>全彩逐键 RGB</span>
+                      <span>Full-Color Per-Key RGB</span>
                       <span className="topology-tip-chip">048D:600B</span>
                     </div>
-                    <p className="topology-tip-desc">每个按键独立设色，支持 BetterRGB 60FPS 极客流光、水波涟漪与自定义着色器。</p>
-                    <div className="topology-tip-example">典型: 耀世16 Pro/Ultra, 苍龙16 等高配</div>
+                    <p className="topology-tip-desc">Each key can be colored independently. Supports BetterRGB 60 FPS effects, water ripples, and custom shaders.</p>
+                    <div className="topology-tip-example">Typical models: YaoShi 16 Pro/Ultra, Canglong 16, and other high-end models</div>
                   </div>
                 </div>
 
@@ -240,16 +240,16 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('keyboard', 'four_zone')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">4区 RGB</span>
-                  {baseline.keyboard === 'four_zone' && <span className="topology-badge-auto">自动</span>}
+                  <span className="topology-pill-label">4-Zone RGB</span>
+                  {baseline.keyboard === 'four_zone' && <span className="topology-badge-auto">Auto</span>}
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>4区 RGB 硬件分段</span>
+                      <span>4-Zone RGB Hardware</span>
                       <span className="topology-tip-chip">048D:CE00</span>
                     </div>
-                    <p className="topology-tip-desc">键盘横向分为 4 个物理区域独立设色，支持硬件级波浪跑马与呼吸。</p>
-                    <div className="topology-tip-example">典型: 蛟龙16, X10 Pro, 极光早期版</div>
+                    <p className="topology-tip-desc">The keyboard is divided into four physical zones with independent colors. Supports hardware wave, marquee, and breathing effects.</p>
+                    <div className="topology-tip-example">Typical models: Jiaolong 16, X10 Pro, early Aurora editions</div>
                   </div>
                 </div>
 
@@ -259,16 +259,16 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('keyboard', 'single_zone')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">单区 RGB</span>
-                  {baseline.keyboard === 'single_zone' && <span className="topology-badge-auto">自动</span>}
+                  <span className="topology-pill-label">Single-Zone RGB</span>
+                  {baseline.keyboard === 'single_zone' && <span className="topology-badge-auto">Auto</span>}
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>单区 RGB (整盘同色)</span>
+                      <span>Single-Zone RGB (One Color Across Keyboard)</span>
                       <span className="topology-tip-chip">EC RAM PWM</span>
                     </div>
-                    <p className="topology-tip-desc">由主板 EC 直驱，全键盘作为一个整体变色，支持单色常亮、呼吸与整体彩虹渐变。</p>
-                    <div className="topology-tip-example">典型: 极光X, 耀世15单区版, 旷世G16</div>
+                    <p className="topology-tip-desc">Driven directly by the motherboard EC. The whole keyboard changes color as one zone, supporting static color, breathing, and rainbow gradients.</p>
+                    <div className="topology-tip-example">Typical models: Aurora X, single-zone YaoShi 15, Kuangshi G16</div>
                   </div>
                 </div>
 
@@ -278,16 +278,16 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('keyboard', 'single_white')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">单色白光</span>
-                  {baseline.keyboard === 'single_white' && <span className="topology-badge-auto">自动</span>}
+                  <span className="topology-pill-label">Solid White</span>
+                  {baseline.keyboard === 'single_white' && <span className="topology-badge-auto">Auto</span>}
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>单色白光背光</span>
+                      <span>White Keyboard Backlight</span>
                       <span className="topology-tip-chip">EC 1932</span>
                     </div>
-                    <p className="topology-tip-desc">纯白光 LED，支持关 / 弱光 (50%) / 强光 (100%) 三档无频闪梯级调光。</p>
-                    <div className="topology-tip-example">典型: 无界14X, 无界15X 等轻薄本</div>
+                    <p className="topology-tip-desc">纯白光 LED，支持关 / Dim (50%) / Bright (100%) 三档无频闪梯级调光。</p>
+                    <div className="topology-tip-example">Typical models: Wujie 14X, Wujie 15X, and other ultrabooks</div>
                   </div>
                 </div>
 
@@ -297,14 +297,14 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('keyboard', 'none')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">无背光/禁用</span>
+                  <span className="topology-pill-label">No Backlight / Disabled</span>
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>无键盘背光</span>
+                      <span>No Keyboard Backlight</span>
                       <span className="topology-tip-chip">Disabled</span>
                     </div>
-                    <p className="topology-tip-desc">模具无发光背光，或在软件中彻底隐藏键盘控制卡片。</p>
+                    <p className="topology-tip-desc">The model has no keyboard backlight, or the keyboard control card is hidden in software.</p>
                   </div>
                 </div>
               </div>
@@ -313,9 +313,9 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
             {/* 2. 前置海岸灯条 */}
             <div className="topology-row">
               <div className="topology-row-left">
-                <span className="topology-row-title">🌊 2. 前置海岸灯条</span>
+                <span className="topology-row-title">🌊 2. Front Lightbar</span>
                 <span className="topology-row-hint">
-                  自动探测: <strong>{baseline.front_bar === 'present' ? '具备灯条' : '未检测到'}</strong>
+                  Auto-detected: <strong>{baseline.front_bar === 'present' ? 'Lightbar Present' : 'Not detected'}</strong>
                 </span>
               </div>
               <div className="topology-radio-group">
@@ -324,16 +324,16 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('front_bar', 'present')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">前置海岸灯条 (具备)</span>
-                  {baseline.front_bar === 'present' && <span className="topology-badge-auto">自动</span>}
+                  <span className="topology-pill-label">Front Lightbar (Present)</span>
+                  {baseline.front_bar === 'present' && <span className="topology-badge-auto">Auto</span>}
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>前唇海岸流光灯条</span>
+                      <span>Front Edge Lightbar</span>
                       <span className="topology-tip-chip">048D:7001 / EC</span>
                     </div>
-                    <p className="topology-tip-desc">位于触摸板正下方前边缘的细长多段流光灯条，支持对撞、跑马与全彩波浪。</p>
-                    <div className="topology-tip-example">典型: 耀世16, 蛟龙16 等前唇灯机型</div>
+                    <p className="topology-tip-desc">A slim, segmented lightbar along the front edge below the touchpad. Supports clash, marquee, and full-color wave effects.</p>
+                    <div className="topology-tip-example">Typical models: YaoShi 16, Jiaolong 16, and other models with a front lightbar</div>
                   </div>
                 </div>
 
@@ -342,15 +342,15 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('front_bar', 'none')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">无海岸灯条 (屏蔽)</span>
-                  {baseline.front_bar === 'none' && <span className="topology-badge-auto">自动</span>}
+                  <span className="topology-pill-label">No Front Lightbar (Disabled)</span>
+                  {baseline.front_bar === 'none' && <span className="topology-badge-auto">Auto</span>}
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>无前海岸灯</span>
+                      <span>No Front Lightbar</span>
                       <span className="topology-tip-chip">None</span>
                     </div>
-                    <p className="topology-tip-desc">模具前唇物理无发光条，选择此项可彻底移除幽灵海岸灯卡片并停止发包。</p>
+                    <p className="topology-tip-desc">The chassis has no front lightbar. Selecting this removes the unused lightbar card and stops related commands.</p>
                   </div>
                 </div>
               </div>
@@ -359,9 +359,9 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
             {/* 3. 特色氛围灯 */}
             <div className="topology-row">
               <div className="topology-row-left">
-                <span className="topology-row-title">💨 3. 特色氛围灯</span>
+                <span className="topology-row-title">💨 3. Ambient Lighting</span>
                 <span className="topology-row-hint">
-                  自动探测: <strong>{baseline.ambient || '未检测到'}</strong>
+                  Auto-detected: <strong>{baseline.ambient || 'Not detected'}</strong>
                 </span>
               </div>
               <div className="topology-radio-group">
@@ -370,16 +370,16 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('ambient', 'vent')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">尾气灯 (后出风口氛围灯)</span>
-                  {baseline.ambient === 'vent' && <span className="topology-badge-auto">自动</span>}
+                  <span className="topology-pill-label">Rear Exhaust Ambient Lighting</span>
+                  {baseline.ambient === 'vent' && <span className="topology-badge-auto">Auto</span>}
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>尾部排气格栅氛围灯</span>
+                      <span>Rear Exhaust Grille Lighting</span>
                       <span className="topology-tip-chip">048D:7000 / Hinge</span>
                     </div>
-                    <p className="topology-tip-desc">后出风口左右对称的跑车式排气灯带，水冷模具经典硬核视觉标识。</p>
-                    <div className="topology-tip-example">典型: 旷世16 Super 水冷版等旗舰</div>
+                    <p className="topology-tip-desc">Symmetrical exhaust-style light strips beside the rear vents, a signature feature of liquid-cooled chassis designs.</p>
+                    <div className="topology-tip-example">Typical models: flagship Kuangshi 16 Super liquid-cooled editions</div>
                   </div>
                 </div>
 
@@ -388,16 +388,16 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('ambient', 'shoulder')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">八字肩灯 (飞翼同步灯)</span>
-                  {baseline.ambient === 'shoulder' && <span className="topology-badge-auto">自动</span>}
+                  <span className="topology-pill-label">Wing-Shaped Shoulder Lights</span>
+                  {baseline.ambient === 'shoulder' && <span className="topology-badge-auto">Auto</span>}
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>八字双飞翼肩灯</span>
+                      <span>Dual Wing-Shaped Shoulder Lights</span>
                       <span className="topology-tip-chip">IDZ Sync</span>
                     </div>
-                    <p className="topology-tip-desc">C面键盘左右上方呈“八”字斜向展开的跑马飞翼双灯条，与键盘同频律动。</p>
-                    <div className="topology-tip-example">典型: 深海幽灵 IDZ 模具系列</div>
+                    <p className="topology-tip-desc">Two wing-shaped light strips above the left and right sides of the keyboard, pulsing in sync with the keyboard.</p>
+                    <div className="topology-tip-example">Typical models: Deep Sea Phantom IDZ chassis series</div>
                   </div>
                 </div>
 
@@ -406,15 +406,15 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('ambient', 'none')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">无氛围灯 (默认)</span>
-                  {baseline.ambient === 'none' && <span className="topology-badge-auto">自动</span>}
+                  <span className="topology-pill-label">No Ambient Lighting (Default)</span>
+                  {baseline.ambient === 'none' && <span className="topology-badge-auto">Auto</span>}
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>无额外氛围灯</span>
+                      <span>No Additional Ambient Lighting</span>
                       <span className="topology-tip-chip">None</span>
                     </div>
-                    <p className="topology-tip-desc">普通机型无后排出风口灯或肩灯，控制台中不挂载氛围灯控制卡片。</p>
+                    <p className="topology-tip-desc">Standard models have no rear exhaust or shoulder lights, so no ambient-lighting controls are shown.</p>
                   </div>
                 </div>
               </div>
@@ -423,9 +423,9 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
             {/* 4. A面 LOGO */}
             <div className="topology-row">
               <div className="topology-row-left">
-                <span className="topology-row-title">✨ 4. A面 LOGO 灯</span>
+                <span className="topology-row-title">✨ 4. Lid Logo 灯</span>
                 <span className="topology-row-hint">
-                  自动探测: <strong>{baseline.logo || '未检测到'}</strong>
+                  Auto-detected: <strong>{baseline.logo || 'Not detected'}</strong>
                 </span>
               </div>
               <div className="topology-radio-group">
@@ -434,16 +434,16 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('logo', 'letter')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">字母 LOGO (MECHREVO)</span>
-                  {baseline.logo === 'letter' && <span className="topology-badge-auto">自动</span>}
+                  <span className="topology-pill-label">Lettering Logo (MECHREVO)</span>
+                  {baseline.logo === 'letter' && <span className="topology-badge-auto">Auto</span>}
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>英文字母透光 LOGO</span>
+                      <span>Illuminated MECHREVO Lettering Logo</span>
                       <span className="topology-tip-chip">USB NewLogo (35)</span>
                     </div>
-                    <p className="topology-tip-desc">整串 MECHREVO 英文全拼透光发光，由独立 USB 芯片驱动，支持彩色波浪与跑马流光。</p>
-                    <div className="topology-tip-example">典型: GM6IX0B, 耀世早期特殊版</div>
+                    <p className="topology-tip-desc">The full MECHREVO wordmark is illuminated by a dedicated USB controller and supports full-color wave and marquee effects.</p>
+                    <div className="topology-tip-example">Typical models: GM6IX0B and early special YaoShi editions</div>
                   </div>
                 </div>
 
@@ -452,16 +452,16 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('logo', 'shield')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">盾形 LOGO (上下螺母标)</span>
-                  {baseline.logo === 'shield' && <span className="topology-badge-auto">自动</span>}
+                  <span className="topology-pill-label">Shield Logo (Top-and-Bottom Emblem)</span>
+                  {baseline.logo === 'shield' && <span className="topology-badge-auto">Auto</span>}
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>盾形螺母发光标</span>
+                      <span>Illuminated Shield Emblem</span>
                       <span className="topology-tip-chip">Motherboard EC 1963</span>
                     </div>
-                    <p className="topology-tip-desc">上下两瓣组成的盾形/螺母发光标，由主板 EC 直驱，支持单色常亮、呼吸与三色混光。</p>
-                    <div className="topology-tip-example">典型: 苍龙, 耀世全系列, 极光X, 蛟龙</div>
+                    <p className="topology-tip-desc">A two-part shield/nut-shaped illuminated emblem driven directly by the motherboard EC. Supports static color, breathing, and three-color mixing.</p>
+                    <div className="topology-tip-example">Typical models: Canglong, YaoShi series, Aurora X, and Jiaolong</div>
                   </div>
                 </div>
 
@@ -470,15 +470,15 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   onClick={() => handleSelect('logo', 'none')}
                 >
                   <div className="topology-dot" />
-                  <span className="topology-pill-label">无 A面 LOGO 灯</span>
-                  {baseline.logo === 'none' && <span className="topology-badge-auto">自动</span>}
+                  <span className="topology-pill-label">无 Lid Logo 灯</span>
+                  {baseline.logo === 'none' && <span className="topology-badge-auto">Auto</span>}
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>无 A面 LOGO 背光</span>
+                      <span>无 Lid Logo 背光</span>
                       <span className="topology-tip-chip">None</span>
                     </div>
-                    <p className="topology-tip-desc">A面仅为金属贴牌、高光印字或不发光，移除 A 面灯效卡片避免误操作。</p>
+                    <p className="topology-tip-desc">The lid has only a metal badge, printed lettering, or a non-illuminated logo. Hide the lid-lighting controls to prevent accidental use.</p>
                   </div>
                 </div>
               </div>
@@ -497,14 +497,14 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
               style={{ fontSize: '11px', display: 'flex', alignItems: 'center', gap: '5px' }}
             >
               <RotateCcw size={12} />
-              <span>恢复全自动探测</span>
+              <span>Restore Automatic Detection</span>
             </button>
             <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>
               {diffCount === 0 ? (
-                '与自动探测一致'
+                'Matches automatic detection'
               ) : (
                 <span style={{ color: 'var(--status-warning)', fontWeight: 600 }}>
-                  {diffCount} 项已手动纠偏
+                  {diffCount} manual overrides applied
                 </span>
               )}
             </span>
@@ -517,7 +517,7 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
               onClick={onClose}
               disabled={isApplying}
             >
-              取消
+              Cancel
             </button>
             <button
               type="button"
@@ -529,12 +529,12 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
               {isApplying ? (
                 <>
                   <Loader2 size={13} className="animate-spin" />
-                  <span>{applyStep || '正在应用...'}</span>
+                  <span>{applyStep || 'Applying...'}</span>
                 </>
               ) : (
                 <>
                   <Check size={13} />
-                  <span>保存并重新初始化硬件</span>
+                  <span>Save and Reinitialize Hardware</span>
                 </>
               )}
             </button>

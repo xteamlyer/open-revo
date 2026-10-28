@@ -10,7 +10,7 @@ export interface LightColorRowProps {
 }
 
 export const LightColorRow: React.FC<LightColorRowProps> = ({
-  label = '主色调：',
+  label = 'Primary Color:',
   color,
   onChangeColor,
   iconColor = 'var(--color-brand)',
