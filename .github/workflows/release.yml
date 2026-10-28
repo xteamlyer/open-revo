@@ -2,8 +2,6 @@ name: Release & Cloud Build
 
 on:
   push:
-    tags:
-      - 'v*'
   workflow_dispatch:
     inputs:
       draft:
@@ -27,19 +25,20 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@main
         with:
           node-version: 20
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@master
         with:
           run_install: false
+          version: latest
 
       - name: Setup Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -47,7 +46,7 @@ jobs:
           targets: x86_64-pc-windows-msvc
 
       - name: Cache Rust Dependencies
-        uses: swatinem/rust-cache@v2
+        uses: swatinem/rust-cache@master
         with:
           workspaces: src-tauri -> target
 
@@ -126,7 +125,7 @@ jobs:
           echo "app_version=$ver" >> $env:GITHUB_OUTPUT
 
       - name: Upload Build Artifacts (Workflow Storage)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@main
         with:
           name: open-revo-artifacts-${{ steps.prepare_artifacts.outputs.tag_name }}
           path: dist_artifacts/*
