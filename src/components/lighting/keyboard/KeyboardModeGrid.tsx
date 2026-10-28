@@ -28,8 +28,8 @@ export const KeyboardModeGrid: React.FC<KeyboardModeGridProps> = ({
 
   const modes = isSingleZone
     ? [
-        { id: 1, name: '单色常亮', desc: '全键盘同色静态照明' },
-        { id: 2, name: '彩虹循环', desc: '全键盘呼吸渐变循环' },
+        { id: 1, name: 'Static Color', desc: 'Static lighting with one color across the keyboard' },
+        { id: 2, name: 'Rainbow cycle', desc: '全键盘呼吸渐变循环' },
       ]
     : isFourZone
     ? FOURZONE_KEYBOARD_MODES
@@ -38,10 +38,10 @@ export const KeyboardModeGrid: React.FC<KeyboardModeGridProps> = ({
     : STREAMER_MODES;
 
   const headerTitle = isFourZone
-    ? '4区原厂硬件灯效 (ITE 8291 r2 固件驱动):'
+    ? '4-zone factory hardware effects (ITE 8291 r2 firmware):'
     : engine === 'hardware'
-    ? '原厂硬件独立灯效 (内置 MCU 固件算法 - 稳定节能):'
-    : '极客高刷流光动效 (BetterRGB 空间投影算法 - 华丽多变):';
+    ? 'Independent factory hardware effects (built-in MCU firmware; stable and power-efficient):'
+    : 'High-refresh streaming effects (BetterRGB spatial projection; vivid and dynamic):';
 
   const normalizedStreamerEff =
     currentStreamerEffect >= 100 ? currentStreamerEffect : currentStreamerEffect + 100;

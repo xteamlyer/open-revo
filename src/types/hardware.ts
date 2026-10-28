@@ -127,9 +127,9 @@ export interface ModeInfo {
 export const POWER_MODES: ModeInfo[] = [
   {
     id: 1,
-    name: '办公模式',
+    name: 'Office Mode',
     nameEn: 'OFFICE / SILENT',
-    desc: '轻载静音长续航，温控保守兼顾静音体验',
+    desc: 'Quiet operation and long battery life under light loads, with conservative thermal control',
     color: '#10b981',
     accentClass: 'mode-office',
     pl1: 45,
@@ -138,9 +138,9 @@ export const POWER_MODES: ModeInfo[] = [
   },
   {
     id: 2,
-    name: '均衡模式',
+    name: 'Balanced Mode',
     nameEn: 'BALANCE / GAMING',
-    desc: '日常娱乐与工作，平稳释放兼顾流畅散热',
+    desc: 'For everyday work and entertainment, balancing performance and cooling',
     color: '#3b82f6',
     accentClass: 'mode-balance',
     pl1: 75,
@@ -149,9 +149,9 @@ export const POWER_MODES: ModeInfo[] = [
   },
   {
     id: 3,
-    name: '狂暴模式',
+    name: 'Performance Mode',
     nameEn: 'BEAST / EXTREME',
-    desc: '原厂高能释放，强效动力尽享峰值性能',
+    desc: 'Maximum factory performance for peak workloads',
     color: '#f43f5e',
     accentClass: 'mode-beast',
     pl1: 205,
@@ -160,9 +160,9 @@ export const POWER_MODES: ModeInfo[] = [
   },
   {
     id: 4,
-    name: '自定义模式',
+    name: 'Custom Mode',
     nameEn: 'CUSTOM / PROFILE',
-    desc: '专属极客调优与风扇曲线，深度释放性能潜能',
+    desc: 'Advanced tuning and custom fan curves to unlock more performance',
     color: '#a855f7',
     accentClass: 'mode-custom',
     pl1: 75,

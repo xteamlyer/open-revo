@@ -82,9 +82,9 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({
             className={`mode-btn ${getActiveClass(mode.id)}`}
             title={
               isRestricted
-                ? '电池供电或受限供电下不可用，需接入原装电源适配器'
+                ? 'Unavailable on battery or limited power. Connect the original AC adapter.'
                 : isCustom
-                ? (isLight ? '点击直接打开自定义风扇曲线调校' : (isActive ? '已激活自定义模式，点击可直接打开硬件参数调校' : `${mode.nameEn} - ${mode.desc}`))
+                ? (isLight ? 'Open custom fan-curve tuning' : (isActive ? 'Custom mode is active. Click to open hardware tuning.' : `${mode.nameEn} - ${mode.desc}`))
                 : `${mode.nameEn} - ${mode.desc}`
             }
             style={{
@@ -122,29 +122,29 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({
                   cursor: 'pointer',
                   boxShadow: '0 0 6px rgba(168, 85, 247, 0.4)',
                 }}
-                title="打开自定义硬件参数调校"
+                title="Open custom hardware tuning"
               >
                 <Settings2 className="w-2.5 h-2.5" />
-                <span>调校</span>
+                <span>Tune</span>
               </div>
             )}
 
             <div style={{ marginBottom: '2px' }}>{getIcon(mode.id)}</div>
-            <div className="mode-title">{mode.name.replace('模式', '')}</div>
+            <div className="mode-title">{mode.name.replace('Mode', '')}</div>
             <div className="mode-sub">
               {isRestricted
-                ? '需圆口DC'
+                ? 'Barrel-jack power required'
                 : isActive
                 ? isCustom
-                  ? '● 极客调校'
-                  : '● 当前'
+                  ? '● Enthusiast Tuning'
+                  : '● Current'
                 : mode.id === 1
-                ? '静音'
+                ? 'Silent'
                 : mode.id === 2
-                ? '日常'
+                ? 'Everyday'
                 : mode.id === 3
-                ? '狂暴'
-                : '极客'}
+                ? 'Performance'
+                : 'Enthusiast'}
             </div>
           </button>
         );

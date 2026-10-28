@@ -18,10 +18,10 @@ export const FourZoneColorPanel: React.FC<FourZoneColorPanelProps> = ({
   onChangeMainColor,
 }) => {
   const zoneLabels = [
-    { name: '分区 1 (左侧区)', key: 0 },
-    { name: '分区 2 (中左区)', key: 1 },
-    { name: '分区 3 (中右区)', key: 2 },
-    { name: '分区 4 (右侧区)', key: 3 },
+    { name: 'Zone 1 (Left)', key: 0 },
+    { name: 'Zone 2 (Center-Left)', key: 1 },
+    { name: 'Zone 3 (Center-Right)', key: 2 },
+    { name: 'Zone 4 (Right)', key: 3 },
   ];
 
   return (
@@ -38,14 +38,14 @@ export const FourZoneColorPanel: React.FC<FourZoneColorPanelProps> = ({
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Palette className="w-4 h-4" style={{ color: 'var(--status-info)' }} />
           <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>
-            4 分区独立调色面板 (048D:CE00 专属):
+            Independent 4-zone color controls (048D:CE00 only):
           </span>
         </div>
         <div style={{ display: 'flex', gap: '6px' }}>
           <button
             type="button"
             onClick={() => onApplyZonePreset([mainColor, mainColor, mainColor, mainColor])}
-            title="将当前主色调应用到全部 4 个分区"
+            title="Apply the primary color to all four zones"
             style={{
               padding: '3px 8px',
               fontSize: '11px',
@@ -57,12 +57,12 @@ export const FourZoneColorPanel: React.FC<FourZoneColorPanelProps> = ({
               fontWeight: 600,
             }}
           >
-            一键同步主色
+            Apply Main Color to All Zones
           </button>
           <button
             type="button"
             onClick={() => onApplyZonePreset(['#00FFFF', '#0000FF', '#FF00FF', '#FF0000'])}
-            title="预设：霓虹幻彩四区"
+            title="Preset: Neon Spectrum (4-zone)"
             style={{
               padding: '3px 8px',
               fontSize: '11px',
@@ -73,12 +73,12 @@ export const FourZoneColorPanel: React.FC<FourZoneColorPanelProps> = ({
               cursor: 'pointer',
             }}
           >
-            霓虹幻彩
+            Neon Spectrum
           </button>
           <button
             type="button"
             onClick={() => onApplyZonePreset(['#FF0055', '#FF0055', '#00D4FF', '#00D4FF'])}
-            title="预设：红蓝对冲"
+            title="Preset: Red-Blue Clash"
             style={{
               padding: '3px 8px',
               fontSize: '11px',
@@ -89,12 +89,12 @@ export const FourZoneColorPanel: React.FC<FourZoneColorPanelProps> = ({
               cursor: 'pointer',
             }}
           >
-            红蓝对冲
+            Red-Blue Clash
           </button>
           <button
             type="button"
             onClick={() => onApplyZonePreset(['#10B981', '#059669', '#34D399', '#6EE7B7'])}
-            title="预设：极客矩阵"
+            title="Preset: Geek Matrix"
             style={{
               padding: '3px 8px',
               fontSize: '11px',
@@ -105,7 +105,7 @@ export const FourZoneColorPanel: React.FC<FourZoneColorPanelProps> = ({
               cursor: 'pointer',
             }}
           >
-            极客矩阵
+            Geek Matrix
           </button>
         </div>
       </div>
@@ -166,7 +166,7 @@ export const FourZoneColorPanel: React.FC<FourZoneColorPanelProps> = ({
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>快速调色板:</span>
+          <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Quick Color Palette:</span>
           {PRESET_COLORS.map((c) => (
             <div
               key={c.hex}
@@ -174,7 +174,7 @@ export const FourZoneColorPanel: React.FC<FourZoneColorPanelProps> = ({
                 onChangeMainColor(c.hex);
                 onApplyZonePreset([c.hex, c.hex, c.hex, c.hex]);
               }}
-              title={`应用 ${c.name} 到所有分区`}
+              title={`Apply ${c.name} to all zones`}
               className="color-dot"
               style={{
                 backgroundColor: c.hex,
@@ -184,7 +184,7 @@ export const FourZoneColorPanel: React.FC<FourZoneColorPanelProps> = ({
           ))}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>自定义单色:</span>
+          <span style={{ fontSize: '11px', color: 'var(--text-dim)' }}>Custom Solid Color:</span>
           <input
             type="color"
             value={mainColor}

@@ -49,21 +49,21 @@ export const DrawerGpuModeCard: React.FC<DrawerGpuModeCardProps> = ({
       <div className="m-card-header">
         <div className="m-header-left">
           <Cpu size={13} style={{ color: 'var(--theme-gpu)' }} />
-          <span>显卡模式:</span>
+          <span>GPU Mode:</span>
           <span style={{ color: 'var(--theme-gpu)', fontWeight: 700 }}>
             {gpuModeInfo?.has_dgpu === false
-              ? '核显模式 (纯APU架构)'
+              ? 'Integrated GPU (APU-only architecture)'
               : gpuModeInfo?.current_mode === 'dgpu'
-              ? '独显直连 (dGPU)'
+              ? 'Discrete GPU Only (dGPU)'
               : gpuModeInfo?.current_mode === 'hybrid'
-              ? '混合输出 (Dynamic)'
+              ? 'Hybrid Graphics (Dynamic)'
               : gpuModeInfo?.current_mode === 'igpu'
-              ? '核显模式 (iGPU)'
-              : '检测中...'}
+              ? 'Integrated GPU (iGPU)'
+              : 'Checking...'}
           </span>
         </div>
         <div className="m-header-right" style={{ color: 'var(--theme-gpu)' }}>
-          GPU: {status.gpu_temp > 0 ? `${status.gpu_temp}°C` : (status.cpu_temp > 0 ? `${status.cpu_temp}°C` : '--')} · Fan: {status.gpu_fan_rpm > 0 ? `${status.gpu_fan_rpm} RPM` : '静音'}
+          GPU: {status.gpu_temp > 0 ? `${status.gpu_temp}°C` : (status.cpu_temp > 0 ? `${status.cpu_temp}°C` : '--')} · Fan: {status.gpu_fan_rpm > 0 ? `${status.gpu_fan_rpm} RPM` : 'Silent'}
         </div>
       </div>
 
@@ -80,12 +80,12 @@ export const DrawerGpuModeCard: React.FC<DrawerGpuModeCardProps> = ({
                 }
               : {}),
           }}
-          title={gpuModeInfo?.has_dgpu === false ? '纯核显轻薄本架构，原生运行于核显模式' : '点击打开高级显卡切换面板'}
+          title={gpuModeInfo?.has_dgpu === false ? 'Integrated-only ultrabook, running in native iGPU mode' : 'Open advanced GPU switching controls'}
           onClick={() => onExpandDashboard('gpu')}
         >
           <Cpu size={14} />
           <span style={{ fontSize: '10.5px', fontWeight: 600 }}>
-            {gpuModeInfo?.has_dgpu === false ? '纯集显 (生效)' : '纯集显'}
+            {gpuModeInfo?.has_dgpu === false ? 'Integrated GPU only (active)' : 'Integrated GPU only'}
           </span>
         </button>
 
@@ -105,13 +105,13 @@ export const DrawerGpuModeCard: React.FC<DrawerGpuModeCardProps> = ({
               ? { opacity: 0.35, cursor: 'not-allowed' }
               : {}),
           }}
-          title={gpuModeInfo?.has_dgpu === false ? '纯核显架构无独立显卡，不可用' : '点击打开高级显卡切换面板'}
+          title={gpuModeInfo?.has_dgpu === false ? 'Integrated-only architecture; no discrete GPU available' : 'Open advanced GPU switching controls'}
           onClick={() => {
             if (gpuModeInfo?.has_dgpu !== false) onExpandDashboard('gpu');
           }}
         >
           <Repeat size={14} />
-          <span style={{ fontSize: '10.5px', fontWeight: 600 }}>标准混合</span>
+          <span style={{ fontSize: '10.5px', fontWeight: 600 }}>Standard Hybrid</span>
         </button>
 
         <button
@@ -130,13 +130,13 @@ export const DrawerGpuModeCard: React.FC<DrawerGpuModeCardProps> = ({
               ? { opacity: 0.35, cursor: 'not-allowed' }
               : {}),
           }}
-          title={gpuModeInfo?.has_dgpu === false ? '纯核显架构无独立显卡，不可用' : '点击打开高级显卡切换面板'}
+          title={gpuModeInfo?.has_dgpu === false ? 'Integrated-only architecture; no discrete GPU available' : 'Open advanced GPU switching controls'}
           onClick={() => {
             if (gpuModeInfo?.has_dgpu !== false) onExpandDashboard('gpu');
           }}
         >
           <Crosshair size={14} />
-          <span style={{ fontSize: '10.5px', fontWeight: 600 }}>独显直连</span>
+          <span style={{ fontSize: '10.5px', fontWeight: 600 }}>Discrete GPU Only</span>
         </button>
       </div>
     </div>

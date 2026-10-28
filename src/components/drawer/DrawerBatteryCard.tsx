@@ -20,18 +20,18 @@ export const DrawerBatteryCard: React.FC<DrawerBatteryCardProps> = ({
       <div className="m-card-header">
         <div className="m-header-left">
           <Battery size={13} style={{ color: 'var(--theme-bat)' }} />
-          <span>电池健康:</span>
+          <span>Battery Health:</span>
           <span style={{ color: 'var(--theme-bat)', fontWeight: 700 }}>
             {status.battery_limit === 60
-              ? '工作站模式'
+              ? 'Workstation Mode'
               : status.battery_limit === 80
-              ? '平衡模式'
-              : '长效模式'}
+              ? 'Balanced Mode'
+              : 'Long-Life Mode'}
           </span>
         </div>
         <div className="m-header-right" style={{ color: 'var(--theme-bat)', display: 'flex', alignItems: 'center', gap: '4px' }}>
           <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: status.is_dc_online ? '#34d399' : '#fbbf24' }} />
-          {status.is_dc_online ? 'AC 已连接' : '电池供电'}
+          {status.is_dc_online ? 'AC Connected' : 'Battery power'}
         </div>
       </div>
 
@@ -49,10 +49,10 @@ export const DrawerBatteryCard: React.FC<DrawerBatteryCardProps> = ({
               }
               : {}
           }
-          title="工作站模式 (限制 60%)"
+          title="Workstation Mode (60% limit)"
           onClick={() => checkOemGuard(() => onToggleBatteryLimit(60))}
         >
-          工作站
+          Workstation
         </button>
 
         <button
@@ -68,10 +68,10 @@ export const DrawerBatteryCard: React.FC<DrawerBatteryCardProps> = ({
               }
               : {}
           }
-          title="平衡模式 (限制 80%)"
+          title="Balanced Mode (80% limit)"
           onClick={() => checkOemGuard(() => onToggleBatteryLimit(80))}
         >
-          平衡
+          Balanced
         </button>
 
         <button
@@ -87,10 +87,10 @@ export const DrawerBatteryCard: React.FC<DrawerBatteryCardProps> = ({
               }
               : {}
           }
-          title="长效模式 (100% 充满)"
+          title="Long-Life Mode (100% 充满)"
           onClick={() => checkOemGuard(() => onToggleBatteryLimit(100))}
         >
-          长效
+          Longevity
         </button>
       </div>
     </div>

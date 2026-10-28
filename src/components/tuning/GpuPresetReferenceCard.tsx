@@ -29,10 +29,10 @@ export const GpuPresetReferenceCard: React.FC<GpuPresetReferenceCardProps> = ({ 
         }}
       >
         <AlertTriangle size={13} className="shrink-0" />
-        <span>模具原厂建议功耗参考</span>
+        <span>Factory-Recommended Power Limits</span>
         {presets?.hardware_read && (
           <span style={{ fontSize: '10px', color: 'var(--status-ok)', fontWeight: 600, marginLeft: 'auto' }}>
-            {isDeclarative ? '原厂硬件直读' : 'EC 硬件直读'}
+            {isDeclarative ? 'Direct factory hardware read' : 'Direct EC hardware read'}
           </span>
         )}
       </div>
@@ -40,16 +40,16 @@ export const GpuPresetReferenceCard: React.FC<GpuPresetReferenceCardProps> = ({ 
         {presets?.hardware_read ? (
           <>
             <div>
-              • CPU 原厂预设: 办公 {presets.office_pl1}W / 平衡 {presets.balance_pl1}W / 狂暴 {presets.turbo_pl1}W
+              • CPU 原厂预设: Office {presets.office_pl1}W / Balanced {presets.balance_pl1}W / Performance {presets.turbo_pl1}W
             </div>
             <div>
-              • GPU 原厂预设: 基础 {presets.base_tgp}W + DB {presets.max_db}W (原厂最大 {presets.base_tgp + presets.max_db}W)
+              • Factory GPU preset: base {presets.base_tgp}W + DB {presets.max_db}W (factory max {presets.base_tgp + presets.max_db}W)
             </div>
           </>
         ) : (
           <>
-            <div>• CPU 推荐: 持续 PL1 45W~75W / 爆发 PL2 75W~115W</div>
-            <div>• GPU 推荐: 基础 Base TGP + DB 15W~25W 动态分配</div>
+            <div>• CPU recommendation: sustained PL1 45–75W / boost PL2 75–115W</div>
+            <div>• GPU recommendation: base TGP plus 15–25W dynamic boost</div>
           </>
         )}
       </div>

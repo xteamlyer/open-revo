@@ -188,7 +188,7 @@ export const BrfxSourceModal: React.FC<BrfxSourceModalProps> = ({
           }}
         >
           <span style={{ fontSize: '11px', color: copied ? 'var(--status-ok)' : 'var(--text-dim)' }}>
-            {copied ? '已复制到剪贴板！可直接粘贴给 AI 助手' : `${script.code.split('\n').length} 行代码`}
+            {copied ? 'Copied to clipboard! Paste it into your AI assistant.' : `${script.code.split('\n').length} 行代码`}
           </span>
 
           <div style={{ display: 'flex', gap: '8px' }}>
@@ -211,7 +211,7 @@ export const BrfxSourceModal: React.FC<BrfxSourceModalProps> = ({
               }}
             >
               {copied ? <Check size={13} /> : <Copy size={13} />}
-              {copied ? '已复制' : '复制代码喂给 AI'}
+              {copied ? 'Copied' : 'Copy Code for AI'}
             </button>
             <button
               type="button"
@@ -226,7 +226,7 @@ export const BrfxSourceModal: React.FC<BrfxSourceModalProps> = ({
                 color: 'var(--text-primary)',
               }}
             >
-              关闭
+              Close
             </button>
           </div>
         </div>

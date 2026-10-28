@@ -25,12 +25,12 @@ export const MiniLedControl: React.FC<MiniLedControlProps> = ({
         </div>
         <div>
           <div style={{ fontSize: '12.5px', fontWeight: 700, color: 'var(--text-primary)' }}>
-            内置屏幕分区背光 (MiniLED Local Dimming)
+            Built-in Display Zone Backlight (MiniLED Local Dimming)
           </div>
           <div style={{ fontSize: '10.5px', color: 'var(--text-dim)' }}>
             {enabled
-              ? '当前状态：已开启 (深黑高对比模式，仅对内置屏幕生效)'
-              : '当前状态：已关闭 (全屏均匀背光模式)'}
+              ? 'Current state: On (deep-black high contrast; built-in display only)'
+              : 'Current state: Off (uniform full-screen backlight)'}
           </div>
         </div>
       </div>
@@ -41,8 +41,8 @@ export const MiniLedControl: React.FC<MiniLedControlProps> = ({
           onClick={() => onToggle(!enabled)}
           disabled={isToggling}
           className={`miniled-toggle-switch ${enabled ? 'active' : ''}`}
-          title={enabled ? '点击关闭 MiniLED 分区背光' : '点击开启 MiniLED 分区背光'}
-          aria-label="切换MiniLED分区背光"
+          title={enabled ? 'Disable MiniLED zone backlighting' : 'Enable MiniLED zone backlighting'}
+          aria-label="Toggle MiniLED zone backlighting"
         >
           <div className="miniled-toggle-knob" />
         </button>

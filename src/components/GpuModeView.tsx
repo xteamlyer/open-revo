@@ -84,12 +84,12 @@ export const GpuModeView: React.FC = () => {
       .then((res) => {
         if (res) {
           setGpuInfo(res);
-          if (res.error) setNotice({ type: 'warning', text: `硬件读取提示: ${res.error}` });
+          if (res.error) setNotice({ type: 'warning', text: `Hardware read warning: ${res.error}` });
         }
       })
       .catch((e) => {
         console.error('Failed to get GPU mode info:', e);
-        setNotice({ type: 'error', text: `读取显卡硬件状态失败: ${e}` });
+        setNotice({ type: 'error', text: `Failed to read GPU hardware status: ${e}` });
       });
   };
 
@@ -137,7 +137,7 @@ export const GpuModeView: React.FC = () => {
             enabled: nextVal,
             active_preset_id: 'preset_vibrant',
             active_preset: {
-              id: 'preset_vibrant', name: '多彩鲜艳 (Vibrant)',
+              id: 'preset_vibrant', name: 'Vibrant',
               color_temp_k: 6500, gain_r: 1.0, gain_g: 1.0, gain_b: 1.0,
               saturation: 1.5, contrast: 1.0, gamma: 1.0, is_builtin: true,
             },
@@ -174,7 +174,7 @@ export const GpuModeView: React.FC = () => {
       console.error('Failed to toggle MiniLED:', err);
       setNotice({
         type: 'error',
-        text: `切换 MiniLED 分区背光失败: ${err?.message || err}`,
+        text: `Failed to toggle MiniLED zone backlight: ${err?.message || err}`,
       });
     } finally {
       setIsMiniLedToggling(false);
@@ -286,17 +286,17 @@ export const GpuModeView: React.FC = () => {
       setNotice({
         type: targetMode !== 'igpu' ? 'warning' : 'info',
         text: targetMode !== 'igpu'
-          ? `当前机型为纯核显架构轻薄本（未配备独立显卡与 MUX 切换芯片），不支持切换为【${getModeTitle(targetMode)}】。`
-          : '当前机型为原生纯核显架构，硬件已永久处于【核显模式】，无需切换。',
+          ? `This ultrabook has no discrete GPU or MUX switch and cannot switch to [${getModeTitle(targetMode)}].`
+          : 'This device uses integrated graphics only and is permanently in iGPU mode. No switch is needed.',
       });
       return;
     }
     if (targetMode === 'igpu' && !isTriModeSupported) {
-      setNotice({ type: 'warning', text: gpuInfo.capabilities?.reason_igpu_unsupported || '当前机型模具为双显双模硬件架构，主板无物理核显直连开关，已启用安全保护以防止黑屏变砖。' });
+      setNotice({ type: 'warning', text: gpuInfo.capabilities?.reason_igpu_unsupported || 'This hybrid-graphics model has no physical iGPU-direct switch. Safety protection is enabled to prevent a black screen.' });
       return;
     }
     if (gpuInfo.current_mode === targetMode) {
-      setNotice({ type: 'info', text: `当前主板硬件已处于【${getModeTitle(targetMode)}】(${getModeHexDisplay(targetMode, gpuInfo.platform)})，无需重复切换。` });
+      setNotice({ type: 'info', text: `The motherboard is already in [${getModeTitle(targetMode)}] (${getModeHexDisplay(targetMode, gpuInfo.platform)}). No switch is needed.` });
       return;
     }
     setPendingSwitch({
@@ -321,12 +321,12 @@ export const GpuModeView: React.FC = () => {
       setNotice({
         type: 'success',
         text: restartImmediately
-          ? `硬件写入成功！正在平稳安全重启电脑以生效【${title}】...`
-          : `主板 UEFI NVRAM 已安全写入【${title}】配置，将在下次电脑重启/开机时由 BIOS 硬件生效。`,
+          ? `Hardware settings written successfully. Restarting safely to apply [${title}]...`
+          : `[${title}] was safely written to UEFI NVRAM and will take effect at the next reboot or startup.`,
       });
     } catch (e: any) {
       console.error('Failed to set GPU mode:', e);
-      setNotice({ type: 'error', text: `显卡模式切换异常: ${e?.message || e} (请确认已通过管理员权限运行 OpenRevo)` });
+      setNotice({ type: 'error', text: `GPU mode switch failed: ${e?.message || e} (Make sure OpenRevo is running as administrator)` });
       setRebooting(false);
       setPendingSwitch(null);
     } finally {
@@ -343,12 +343,12 @@ export const GpuModeView: React.FC = () => {
         setNotice({
           type: unlock ? 'warning' : 'info',
           text: unlock
-            ? '已启用极客自主免责解锁！若电脑在切换核显模式后出现黑屏，请长按电源键强制关机并拔掉电源复位 BIOS。'
-            : '已恢复双显双模硬件安全保护锁定。',
+            ? 'Enthusiast override enabled. If the screen goes black after switching to iGPU mode, hold the power button to shut down, disconnect power, and reset the BIOS.'
+            : 'Hybrid graphics hardware safety lock restored.',
         });
       }
     } catch (err: any) {
-      setNotice({ type: 'error', text: `设置极客解锁失败: ${err?.message || err}` });
+      setNotice({ type: 'error', text: `Failed to set enthusiast unlock: ${err?.message || err}` });
     } finally {
       setLoading(false);
     }

@@ -215,7 +215,7 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
               border: '1px solid rgba(148,163,184,0.25)',
             }}
           >
-            <span>无独显硬件</span>
+            <span>No Discrete GPU Hardware</span>
           </div>
         )}
 
@@ -265,18 +265,18 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <h2 style={{ fontSize: '18px', fontWeight: 800, letterSpacing: '0.03em', margin: 0, color: 'var(--text-primary)' }}>
               {hasDgpu
-                ? (isTriModeSupported ? '显卡模式 (双显三模)' : '显卡模式 (双显双模)')
-                : (hasPhysicalDgpu ? '显卡架构 (独显混合输出架构)' : '显卡架构 (纯核显轻薄架构)')}
+                ? (isTriModeSupported ? 'GPU Mode (Triple Graphics Mode)' : 'GPU Mode (Hybrid Graphics)')
+                : (hasPhysicalDgpu ? 'GPU Architecture (Discrete + Hybrid Graphics)' : 'GPU Architecture (Integrated-Only Ultrabook)')}
             </h2>
           </div>
           <p style={{ fontSize: '10.5px', color: 'var(--text-muted)', margin: '2px 0 0 0' }}>
             {hasDgpu
               ? (isTriModeSupported
-                  ? '主板硬件级 MUX 拓扑切换，由 BIOS POST 过程重配 PCIe 总线与屏幕物理连接。'
-                  : '当前机型模具为双显双模架构 (支持独显直连与混合输出)，已启用硬件安全保护锁定以防止黑屏变砖。')
+                  ? 'Hardware-level MUX switching reconfigures PCIe buses and physical display connections during BIOS POST.'
+                  : 'This model supports discrete-only and hybrid graphics. The hardware safety lock is enabled to prevent a black screen.')
               : (hasPhysicalDgpu
-                  ? '搭载物理独立显卡与核显，采用 NVIDIA Optimus 混合拓扑。屏幕内屏由核显直接输出，独显负责高性能 3D 加速。'
-                  : '当前机型为高能效纯核显设计，由 CPU 内建核显直出，原生享有超低功耗与极佳续航，无需切换 MUX。')}
+                  ? 'This device uses NVIDIA Optimus hybrid graphics. The internal display is driven by the iGPU, while the discrete GPU accelerates demanding 3D workloads.'
+                  : 'This efficient integrated-only design uses CPU graphics directly for low power consumption and excellent battery life. No MUX switch is needed.')}
           </p>
         </div>
 
@@ -313,28 +313,28 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
             <h3 style={{ fontSize: '13px', fontWeight: 800, color: 'var(--text-primary)', margin: 0, letterSpacing: '0.03em' }}>
               {hasDgpu
-                ? (isTriModeSupported ? '主板原生硬件 MUX 切换架构' : '主板双显双模安全保护架构')
-                : (hasPhysicalDgpu ? 'NVIDIA Optimus 动态混合协同架构' : '高能效纯核显轻薄架构 (iGPU Only)')}
+                ? (isTriModeSupported ? 'Native motherboard hardware MUX switching' : 'Dual-GPU hardware safety architecture')
+                : (hasPhysicalDgpu ? 'NVIDIA Optimus Dynamic Hybrid Graphics' : 'Efficient Integrated-Only Ultrabook (iGPU Only)')}
             </h3>
             <span style={{ fontSize: '10px', color: isIntel ? '#60a5fa' : '#fb923c', fontWeight: 700 }}>
-              [{isIntel ? 'Intel' : 'AMD'} 平台架构]
+              [{isIntel ? 'Intel' : 'AMD'} Platform Architecture]
             </span>
           </div>
           <div style={{ fontSize: '10.5px', color: 'var(--text-muted)', lineHeight: '1.4' }}>
             {hasDgpu ? (
               <div>
-                <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>物理硬件重构：</span>
-                自检过程重配 PCIe 通道与屏幕物理开关，彻底杜绝驱动崩溃、掉帧与卡顿。
+                <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Physical Hardware Reconfiguration:</span>
+                Reconfigures PCIe lanes and physical display routing during self-test to prevent driver crashes, frame drops, and stutter.
               </div>
             ) : hasPhysicalDgpu ? (
               <div>
-                <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>动态混合协同：</span>
-                轻载静音省电，高负载自动调用物理独显硬件加速。主板无物理 MUX 切换芯片，无需手动重启切换。
+                <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Dynamic Hybrid Graphics:</span>
+                Quiet, power-efficient iGPU operation under light loads; the discrete GPU accelerates demanding workloads automatically. No physical MUX switch or manual reboot is needed.
               </div>
             ) : (
               <div>
-                <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>原生核显直驱：</span>
-                图形与显示信号由 CPU 内建的高能效核显统一接管，无需且不支持 MUX 物理切换。
+                <span style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>Native Integrated Graphics:</span>
+                Graphics and display output are handled by the CPU’s efficient integrated GPU. Physical MUX switching is unnecessary and unsupported.
               </div>
             )}
           </div>
@@ -388,12 +388,12 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
           iconColor: '#60a5fa',
           iconEl: <Zap className="w-4 h-4 text-blue-400 mb-0.5" />,
           chipLabel: 'dGPU',
-          desc: '独立显卡物理直连内置屏幕。避开核显中转，发挥极致电竞帧率与超低延迟。',
-          titleText: '独显直连',
+          desc: 'The discrete GPU is directly connected to the built-in display, bypassing the iGPU for maximum gaming frame rates and low latency.',
+          titleText: 'Discrete GPU Only',
           isActive: hasDgpu && gpuInfo.current_mode === 'dgpu',
           isDisabled: !hasDgpu,
           activeBadgeColor: '#38bdf8',
-          activeBadgeText: '硬件生效中',
+          activeBadgeText: 'Hardware active',
         })}
 
         {/* Hybrid */}
@@ -403,12 +403,12 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
           iconColor: '#c084fc',
           iconEl: <Layers className="w-4 h-4 text-purple-400 mb-0.5" />,
           chipLabel: 'HYBRID',
-          desc: '轻载时核显输出以省电静音，高负载 3D 图形与游戏时自动介入独显加速。',
-          titleText: '混合输出',
+          desc: 'The iGPU handles light workloads quietly and efficiently; the discrete GPU accelerates demanding 3D apps and games.',
+          titleText: 'Hybrid Graphics',
           isActive: hasDgpu && gpuInfo.current_mode === 'hybrid',
           isDisabled: !hasDgpu,
           activeBadgeColor: '#c084fc',
-          activeBadgeText: '硬件生效中',
+          activeBadgeText: 'Hardware active',
         })}
 
         {/* iGPU */}
@@ -421,11 +421,11 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
             : <PowerOff className="w-4 h-4 text-emerald-400 mb-0.5" />,
           chipLabel: hasDgpu && !isTriModeSupported ? 'LOCK' : 'iGPU',
           desc: !hasDgpu
-            ? '原生高能效核显架构。彻底无独显与 MUX 功耗开销，实现极致低发热与超长电池续航。'
+            ? 'Efficient integrated-only architecture with no discrete GPU or MUX overhead, delivering low heat and long battery life.'
             : (!isTriModeSupported
-                ? '当前模具硬件为双模架构，无物理核显直连开关。已锁定保护以彻底防止开机黑屏死锁。'
-                : '彻底切断独立显卡 PCIe 供电与待机功耗，极致降低整机能耗与发热，极大提升续航。'),
-          titleText: !hasDgpu ? '原生核显架构' : (!isTriModeSupported ? '核显模式 (双模锁定)' : '核显模式'),
+                ? 'This model has hybrid graphics but no physical iGPU-direct switch. Protection is locked to prevent a black screen on boot.'
+                : 'Cuts PCIe power and idle consumption for the discrete GPU to reduce system power and heat and extend battery life.'),
+          titleText: !hasDgpu ? 'Native integrated-GPU architecture' : (!isTriModeSupported ? 'Integrated GPU (hybrid mode locked)' : 'Integrated GPU Mode'),
           isActive: !hasDgpu || (isTriModeSupported && gpuInfo.current_mode === 'igpu'),
           isDisabled: hasDgpu && !isTriModeSupported,
           disabledBadge: hasDgpu && !isTriModeSupported ? (
@@ -444,10 +444,10 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
                 e.stopPropagation();
                 setShowGeekUnlockModal(true);
               }}
-              title={gpuInfo.capabilities?.reason_igpu_unsupported || '双显双模硬件保护 (点击可自主免责解锁)'}
+              title={gpuInfo.capabilities?.reason_igpu_unsupported || 'Hybrid graphics safety lock (click to unlock at your own risk)'}
             >
               <Lock className="w-3 h-3 text-amber-400" />
-              <span>双模保护锁定</span>
+              <span>Hybrid Graphics Safety Lock</span>
             </div>
           ) : (hasDgpu && isSafetyLocked && isUserUnlocked ? (
             <div
@@ -464,14 +464,14 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
                 e.stopPropagation();
                 onUnlockGeekIgpu?.(false);
               }}
-              title="极客已自主免责解锁（点击可重新恢复双模安全保护锁定）"
+              title="Enthusiast override is enabled (click to restore hybrid-mode safety lock)"
             >
               <Unlock className="w-3 h-3 text-sky-400" />
-              <span>极客已解锁</span>
+              <span>Enthusiast Unlock Enabled</span>
             </div>
           ) : undefined),
           activeBadgeColor: '#34d399',
-          activeBadgeText: !hasDgpu ? '纯核显原生运行中' : '硬件生效中',
+          activeBadgeText: !hasDgpu ? 'Running natively on integrated graphics' : 'Hardware active',
         })}
       </div>
     ) : hasPhysicalDgpu ? (
@@ -505,7 +505,7 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)' }}>
-                混合输出模式 (NVIDIA Optimus)
+                Hybrid Graphics Mode (NVIDIA Optimus)
               </span>
               <span
                 style={{
@@ -518,11 +518,11 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
                   padding: '1px 6px',
                 }}
               >
-                硬件生效中
+                Hardware active
               </span>
             </div>
             <div style={{ fontSize: '11px', color: 'var(--text-dim)', lineHeight: 1.5 }}>
-              当前机型为独显混合输出架构（由核显直连屏幕输出，独立显卡负责高性能 3D 加速）。主板硬件未设计 MUX 物理切换开关，固定由 Windows 与显卡驱动自动协同调度，无需手动切换，杜绝任何切换黑屏与死机风险。下方亮度控制、色彩增强与 ICC 校色均可正常调节。
+              This model uses hybrid graphics: the iGPU drives the display and the discrete GPU accelerates demanding 3D workloads. The motherboard has no physical MUX switch; Windows and the GPU driver manage graphics automatically. No manual switching is needed, avoiding black screens or hangs. Brightness, color enhancement, and ICC calibration remain available below.
             </div>
           </div>
         </div>
@@ -535,7 +535,7 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
             flexShrink: 0,
           }}
         >
-          无物理 MUX 开关 (自动协同)
+          No Physical MUX Switch (Automatic Switching)
         </div>
       </div>
     ) : (
@@ -552,10 +552,10 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           <div style={{ fontSize: '13px', fontWeight: 700, color: 'var(--text-primary)' }}>
-            原生纯核显高能效架构
+            Native Efficient Integrated-Only Architecture
           </div>
           <div style={{ fontSize: '11px', color: 'var(--text-dim)', lineHeight: 1.5 }}>
-            当前机型为轻薄本架构，无板载独立显卡与物理 MUX 切换芯片，图形与屏幕显示由 CPU 内建核心显卡直出，已永久处于核显低功耗模式，无需切换。下方屏幕亮度控制、色彩增强与 ICC 校色功能均可正常使用。
+            This ultrabook has no discrete GPU or physical MUX switch. Graphics and display output are handled by the CPU’s integrated GPU, so it remains in low-power iGPU mode. Brightness, color enhancement, and ICC calibration remain available below.
           </div>
         </div>
       </div>
@@ -597,10 +597,10 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
                 </div>
                 <div>
                   <h3 style={{ fontSize: '16px', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
-                    切换显卡模式提示
+                    GPU Mode Switch Notice
                   </h3>
                   <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: '2px 0 0' }}>
-                    机械革命原厂 UEFI 硬件总线配置变更
+                    MECHREVO Factory UEFI Hardware Bus Configuration Change
                   </p>
                 </div>
               </div>
@@ -624,13 +624,13 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
               }}
             >
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>当前硬件模式</span>
+                <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Current Hardware Mode</span>
                 <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-secondary)' }}>{pendingSwitch.currentTitle}</span>
                 <span style={{ fontSize: '9px', color: 'var(--text-dim)', fontFamily: 'monospace' }}>[{pendingSwitch.currentHex}]</span>
               </div>
               <ArrowRight size={18} className="text-blue-400 gpu-modal-arrow" />
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>目标切换模式</span>
+                <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>Target Mode</span>
                 <span className="gpu-modal-target-title" style={{ fontSize: '14px', fontWeight: 800, color: 'var(--status-info)' }}>{pendingSwitch.targetTitle}</span>
                 <span className="gpu-modal-target-hex" style={{ fontSize: '9px', color: 'var(--status-info)', fontFamily: 'monospace' }}>[{pendingSwitch.targetHex}]</span>
               </div>
@@ -649,13 +649,13 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
               }}
             >
               <div>
-                切换至【<strong style={{ color: 'var(--text-primary)' }}>{pendingSwitch.targetTitle}</strong>】涉及显示内屏物理走线 MUX 芯片重配，需要通过系统重启由主板 BIOS POST 阶段生效。
+                Switching to <strong style={{ color: 'var(--text-primary)' }}>{pendingSwitch.targetTitle}</strong> reconfigures the internal display’s physical MUX routing. A system restart is required for the motherboard BIOS POST process to apply the change.
               </div>
               <div style={{ marginTop: '6px', color: 'var(--status-info)', fontSize: '11px', fontWeight: 600 }}>
-                🛡️ OpenRevo 强化防黑屏保护：重启前自动唤醒核显供电总线、刷新 PnP 设备树并执行 SPI NVRAM 稳定写入，跳过快速启动陷阱。
+                🛡️ OpenRevo 强化防黑屏保护：重启前自动唤醒核显供电总线、Refresh PnP 设备树并执行 SPI NVRAM 稳定写入，跳过快速启动陷阱。
               </div>
               <div style={{ marginTop: '4px', color: 'var(--text-muted)', fontSize: '10.5px' }}>
-                💡 极客急救锦囊：若个别机型在极端情况下重启遭遇黑屏，长按电源键 15 秒即可彻底复位 EC/BIOS 恢复默认显示。
+                💡 Recovery tip: if a rare model displays a black screen after restarting, hold the power button for 15 seconds to reset EC/BIOS and restore default display output.
               </div>
             </div>
 
@@ -684,7 +684,7 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
                 }}
               >
                 <RotateCcw className={`w-4 h-4 ${rebooting ? 'animate-spin' : ''}`} />
-                <span>{rebooting ? '正在平稳安全重启...' : '立即平稳重启 (推荐)'}</span>
+                <span>{rebooting ? 'Restarting safely...' : 'Restart Safely Now (Recommended)'}</span>
               </button>
 
               <button
@@ -708,7 +708,7 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
                 }}
               >
                 <Clock className="w-4 h-4 text-slate-400" />
-                <span>稍后重启 (下次开机生效)</span>
+                <span>Restart Later (takes effect at next startup)</span>
               </button>
 
                   {!rebooting && (
@@ -722,7 +722,7 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
                         cursor: 'pointer', transition: 'color 0.2s ease',
                       }}
                     >
-                      取消
+                      Cancel
                     </button>
                   )}
             </div>
@@ -749,24 +749,24 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
                 <AlertTriangle size={20} />
               </div>
               <div>
-                <div className="sys-modal-title">双显双模硬件保护 · 极客免责解锁</div>
-                <div className="sys-modal-subtitle">防止主板无纯核显独立旁路开关导致开机永久黑屏变砖</div>
+                <div className="sys-modal-title">Hybrid Graphics Hardware Protection · Enthusiast Override</div>
+                <div className="sys-modal-subtitle">Prevent a permanent black screen on motherboards without a dedicated iGPU bypass switch</div>
               </div>
             </div>
 
             <div className="sys-modal-body">
               <div className="sys-modal-warning-label">
-                ⚠️ 严重硬件安全风险警告 (Hardware Brick Risk):
+                ⚠️ Serious Hardware Safety Warning (Risk of Bricking):
               </div>
               <ul className="sys-modal-list">
                 <li>
-                  <strong>模具电路特征</strong>：当前机器底盘（如翼龙 16 Pro 等 TRX1/HP45 代工设计）官方主板<strong>仅具备双显双模电路</strong>，内置屏幕通常未焊装旁路独立核显直连开关。
+                  <strong>Hardware Design Characteristics</strong>：当前机器底盘（如翼龙 16 Pro 等 TRX1/HP45 代工设计）官方主板<strong>仅具备双显双模电路</strong>，内置屏幕通常未焊装旁路独立核显直连开关。
                 </li>
                 <li>
-                  <strong>永久黑屏后果</strong>：若在 BIOS 不支持纯核显的主板上强行写入此模式，电脑重启后内屏将<strong>永久黑屏、无背光且无自检信号</strong>，只能通过拆机断电复位 CMOS 甚至烧录器救砖！
+                  <strong>Consequences of a Permanent Black Screen</strong>：若在 BIOS 不支持纯核显的主板上强行写入此模式，电脑重启后内屏将<strong>永久黑屏、无背光且无自检信号</strong>，只能通过拆机断电复位 CMOS 甚至烧录器救砖！
                 </li>
                 <li>
-                  <strong>免责决策原则</strong>：OpenRevo 坚决不使用模糊猜测数据库，绝不替用户冒变砖风险。若您已<strong>重启进入 BIOS 高级设置亲眼确认</strong>存在并支持『iGPU Only』模式，可勾选下方免责声明强制解锁。
+                  <strong>Override Decision</strong>：OpenRevo 坚决不使用模糊猜测数据库，绝不替用户冒变砖风险。若您已<strong>重启进入 BIOS 高级设置亲眼确认</strong>存在并支持『iGPU Only』Mode，可勾选下方免责声明强制解锁。
                 </li>
               </ul>
 
@@ -793,7 +793,7 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
                   style={{ marginTop: '2px', cursor: 'pointer' }}
                 />
                 <span>
-                  我已在主板 BIOS 中亲眼确认具备纯核显选项，已知晓黑屏变砖风险并自愿承担硬件后果。
+                  I have personally verified that the motherboard BIOS supports iGPU-only mode, understand the risk of a black screen or bricked device, and accept responsibility for the hardware consequences.
                 </span>
               </label>
             </div>
@@ -806,7 +806,7 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
                 }}
                 className="toggle-btn"
               >
-                取消 (推荐保持安全锁定)
+                Cancel (推荐保持安全锁定)
               </button>
               <button
                 disabled={!geekConfirmedRisk}
@@ -821,7 +821,7 @@ export const GpuModeCards: React.FC<GpuModeCardsProps> = ({
                   cursor: geekConfirmedRisk ? 'pointer' : 'not-allowed',
                 }}
               >
-                强制解除保护锁定 (自负风险)
+                Force Unlock Protection (at your own risk)
               </button>
             </div>
           </div>

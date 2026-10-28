@@ -285,14 +285,14 @@ export const PluginsView: React.FC<PluginsViewProps> = ({
           <div className="plugin-section-title-wrap">
             <div className="plugin-section-title">
               <Puzzle size={16} />
-              <span>内置插件</span>
-              <RevBadge variant="accent">Safe-Mode 模块隔离</RevBadge>
+              <span>Built-in Plugins</span>
+              <RevBadge variant="accent">Safe Mode Module Isolation</RevBadge>
             </div>
             <div className="plugin-section-desc">
-              系统核心功能插槽，可根据使用偏好按需开启或关闭。关闭后模块将从顶栏导航与后台调度中隐藏
+              Core system modules can be enabled or disabled as needed. Disabled modules are hidden from the top navigation and background scheduling.
             </div>
           </div>
-          <RevBadge variant="default">共 {builtinSlots.length} 项</RevBadge>
+          <RevBadge variant="default">{builtinSlots.length} items</RevBadge>
         </div>
 
         <div className="plugins-list">
@@ -335,11 +335,11 @@ export const PluginsView: React.FC<PluginsViewProps> = ({
           <div className="plugin-section-title-wrap">
             <div className="plugin-section-title">
               <Boxes size={16} />
-              <span>自定义插件</span>
-              <RevBadge variant="info">社区生态扩展</RevBadge>
+              <span>Custom Plugins</span>
+              <RevBadge variant="info">Community Extensions</RevBadge>
             </div>
             <div className="plugin-section-desc">
-              支持加载由社区与开发者提供的扩展（桌面透明挂件、调谐脚本、自动化服务等），基于安全沙盒运行
+              Load community extensions such as desktop widgets, tuning scripts, and automation services in a security sandbox.
             </div>
           </div>
 
@@ -347,19 +347,19 @@ export const PluginsView: React.FC<PluginsViewProps> = ({
             <button
               onClick={handleOpenPluginsDir}
               className="toggle-btn"
-              title="打开用户插件目录 (%APPDATA%\OpenRevo\plugins)"
+              title="Open User Plugin Directory (%APPDATA%\OpenRevo\plugins)"
             >
               <FolderOpen size={13} />
-              <span>打开插件目录</span>
+              <span>Open plugin folder</span>
             </button>
             <button
               onClick={() => fetchCustomPlugins(true)}
               disabled={loadingCustom}
               className="toggle-btn"
-              title="刷新已安装插件列表并热重载当前样式"
+              title="Refresh installed plugins and hot-reload the current style"
             >
               <RotateCcw size={13} className={loadingCustom ? 'animate-spin' : ''} />
-              <span>刷新</span>
+              <span>Refresh</span>
             </button>
           </div>
         </div>
@@ -369,13 +369,13 @@ export const PluginsView: React.FC<PluginsViewProps> = ({
             <div className="plugin-empty-icon">
               <Boxes size={24} />
             </div>
-            <div className="plugin-empty-title">暂未检测到第三方自定义插件</div>
+            <div className="plugin-empty-title">No third-party plugins detected</div>
             <div className="plugin-empty-desc">
-              将包含 manifest.json 的插件文件夹或 .rhai 脚本放入 plugins 目录后点击右上角“刷新”即可加载。详情可查阅《OpenRevo 第三方插件开发手册》。
+              将包含 manifest.json 的插件文件夹或 .rhai 脚本放入 plugins 目录后点击右上角“Refresh”即可加载。详情可查阅《OpenRevo 第三方插件开发手册》。
             </div>
             <button onClick={handleOpenPluginsDir} className="toggle-btn active-indigo">
               <FolderOpen size={13} />
-              <span>打开 plugins 目录</span>
+              <span>Open plugins directory</span>
             </button>
           </div>
         ) : (
@@ -399,32 +399,32 @@ export const PluginsView: React.FC<PluginsViewProps> = ({
                         <span className="plugin-item-id">[{plugin.id}]</span>
                         <RevBadge variant="default">v{plugin.version}</RevBadge>
                         {plugin.plugin_type === 'skin' ? (
-                          <RevBadge variant="accent">主窗皮肤</RevBadge>
+                          <RevBadge variant="accent">Main Window Theme</RevBadge>
                         ) : plugin.plugin_type === 'background' ? (
-                          <RevBadge variant="warning">背景壁纸</RevBadge>
+                          <RevBadge variant="warning">Background Wallpaper</RevBadge>
                         ) : plugin.plugin_type === 'tab' ? (
-                          <RevBadge variant="info">面板插槽</RevBadge>
+                          <RevBadge variant="info">Panel Slot</RevBadge>
                         ) : plugin.plugin_type === 'widget' ? (
-                          <RevBadge variant="success">桌面挂件</RevBadge>
+                          <RevBadge variant="success">Desktop Widget</RevBadge>
                         ) : plugin.plugin_type === 'slot' ? (
-                          <RevBadge variant="accent">微插槽 {plugin.target_slot ? `[${plugin.target_slot}]` : ''}</RevBadge>
+                          <RevBadge variant="accent">Mini Slot {plugin.target_slot ? `[${plugin.target_slot}]` : ''}</RevBadge>
                         ) : (
                           <RevBadge variant="default">{plugin.plugin_type}</RevBadge>
                         )}
                         {plugin.is_compatible === false ? (
                           <RevBadge variant="error" title={plugin.compatibility_notice}>
-                            ⚠️ {plugin.compatibility_notice || `需 OpenRevo v${plugin.min_host_version}+`}
+                            ⚠️ {plugin.compatibility_notice || `Requires OpenRevo v${plugin.min_host_version}+`}
                           </RevBadge>
                         ) : plugin.min_host_version ? (
-                          <RevBadge variant="default" title={`最低要求 OpenRevo v${plugin.min_host_version}`}>
+                          <RevBadge variant="default" title={`Requires OpenRevo v${plugin.min_host_version} or later`}>
                             v{plugin.min_host_version}+
                           </RevBadge>
                         ) : null}
                       </div>
                       <span className="plugin-item-desc">{plugin.description}</span>
                       <div className="plugin-item-meta">
-                        <span>作者: {plugin.author}</span>
-                        <span>目录: {plugin.dir_name}</span>
+                        <span>Author: {plugin.author}</span>
+                        <span>Directory: {plugin.dir_name}</span>
                       </div>
                     </div>
                   </div>
