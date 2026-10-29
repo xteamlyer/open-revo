@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { invoke } from '@tauri-apps/api/core';
 import { Zap, Battery, Plug, ShieldCheck, Globe, Ban, Lock, Clock, Moon, Snowflake, Info } from 'lucide-react';
 import { RevBadge, RevSwitch } from './ui';
-import { ExtensionSlot } from './common/ExtensionSlot';
 
 interface PowerSettingsInfo {
   battery_percent: number;
@@ -211,9 +210,6 @@ export const PowerTuningView: React.FC = () => {
               activeColor="var(--accent-pwr)"
             />
           </div>
-
-          {/* Top Right: 预留微插槽位 (锁定充电上限插件) */}
-          <ExtensionSlot name="power.hardware_limit" style={{ width: 'auto' }} />
         </div>
       </div>
 
@@ -529,9 +525,6 @@ export const PowerTuningView: React.FC = () => {
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <span style={{ fontSize: '11.5px', fontWeight: 700, color: 'var(--text-primary)' }}>Long-Life Mode</span>
-                  {powerInfo.battery_hardware_limit_enabled && (
-                    <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--status-ok)' }}>(100%)</span>
-                  )}
                 </div>
                 <div style={{ fontSize: '9.5px', color: 'var(--text-dim)', lineHeight: '1.35', marginTop: '1px' }}>
                   Best for long periods of battery-powered use.
@@ -550,9 +543,6 @@ export const PowerTuningView: React.FC = () => {
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <span style={{ fontSize: '11.5px', fontWeight: 700, color: 'var(--text-primary)' }}>Balanced Mode</span>
-                  {powerInfo.battery_hardware_limit_enabled && (
-                    <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--status-ok)' }}>(80%)</span>
-                  )}
                 </div>
                 <div style={{ fontSize: '9.5px', color: 'var(--text-dim)', lineHeight: '1.35', marginTop: '1px' }}>
                   For occasional mobile use when maximum battery capacity is not required.
@@ -571,9 +561,6 @@ export const PowerTuningView: React.FC = () => {
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <span style={{ fontSize: '11.5px', fontWeight: 700, color: 'var(--text-primary)' }}>Workstation Mode</span>
-                  {powerInfo.battery_hardware_limit_enabled && (
-                    <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--status-ok)' }}>(60%)</span>
-                  )}
                 </div>
                 <div style={{ fontSize: '9.5px', color: 'var(--text-dim)', lineHeight: '1.35', marginTop: '1px' }}>
                   Recommended if the laptop is usually plugged in and rarely used away from an outlet; helps extend battery lifespan.
