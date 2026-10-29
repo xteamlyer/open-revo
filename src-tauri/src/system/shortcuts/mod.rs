@@ -22,7 +22,7 @@ pub fn init_shortcuts() {
         combo: "Ctrl+Shift+F".to_string(),
         action: ShortcutAction::ToggleFanBoost,
         osd: true,
-        enabled: true,
+        enabled: false,
         swallow: false,
         plugin_id: None,
     });
@@ -33,7 +33,7 @@ pub fn init_shortcuts() {
         combo: "Ctrl+Shift+M".to_string(),
         action: ShortcutAction::CyclePowerMode,
         osd: true,
-        enabled: true,
+        enabled: false,
         swallow: false,
         plugin_id: None,
     });
@@ -44,7 +44,7 @@ pub fn init_shortcuts() {
         combo: "Ctrl+Shift+R".to_string(),
         action: ShortcutAction::ToggleRefreshRate,
         osd: true,
-        enabled: true,
+        enabled: false,
         swallow: false,
         plugin_id: None,
     });
