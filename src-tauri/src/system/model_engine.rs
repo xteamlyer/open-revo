@@ -639,6 +639,7 @@ pub fn load_model_profiles() -> Vec<ModelProfile> {
 }
 
 fn load_model_profiles_from_disk(path: &std::path::Path) -> Vec<ModelProfile> {
+    let mut upgraded_from_placeholder = false;
     let mut profiles = if !path.exists() {
         get_builtin_profiles()
     } else {
@@ -652,6 +653,29 @@ fn load_model_profiles_from_disk(path: &std::path::Path) -> Vec<ModelProfile> {
                         let builtin = get_builtin_profiles();
                         for b in &builtin {
                             if let Some(loaded_p) = loaded.iter_mut().find(|p| p.model_id.eq_ignore_ascii_case(&b.model_id)) {
+                                // Replace a synthesized placeholder with the authoritative built-in
+                                // profile when this model has since been added to builtin_models.json.
+                                // Preserve user-owned state that must survive the upgrade.
+                                if loaded_p.is_inferred && !b.is_inferred {
+                                    let keep_alias = loaded_p.alias.trim().to_string();
+                                    let was_mine = loaded_p.mine;
+
+                                    crate::log_info!(
+                                        "MODEL_ENGINE",
+                                        "Upgrading synthesized placeholder {} to builtin profile (mine={})",
+                                        b.model_id,
+                                        was_mine
+                                    );
+
+                                    *loaded_p = b.clone();
+                                    loaded_p.mine = was_mine;
+                                    if !keep_alias.is_empty() {
+                                        loaded_p.alias = keep_alias;
+                                    }
+                                    upgraded_from_placeholder = true;
+                                    continue;
+                                }
+
                                 if loaded_p.fan_tables.is_none() && b.fan_tables.is_some() {
                                     loaded_p.fan_tables = b.fan_tables.clone();
                                 }
@@ -678,7 +702,7 @@ fn load_model_profiles_from_disk(path: &std::path::Path) -> Vec<ModelProfile> {
     };
 
     let changed = sync_active_machine_profile(&mut profiles);
-    if !path.exists() || changed {
+    if !path.exists() || changed || upgraded_from_placeholder {
         if let Ok(json) = serde_json::to_string_pretty(&profiles) {
             let _ = std::fs::write(&path, json);
         }
