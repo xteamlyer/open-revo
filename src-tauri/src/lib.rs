@@ -350,6 +350,8 @@ pub fn run() {
             commands::hardware_cmd::set_color_calibration_enabled,
             commands::hardware_cmd::import_custom_color_profile,
             commands::hardware_cmd::delete_custom_color_profile,
+            commands::hardware_cmd::get_cloud_icc_identity,
+            commands::hardware_cmd::fetch_cloud_icc_profile,
             commands::hardware_cmd::export_device_diagnostic_report,
             commands::hardware_cmd::apply_gpu_tuning_state,
             commands::hardware_cmd::get_gpu_power_state_truth,
@@ -379,6 +381,12 @@ pub fn run() {
             commands::plugin_storage_cmd::write_plugin_file,
             commands::plugin_storage_cmd::delete_plugin_file,
             commands::plugin_storage_cmd::list_plugin_files,
+            commands::tuning_cmd::get_gpu_tuning_info,
+            commands::tuning_cmd::set_gpu_clock_offsets,
+            commands::tuning_cmd::set_gpu_vf_curve_deltas,
+            commands::tuning_cmd::set_gpu_undervolt_curve,
+            commands::tuning_cmd::reset_gpu_vf_curve,
+            commands::tuning_cmd::reset_gpu_tuning,
         ])
         .setup(move |app| {
             openrevo_core::set_global_event_sink(Arc::new(TauriEventSink::new(app.handle().clone())));
