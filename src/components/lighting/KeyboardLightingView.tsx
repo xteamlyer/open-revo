@@ -393,8 +393,8 @@ export const KeyboardLightingView: React.FC<KeyboardLightingViewProps> = ({
     : isSingleZone
     ? 'Single-zone RGB [EC hardware dimming]'
     : isFourZone
-    ? 'ITE 8291 r2 4-zone RGB controller (048D:CE00)'
-    : 'ITE per-key RGB controller (048D:600B)';
+    ? 'ITE 8291 r2 4区 RGB 控制器 (048D:CE00)'
+    : 'ITE 8291 单键 RGB 控制器 (048D 逐键 HID)';
 
   const pageDesc = isSingleColor
     ? 'Monochrome LED backlight detected. Unsupported controls are hidden; power, 3 brightness levels, and idle shutoff are available.'

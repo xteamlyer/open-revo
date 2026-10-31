@@ -226,11 +226,11 @@ export const LightingTopologyOverrideModal: React.FC<LightingTopologyOverrideMod
                   <div className="topology-tip-icon">ⓘ</div>
                   <div className="topology-tooltip">
                     <div className="topology-tip-title">
-                      <span>Full-Color Per-Key RGB</span>
-                      <span className="topology-tip-chip">048D:600B</span>
+                      <span>全彩逐键 RGB</span>
+                      <span className="topology-tip-chip">048D:600B / CE00</span>
                     </div>
-                    <p className="topology-tip-desc">Each key can be colored independently. Supports BetterRGB 60 FPS effects, water ripples, and custom shaders.</p>
-                    <div className="topology-tip-example">Typical models: YaoShi 16 Pro/Ultra, Canglong 16, and other high-end models</div>
+                    <p className="topology-tip-desc">Each key has its own color, and supports BetterRGB 60 FPS “Geek Glow,” “Water Ripples,” and custom shaders.</p>
+                    <div className="topology-tip-example">Examples: Yaoshi 16 Pro/Ultra, Canglong 16, Jiaolong GM7ZG7S (CE00), and other high-end models</div>
                   </div>
                 </div>
 
