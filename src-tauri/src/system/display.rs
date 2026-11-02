@@ -225,7 +225,7 @@ pub fn get_all_monitors() -> Vec<DisplayMonitor> {
         let supported = get_available_refresh_rates();
         monitors.push(DisplayMonitor {
             device_name: "\\\\.\\DISPLAY1".into(),
-            friendly_name: "默认显示器 (2560x1600)".into(),
+            friendly_name: "Default display (2560x1600)".into(),
             is_primary: true,
             is_internal: true,
             width: 2560,
@@ -438,19 +438,19 @@ fn format_friendly_screen_name(
     let upper = format!("{} {}", mon_name, mon_id).to_uppercase();
 
     if upper.contains("BOE") {
-        brand = "京东方 BOE".into();
+        brand = "BOE".into();
     } else if upper.contains("XIAOMI") || upper.contains("REDMI") || upper.contains("XMI") {
-        brand = "小米 / Redmi".into();
+        brand = "Xiaomi / Redmi".into();
     } else if upper.contains("ASUS") || upper.contains("ROG") {
-        brand = "华硕 ROG".into();
+        brand = "ASUS ROG".into();
     } else if upper.contains("AOC") {
         brand = "AOC".into();
     } else if upper.contains("DELL") || upper.contains("ALIENWARE") {
-        brand = "戴尔 Dell".into();
+        brand = "Dell".into();
     } else if upper.contains("LG") {
         brand = "LG UltraGear".into();
     } else if upper.contains("SAMSUNG") || upper.contains("SEC") {
-        brand = "三星 Samsung".into();
+        brand = "Samsung".into();
     } else if !mon_name.is_empty() && mon_name != "Generic PnP Monitor" {
         brand = mon_name.to_string();
     }
@@ -459,13 +459,13 @@ fn format_friendly_screen_name(
         if !brand.is_empty() {
             format!("{} [{}]", brand, res_str)
         } else {
-            format!("内置屏 [{}]", res_str)
+            format!("Built-in display [{}]", res_str)
         }
     } else {
         if !brand.is_empty() {
             format!("{} [{}]", brand, res_str)
         } else {
-            format!("外接显示器 [{}]", res_str)
+            format!("External display [{}]", res_str)
         }
     }
 }

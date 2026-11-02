@@ -21,9 +21,9 @@ export const GpuLegacyBanner: React.FC<GpuLegacyBannerProps> = ({ gpuName }) => 
       <ShieldAlert className="w-4 h-4 shrink-0 mt-0.5" style={{ color: 'var(--status-warn)' }} />
       <div style={{ fontSize: '11px', color: 'var(--text-secondary)', lineHeight: '1.45' }}>
         <div style={{ fontWeight: 700, color: 'var(--status-warn)', marginBottom: '2px' }}>
-          硬件不支持 EC 动态借电与超性能
+          Hardware does not support EC Dynamic Boost or Super Performance
         </div>
-        当前显卡 ({gpuName || 'GTX 10/20 系列'}) 属于 Pascal / Turing 架构，无同方 EC Dynamic Boost 借电芯片与超性能开关，功耗完全由 VBIOS 固件锁死掌控。
+        The current GPU ({gpuName || 'GTX 10/20 series'}) uses Pascal/Turing architecture and lacks the Tongfang EC Dynamic Boost controller and Super Performance switch. Power is fully controlled by VBIOS.
       </div>
     </div>
   );

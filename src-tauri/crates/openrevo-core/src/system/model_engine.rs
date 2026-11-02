@@ -1018,7 +1018,7 @@ pub fn detect_model_profile() -> ModelMatchResult {
                 ec_project_id: ec_pid,
                 bios_project_id: reg_bios_pid,
                 is_trusted: true,
-                confidence_reason: format!("匹配本机预设 [{}] (代号: {})", mine.alias, mine.model_id),
+                confidence_reason: format!("Matched the local preset [{}] (model code: {})", mine.alias, mine.model_id),
             };
         }
     }
@@ -1041,10 +1041,10 @@ pub fn detect_model_profile() -> ModelMatchResult {
         bios_project_id: reg_bios_pid,
         is_trusted: !is_unadapted,
         confidence_reason: if is_unadapted {
-            "当前机型尚未适配声明式驱动契约，已启用安全只读保护，禁止自定义调优".to_string()
+            "This model has not yet been adapted with a declarative driver contract. Safe read-only protection is enabled and custom tuning is blocked".to_string()
         } else {
             let channel = crate::hal::platform_probe::get_platform_channel();
-            format!("底层通信通道就绪 [{:?}]，基于物理真理传感器与 VBIOS 遥测驱动硬件", channel)
+            format!("Low-level communication channel ready [{:?}], driving the hardware from physical-truth sensors and VBIOS telemetry", channel)
         },
     }
 }

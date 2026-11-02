@@ -14,15 +14,15 @@ pub fn get_registered_watchers() -> Vec<WatcherInfo> {
 #[tauri::command]
 pub fn register_custom_watcher(watcher: WatcherDefinition) -> Result<bool, String> {
     if watcher.id.trim().is_empty() {
-        return Err("Watcher ID 不能为空".to_string());
+        return Err("Watcher ID cannot be empty".to_string());
     }
     if watcher.name.trim().is_empty() {
-        return Err("Watcher 名称不能为空".to_string());
+        return Err("Watcher name cannot be empty".to_string());
     }
     if reg_watcher(watcher) {
         Ok(true)
     } else {
-        Err("注册公共监听器失败".to_string())
+        Err("Failed to register the shared watcher".to_string())
     }
 }
 
@@ -31,7 +31,7 @@ pub fn unregister_custom_watcher(id: String) -> Result<bool, String> {
     if unreg_watcher(&id) {
         Ok(true)
     } else {
-        Err(format!("未找到 ID 为 '{}' 的公共监听器", id))
+        Err(format!("No shared watcher found with ID '{}'", id))
     }
 }
 
@@ -52,6 +52,6 @@ pub fn trigger_watcher_manual(id: String) -> Result<bool, String> {
         dispatch_watcher_trigger(dummy_def, "manual", serde_json::json!({ "triggered_by": "user" }));
         Ok(true)
     } else {
-        Err(format!("未找到 ID 为 '{}' 的公共监听器", id))
+        Err(format!("No shared watcher found with ID '{}'", id))
     }
 }

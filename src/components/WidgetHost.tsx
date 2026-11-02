@@ -365,7 +365,7 @@ html, body {
   const isOverheat = cpuTemp > 80;
   const isWarm = cpuTemp > 68;
   const coreGlow = isOverheat ? '#ef4444' : isWarm ? '#f59e0b' : '#38bdf8';
-  const modeName = hardware.power_mode === 1 ? '办公' : hardware.power_mode === 3 ? '狂暴' : '均衡';
+  const modeName = hardware.power_mode === 1 ? 'Office' : hardware.power_mode === 3 ? 'Performance' : 'Balanced';
 
   return (
     <div
@@ -437,7 +437,7 @@ html, body {
 
           <button
             onClick={handleClose}
-            title="关闭挂件"
+            title="Close Widget"
             style={{
               background: 'transparent',
               border: 'none',
@@ -483,9 +483,9 @@ html, body {
               letterSpacing: '0.05em',
             }}
           >
-            {hardware.cpu_power_w ? `${Math.round(hardware.cpu_power_w)}W` : 'CPU 结温'}
+            {hardware.cpu_power_w ? `${Math.round(hardware.cpu_power_w)}W` : 'CPU Junction Temperature'}
             {' · '}
-            {hardware.cpu_fan_rpm ? `${hardware.cpu_fan_rpm} RPM` : '风扇'}
+            {hardware.cpu_fan_rpm ? `${hardware.cpu_fan_rpm} RPM` : 'Fans'}
           </div>
         </div>
 
@@ -499,7 +499,7 @@ html, body {
         >
           <button
             onClick={handleCyclePowerMode}
-            title="点击轮转性能模式"
+            title="Cycle performance modes"
             style={{
               flex: 1,
               height: '26px',
@@ -522,7 +522,7 @@ html, body {
 
           <button
             onClick={handleToggleFanBoost}
-            title="一键全速强冷 (Fan Boost)"
+            title="Maximum Fan Boost"
             style={{
               flex: 1,
               height: '26px',
@@ -542,7 +542,7 @@ html, body {
             }}
           >
             <Fan size={12} className={hardware.fan_boost ? 'animate-spin' : ''} />
-            <span>{hardware.fan_boost ? '强冷中' : '强冷'}</span>
+            <span>{hardware.fan_boost ? 'Boost Cooling' : 'Cooling Boost'}</span>
           </button>
         </div>
       </div>

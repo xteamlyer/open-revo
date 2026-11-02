@@ -77,10 +77,10 @@ export class ModuleErrorBoundary extends Component<Props, State> {
             </div>
             <div>
               <div style={{ fontSize: '15px', fontWeight: 600, color: '#f87171' }}>
-                {moduleName} 运行异常 (模块已安全隔离)
+                {moduleName} runtime error (module safely isolated)
               </div>
               <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '2px' }}>
-                该模块发生未捕获异常，系统已拦截并隔离故障，未影响控制中心其余功能。
+                The module encountered an unhandled exception and was isolated. Other control-center features remain unaffected.
               </div>
             </div>
           </div>
@@ -97,7 +97,7 @@ export class ModuleErrorBoundary extends Component<Props, State> {
               wordBreak: 'break-word',
             }}
           >
-            {error?.message || '发生未知渲染错误 (Unknown render exception)'}
+            {error?.message || 'Unknown render error'}
           </div>
 
           {/* Collapsible Details */}
@@ -118,7 +118,7 @@ export class ModuleErrorBoundary extends Component<Props, State> {
               }}
             >
               {showDetails ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-              <span>{showDetails ? '收起技术堆栈详情' : '展开技术堆栈详情'}</span>
+              <span>{showDetails ? 'Hide Technical Stack' : 'Show Technical Stack'}</span>
             </button>
 
             {showDetails && (
@@ -136,7 +136,7 @@ export class ModuleErrorBoundary extends Component<Props, State> {
                   border: '1px solid rgba(255, 255, 255, 0.05)',
                 }}
               >
-                {error?.stack || '无可用调用堆栈'}
+                {error?.stack || 'No stack trace available'}
               </pre>
             )}
           </div>
@@ -162,7 +162,7 @@ export class ModuleErrorBoundary extends Component<Props, State> {
               }}
             >
               <RefreshCw size={14} />
-              <span>重试加载该模块</span>
+              <span>Retry loading module</span>
             </button>
 
             {onNavigateToOverview && (
@@ -185,7 +185,7 @@ export class ModuleErrorBoundary extends Component<Props, State> {
                 }}
               >
                 <Home size={14} />
-                <span>返回状态概览</span>
+                <span>Back to overview</span>
               </button>
             )}
           </div>

@@ -46,8 +46,8 @@ export const BrightnessControl: React.FC<BrightnessControlProps> = ({
           <Sun className="w-4 h-4 text-amber-400" />
         </div>
         <div>
-          <div style={{ fontSize: '12.5px', fontWeight: 700, color: 'var(--text-primary)' }}>屏幕亮度调节</div>
-          <div style={{ fontSize: '10.5px', color: 'var(--text-dim)' }}>当前亮度：{brightness}%</div>
+          <div style={{ fontSize: '12.5px', fontWeight: 700, color: 'var(--text-primary)' }}>Display Brightness</div>
+          <div style={{ fontSize: '10.5px', color: 'var(--text-dim)' }}>Current brightness: {brightness}%</div>
         </div>
       </div>
 
@@ -74,7 +74,7 @@ export const BrightnessControl: React.FC<BrightnessControlProps> = ({
             onClick={() => onQuick(v)}
             className="toggle-btn"
             style={{ padding: '3px 8px', fontSize: '11px' }}
-            title={v === 25 ? '快速切换至 25% (暗光环境)' : v === 60 ? '快速切换至 60% (日常室内)' : '快速切换至 100% (户外高亮)'}
+            title={v === 25 ? 'Switch to 25% (dim environment)' : v === 60 ? 'Switch to 60% (typical indoor use)' : 'Switch to 100% (bright outdoor use)'}
           >
             {v}%
           </button>

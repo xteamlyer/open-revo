@@ -370,7 +370,7 @@ export const LightingStudio: React.FC<LightingStudioProps> = ({ supportFlags }) 
             }}
           >
             <Keyboard className="w-4 h-4" style={{ color: 'var(--color-brand)' }} />
-            <span>键盘背光</span>
+            <span>Keyboard Backlight</span>
           </button>
 
           {Boolean(kbHwInfo?.has_front_lightbar || kbHwInfo?.has_ite7001) && (
@@ -395,7 +395,7 @@ export const LightingStudio: React.FC<LightingStudioProps> = ({ supportFlags }) 
               }}
             >
               <Zap className="w-4 h-4" style={{ color: 'var(--status-info)' }} />
-              <span>海岸灯条</span>
+              <span>Front Lightbar</span>
             </button>
           )}
 
@@ -421,7 +421,7 @@ export const LightingStudio: React.FC<LightingStudioProps> = ({ supportFlags }) 
               }}
             >
               <Wind className="w-4 h-4" style={{ color: 'var(--status-info)' }} />
-              <span>氛围灯条</span>
+              <span>Ambient Lightbar</span>
             </button>
           )}
 
@@ -447,14 +447,14 @@ export const LightingStudio: React.FC<LightingStudioProps> = ({ supportFlags }) 
               }}
             >
               <Sparkles className="w-4 h-4" style={{ color: 'var(--color-beast)' }} />
-              <span>A面 LOGO</span>
+              <span>Lid Logo</span>
             </button>
           )}
         </div>
 
         {/* Global Sleep Timer */}
         <div
-          title="系统闲置无操作时自动关闭键盘、灯带与Logo灯效（敲击任意按键或移动鼠标瞬间唤醒）"
+          title="Automatically turn off keyboard, lightbar, and logo lighting when the system is idle. Press any key or move the mouse to wake the lights."
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -468,7 +468,7 @@ export const LightingStudio: React.FC<LightingStudioProps> = ({ supportFlags }) 
           }}
         >
           <Clock className="w-3.5 h-3.5" style={{ color: 'var(--color-brand)' }} />
-          <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>闲置熄灯:</span>
+          <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Idle Light Off:</span>
           <select
             value={lighting.sleep_minutes}
             onChange={(e) => sendTimeout(Number(e.target.value))}
@@ -520,13 +520,13 @@ export const LightingStudio: React.FC<LightingStudioProps> = ({ supportFlags }) 
             }}
           >
             <Sparkles className="w-3.5 h-3.5" style={{ color: 'var(--color-brand)' }} />
-            <span>迎宾仪式</span>
+            <span>Welcome Lighting Sequence</span>
           </div>
 
           <button
             type="button"
             onClick={handleToggleCeremony}
-            title="开机启动或休眠唤醒时，自动上演全域硬件协同迎宾灯效秀（全机型自适应）"
+            title="Automatically play a coordinated lighting sequence at startup or wake from sleep (adapts to all supported models)."
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -553,14 +553,14 @@ export const LightingStudio: React.FC<LightingStudioProps> = ({ supportFlags }) 
                 boxShadow: (lighting.ceremony_enabled ?? true) ? '0 0 8px var(--color-brand)' : 'none',
               }}
             />
-            <span>{(lighting.ceremony_enabled ?? true) ? '已启用' : '已停用'}</span>
+            <span>{(lighting.ceremony_enabled ?? true) ? 'Enabled' : 'Disabled'}</span>
           </button>
 
           <button
             type="button"
             onClick={handleTriggerWelcome}
             disabled={isApplying}
-            title="立即触发一次全矩阵迎宾仪式灯效演示"
+            title="Run a full-matrix welcome lighting preview now"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -580,7 +580,7 @@ export const LightingStudio: React.FC<LightingStudioProps> = ({ supportFlags }) 
             }}
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>{isApplying ? '演示中...' : '预览全域仪式'}</span>
+            <span>{isApplying ? 'Previewing...' : 'Preview Lighting Sequence'}</span>
           </button>
         </div>
 
@@ -589,7 +589,7 @@ export const LightingStudio: React.FC<LightingStudioProps> = ({ supportFlags }) 
           <button
             type="button"
             onClick={handleSaveAsStartup}
-            title="将当前调好的各项灯效设定为系统开机及唤醒恢复的默认底色"
+            title="Use the current lighting settings as the default state at startup and wake"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -608,13 +608,13 @@ export const LightingStudio: React.FC<LightingStudioProps> = ({ supportFlags }) 
             }}
           >
             {saveSuccess ? <Check className="w-3.5 h-3.5" style={{ color: 'var(--status-ok)' }} /> : <Save className="w-3.5 h-3.5" />}
-            <span>{saveSuccess ? '已设为开机默认' : '设为默认'}</span>
+            <span>{saveSuccess ? 'Set as startup default' : 'Set as Default'}</span>
           </button>
 
           <button
             type="button"
             onClick={handleResetDefaults}
-            title="恢复当前设备出厂默认灯效设置"
+            title="Restore factory lighting settings for this device"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -632,13 +632,13 @@ export const LightingStudio: React.FC<LightingStudioProps> = ({ supportFlags }) 
             }}
           >
             <RotateCcw className="w-3.5 h-3.5" />
-            <span>恢复默认</span>
+            <span>Restore defaults</span>
           </button>
 
           <button
             type="button"
             onClick={() => setIsTopologyModalOpen(true)}
-            title="手动纠正模具与物理灯效硬件设备拓扑映射（如单区误判为4区、或开启漏检外设）"
+            title="Manually correct the mapping between the hardware model and physical lighting devices (e.g. a single zone detected as four zones, or a missing peripheral)."
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -657,7 +657,7 @@ export const LightingStudio: React.FC<LightingStudioProps> = ({ supportFlags }) 
             }}
           >
             <Cpu className="w-3.5 h-3.5" />
-            <span>硬件纠偏</span>
+            <span>Hardware Mapping</span>
           </button>
         </div>
       </div>

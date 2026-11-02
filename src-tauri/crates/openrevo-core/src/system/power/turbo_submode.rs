@@ -74,18 +74,18 @@ pub fn current_silent() -> Option<bool> {
 /// 应用狂暴子模式。仅在支持该特性的机型上执行，其余机型直接返回 Err。
 pub fn apply_silent(silent: bool) -> Result<(), String> {
     if !is_supported() {
-        return Err("当前硬件平台不支持狂暴子模式".to_string());
+        return Err("The current hardware platform does not support turbo sub-modes".to_string());
     }
 
     let addr = crate::hal::vault::ec::ADDR_TURBO_SUBMODE;
     let mask = MASK_TURBO_SUBMODE_BIT;
 
     let prev = crate::driver::wmi_ec::wmi_read_ec(addr)
-        .ok_or_else(|| "读取子模式寄存器失败".to_string())?;
+        .ok_or_else(|| "Failed to read the sub-mode register".to_string())?;
     let target = if silent { prev | mask } else { prev & !mask };
 
     if target != prev && !crate::driver::wmi_ec::wmi_write_ec(addr, target) {
-        return Err("写子模式寄存器失败".to_string());
+        return Err("Failed to write the sub-mode register".to_string());
     }
 
     let cmd = if silent { CMD_SUBMODE_SILENT } else { CMD_SUBMODE_EXTREME };
@@ -114,7 +114,7 @@ pub fn apply_silent(silent: bool) -> Result<(), String> {
                 silent,
                 other
             );
-            Err("写入后回读不一致".to_string())
+            Err("The readback after writing does not match".to_string())
         }
     }
 }

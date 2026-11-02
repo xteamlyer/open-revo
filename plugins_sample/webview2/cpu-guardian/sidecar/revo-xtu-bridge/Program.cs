@@ -1130,7 +1130,7 @@ Usage:
                 return new Dictionary<string, object>
                 {
                     ["success"] = false,
-                    ["error"] = "未能找到有效的 XtuService.exe。请确保插件包含 driver 目录或已安装 Intel XTU。"
+                    ["error"] = "Could not find a valid XtuService.exe. Make sure the plugin contains the driver directory, or that Intel XTU is installed."
                 };
             }
 

@@ -161,7 +161,7 @@ pub fn get_keyboard_hardware_info_internal(
                 has_hinge,
                 is_ec_hinge,
                 is_four_zone: false,
-                description: "独立 ITE 8291 USB 全彩逐键 RGB 键盘".to_string(),
+                description: "Standalone ITE 8291 USB full-color per-key RGB keyboard".to_string(),
                 brightness_level: cfg_brightness,
                 is_on: actually_active,
             }
@@ -182,7 +182,7 @@ pub fn get_keyboard_hardware_info_internal(
                 has_hinge,
                 is_ec_hinge,
                 is_four_zone,
-                description: "ITE 4区 RGB 幻彩背光键盘 (048D:CE00)".to_string(),
+                description: "ITE 4-zone RGB backlit keyboard (048D:CE00)".to_string(),
                 brightness_level: cfg_brightness,
                 is_on: actually_active,
             }
@@ -211,7 +211,7 @@ pub fn get_keyboard_hardware_info_internal(
                 has_hinge,
                 is_ec_hinge,
                 is_four_zone: false,
-                description: "主板 EC 单区 RGB 键盘 (全键同色调光)".to_string(),
+                description: "Board EC single-zone RGB keyboard (whole keyboard one color)".to_string(),
                 brightness_level: effective_br,
                 is_on: is_hw_on,
             }
@@ -240,7 +240,7 @@ pub fn get_keyboard_hardware_info_internal(
                 has_hinge,
                 is_ec_hinge,
                 is_four_zone: false,
-                description: "单色白光背光键盘 (支持档位调节)".to_string(),
+                description: "Monochrome white backlit keyboard (supports stepped brightness)".to_string(),
                 brightness_level: effective_br,
                 is_on: is_hw_on,
             }
@@ -260,7 +260,7 @@ pub fn get_keyboard_hardware_info_internal(
                 has_hinge,
                 is_ec_hinge,
                 is_four_zone: false,
-                description: "未配置或不支持背光调节".to_string(),
+                description: "Backlight control not configured or not supported".to_string(),
                 brightness_level: 0,
                 is_on: false,
             }
@@ -469,7 +469,7 @@ pub fn apply_lightbar_lighting_internal(
     let contract = crate::system::model_engine::get_active_lighting_contract();
     if !contract.has_coastline {
         crate::log_warn!("LIGHTING_CMD", "apply_lightbar_lighting blocked: Contract declares has_coastline = false");
-        return Err("当前模具宪法契约声明无海岸灯硬件，指令已安全拦截".to_string());
+        return Err("The active chassis contract declares no coastline lightbar hardware; the command was safely blocked".to_string());
     }
 
     let st_snapshot = {
@@ -509,7 +509,7 @@ pub fn apply_hinge_lighting_internal(
     let contract = crate::system::model_engine::get_active_lighting_contract();
     if !contract.has_air_vent {
         crate::log_warn!("LIGHTING_CMD", "apply_hinge_lighting blocked: Contract declares has_air_vent = false");
-        return Err("当前模具宪法契约声明无出风口/转轴灯硬件，指令已安全拦截".to_string());
+        return Err("The active chassis contract declares no air-vent / hinge light hardware; the command was safely blocked".to_string());
     }
 
     let st_snapshot = {
@@ -549,7 +549,7 @@ pub fn apply_four_zone_colors_internal(
     let contract = crate::system::model_engine::get_active_lighting_contract();
     if contract.keyboard_type != "4Zone" {
         crate::log_warn!("LIGHTING_CMD", "apply_four_zone_colors blocked: Contract declares keyboard_type != 4Zone");
-        return Err("当前模具宪法契约声明非4区RGB键盘，指令已安全拦截".to_string());
+        return Err("The active chassis contract does not declare a 4-zone RGB keyboard; the command was safely blocked".to_string());
     }
 
     let st_snapshot = {
@@ -595,7 +595,7 @@ pub fn apply_logo_lighting_internal(
     let contract = crate::system::model_engine::get_active_lighting_contract();
     if !contract.has_logo {
         crate::log_warn!("LIGHTING_CMD", "apply_logo_lighting blocked: Contract declares has_logo = false. Ghost Logo eliminated!");
-        return Err("当前模具宪法契约声明无 A 面 LOGO 硬件，指令已安全拦截".to_string());
+        return Err("The active chassis contract declares no lid logo hardware; the command was safely blocked".to_string());
     }
 
     let st_snapshot = {
@@ -613,7 +613,7 @@ pub fn apply_logo_lighting_internal(
             "LIGHTING_CMD",
             "apply_logo_lighting: no lighting channel accepted the command (USB 7001 handle missing?)"
         );
-        return Err("未找到可用的 A 面徽标控制通道，指令未下发到硬件".to_string());
+        return Err("No available lid logo control channel was found; the command was not sent to the hardware".to_string());
     }
     Ok(())
 }
@@ -839,10 +839,10 @@ pub fn save_custom_brfx(filename: String, content: String) -> Result<String, Str
     }
     let clean_name = std::path::Path::new(&safe_name)
         .file_name()
-        .ok_or_else(|| "无效的文件名".to_string())?;
+        .ok_or_else(|| "Invalid file name".to_string())?;
 
     let file_path = custom_dir.join(clean_name);
-    std::fs::write(&file_path, &content).map_err(|e| format!("写入文件失败: {}", e))?;
+    std::fs::write(&file_path, &content).map_err(|e| format!("Failed to write the file: {}", e))?;
     Ok(file_path.to_string_lossy().to_string())
 }
 
@@ -851,10 +851,10 @@ pub fn open_brfx_in_notepad(filename: String) -> Result<(), String> {
     let custom_dir = crate::system::config::get_config_dir().join("custom_effects");
     let clean_name = std::path::Path::new(&filename)
         .file_name()
-        .ok_or_else(|| "无效的文件名".to_string())?;
+        .ok_or_else(|| "Invalid file name".to_string())?;
     let file_path = custom_dir.join(clean_name);
     if !file_path.exists() {
-        return Err(format!("目标动效文件不存在: {:?}", file_path));
+        return Err(format!("The target effect file does not exist: {:?}", file_path));
     }
 
     #[cfg(target_os = "windows")]
@@ -862,13 +862,13 @@ pub fn open_brfx_in_notepad(filename: String) -> Result<(), String> {
         std::process::Command::new("notepad.exe")
             .arg(&file_path)
             .spawn()
-            .map_err(|e| format!("启动记事本失败: {}", e))?;
+            .map_err(|e| format!("Failed to launch Notepad: {}", e))?;
         Ok(())
     }
     #[cfg(not(target_os = "windows"))]
     {
         let _ = file_path;
-        Err("非 Windows 系统不支持记事本启动".to_string())
+        Err("Launching Notepad is not supported on non-Windows systems".to_string())
     }
 }
 

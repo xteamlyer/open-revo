@@ -664,10 +664,10 @@ fn resolve_config_dir() -> PathBuf {
 /// Safely migrates existing configuration, profiles, and plugins to a new target directory
 pub fn migrate_data_dir(target_dir: &std::path::Path) -> Result<(), String> {
     if !target_dir.is_absolute() {
-        return Err("目标路径必须是绝对路径".to_string());
+        return Err("The target path must be an absolute path".to_string());
     }
     if target_dir.parent().is_none() || target_dir.to_string_lossy().len() <= 3 {
-        return Err("禁止将系统磁盘根目录作为数据目录".to_string());
+        return Err("Using a system disk root directory as the data directory is forbidden".to_string());
     }
 
     let current_dir = get_config_dir();
@@ -675,7 +675,7 @@ pub fn migrate_data_dir(target_dir: &std::path::Path) -> Result<(), String> {
         return Ok(());
     }
 
-    fs::create_dir_all(target_dir).map_err(|e| format!("创建目标目录失败: {}", e))?;
+    fs::create_dir_all(target_dir).map_err(|e| format!("Failed to create the target directory: {}", e))?;
 
     // Copy entries from current_dir to target_dir recursively
     if current_dir.exists() {
@@ -887,7 +887,7 @@ pub fn get_default_builtin_presets() -> Vec<CustomProfilePreset> {
     vec![
         CustomProfilePreset {
             id: "preset_silent_beast".to_string(),
-            name: "静音狂暴".to_string(),
+            name: "Silent Beast".to_string(),
             file_name: "preset_silent_beast.json".to_string(),
             icon_key: "flame".to_string(),
             is_builtin: true,
@@ -934,7 +934,7 @@ pub fn get_default_builtin_presets() -> Vec<CustomProfilePreset> {
         },
         CustomProfilePreset {
             id: "preset_balance".to_string(),
-            name: "均衡电竞".to_string(),
+            name: "Balanced Esports".to_string(),
             file_name: "preset_balance.json".to_string(),
             icon_key: "zap".to_string(),
             is_builtin: true,
@@ -963,7 +963,7 @@ pub fn get_default_builtin_presets() -> Vec<CustomProfilePreset> {
         },
         CustomProfilePreset {
             id: "preset_quiet".to_string(),
-            name: "极致静音".to_string(),
+            name: "Ultra Quiet".to_string(),
             file_name: "preset_quiet.json".to_string(),
             icon_key: "leaf".to_string(),
             is_builtin: true,
@@ -1010,7 +1010,7 @@ pub fn get_default_builtin_presets() -> Vec<CustomProfilePreset> {
         },
         CustomProfilePreset {
             id: "preset_extreme".to_string(),
-            name: "极限狂暴".to_string(),
+            name: "Extreme Beast".to_string(),
             file_name: "preset_extreme.json".to_string(),
             icon_key: "rocket".to_string(),
             is_builtin: true,
@@ -1174,30 +1174,30 @@ pub fn save_profile_file(preset: &CustomProfilePreset) -> Result<(), String> {
     };
     let path = dir.join(&safe_file_name);
     let json = serde_json::to_string_pretty(preset)
-        .map_err(|e| format!("序列化配置方案失败: {}", e))?;
+        .map_err(|e| format!("Failed to serialize the profile: {}", e))?;
     fs::write(&path, json)
-        .map_err(|e| format!("写入配置文件失败: {}", e))?;
+        .map_err(|e| format!("Failed to write the configuration file: {}", e))?;
     Ok(())
 }
 
 pub fn delete_profile_file(id: &str) -> Result<(), String> {
     if id.starts_with("preset_") {
-        return Err("原厂预设模板受保护，不可删除！".to_string());
+        return Err("The factory preset templates are protected and cannot be deleted!".to_string());
     }
     let profiles = list_profiles();
     let target = profiles.into_iter().find(|p| p.id == id)
-        .ok_or_else(|| format!("未找到 ID 为 {} 的方案", id))?;
+        .ok_or_else(|| format!("No profile found with ID {}", id))?;
     if target.is_builtin {
-        return Err("原厂预设模板受保护，不可删除！".to_string());
+        return Err("The factory preset templates are protected and cannot be deleted!".to_string());
     }
     let dir = get_profiles_dir();
     let file_path = dir.join(&target.file_name);
     let canonical_dir = dir.canonicalize().map_err(|e| e.to_string())?;
     let canonical_file = file_path.canonicalize().map_err(|e| e.to_string())?;
     if !canonical_file.starts_with(&canonical_dir) {
-        return Err("非法路径删除拦截！".to_string());
+        return Err("Illegal path deletion blocked!".to_string());
     }
-    fs::remove_file(canonical_file).map_err(|e| format!("删除配置文件失败: {}", e))?;
+    fs::remove_file(canonical_file).map_err(|e| format!("Failed to delete the configuration file: {}", e))?;
     Ok(())
 }
 
@@ -1208,7 +1208,7 @@ pub fn import_profile_json(json_content: &str, original_filename: Option<String>
         p.is_builtin = false;
         p
     } else if let Ok(cfg) = serde_json::from_str::<CustomProfileConfig>(json_content) {
-        let name = original_filename.as_deref().unwrap_or("导入方案").replace(".json", "");
+        let name = original_filename.as_deref().unwrap_or("Imported profile").replace(".json", "");
         CustomProfilePreset {
             id: format!("custom_{}", timestamp),
             name,
@@ -1218,7 +1218,7 @@ pub fn import_profile_json(json_content: &str, original_filename: Option<String>
             profile: cfg,
         }
     } else {
-        return Err("无法识别的 JSON 方案格式！".to_string());
+        return Err("Unrecognized JSON profile format!".to_string());
     };
 
     if preset.icon_key.is_empty() {
@@ -1242,7 +1242,7 @@ static CONFIG_LOAD_ERROR: LazyLock<RwLock<Option<String>>> = LazyLock::new(|| Rw
 
 pub fn ensure_config_writable() -> Result<(), String> {
     match CONFIG_LOAD_ERROR.read().as_ref() {
-        Some(error) => Err(format!("配置读取失败，已阻止覆盖原文件：{}", error)),
+        Some(error) => Err(format!("Configuration loading failed; overwriting the original file was blocked: {}", error)),
         None => Ok(()),
     }
 }

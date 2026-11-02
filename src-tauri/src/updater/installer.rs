@@ -272,7 +272,7 @@ mod tests {
     #[test]
     fn regression_portable_replacement_preserves_backup_and_literal_paths() {
         use std::os::windows::process::CommandExt;
-        let dir = std::env::temp_dir().join(format!("openrevo-update-测试-%PATH%-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("openrevo-update-test-%PATH%-{}", std::process::id()));
         std::fs::create_dir(&dir).unwrap();
         let target = dir.join("old.exe");
         let staged = dir.join("new.exe");

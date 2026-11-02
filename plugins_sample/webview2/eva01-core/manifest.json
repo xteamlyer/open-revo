@@ -1,9 +1,9 @@
 {
   "id": "eva01-core",
-  "name": "EVA-01 初号机 S2 能量核心",
+  "name": "EVA-01 S² Energy Core",
   "version": "2.0.0",
   "author": "OpenRevo Official & Community",
-  "description": "官方标杆级异形拟态机甲桌宠挂件，支持结温脉冲呼吸、风扇转速联动、离电倒计时、双态极简折叠与一键强冷暴走切换。",
+  "description": "The flagship shape-shifting mecha desktop widget. Supports junction-temperature pulse breathing, fan speed linkage, unplug countdown, dual-state minimal folding and one-click berserk fan boost toggling.",
   "plugin_type": "widget",
   "entry": "index.html",
   "min_host_version": "0.9.3",

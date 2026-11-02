@@ -35,8 +35,8 @@ impl Default for DisplayColorPreset {
     fn default() -> Self {
         Self {
             id: "preset_vibrant".to_string(),
-            name: "多彩鲜艳 (Vibrant)".to_string(),
-            author: Some("机械革命官方".to_string()),
+            name: "Vibrant".to_string(),
+            author: Some("MECHREVO official".to_string()),
             brightness_pct: Some(50.0),
             color_temp_k: 6500,
             gain_r: 1.0,
@@ -67,8 +67,8 @@ impl Default for DisplayTuningConfig {
             active_preset_id: "preset_vibrant".to_string(),
             custom_preset: DisplayColorPreset {
                 id: "preset_custom".to_string(),
-                name: "用户自定义".to_string(),
-                author: Some("用户".to_string()),
+                name: "User custom".to_string(),
+                author: Some("User".to_string()),
                 brightness_pct: None,
                 color_temp_k: 6500,
                 gain_r: 1.0,
@@ -378,8 +378,8 @@ pub fn get_builtin_presets() -> Vec<DisplayColorPreset> {
     vec![
         DisplayColorPreset {
             id: "preset_vibrant".to_string(),
-            name: "多彩鲜艳 (Vibrant)".to_string(),
-            author: Some("机械革命官方".to_string()),
+            name: "Vibrant".to_string(),
+            author: Some("MECHREVO official".to_string()),
             brightness_pct: Some(50.0),
             color_temp_k: 6500,
             gain_r: 1.0,
@@ -392,8 +392,8 @@ pub fn get_builtin_presets() -> Vec<DisplayColorPreset> {
         },
         DisplayColorPreset {
             id: "preset_internet".to_string(),
-            name: "上网模式 (Internet)".to_string(),
-            author: Some("机械革命官方".to_string()),
+            name: "Internet".to_string(),
+            author: Some("MECHREVO official".to_string()),
             brightness_pct: Some(55.0),
             color_temp_k: 6500,
             gain_r: 98.0 / 128.0,
@@ -406,8 +406,8 @@ pub fn get_builtin_presets() -> Vec<DisplayColorPreset> {
         },
         DisplayColorPreset {
             id: "preset_video".to_string(),
-            name: "视频模式 (Video)".to_string(),
-            author: Some("机械革命官方".to_string()),
+            name: "Video".to_string(),
+            author: Some("MECHREVO official".to_string()),
             brightness_pct: Some(55.0),
             color_temp_k: 6500,
             gain_r: 110.0 / 128.0,
@@ -420,8 +420,8 @@ pub fn get_builtin_presets() -> Vec<DisplayColorPreset> {
         },
         DisplayColorPreset {
             id: "preset_lowblue".to_string(),
-            name: "低蓝光护眼 (Low Blue)".to_string(),
-            author: Some("机械革命官方".to_string()),
+            name: "Low Blue Light".to_string(),
+            author: Some("MECHREVO official".to_string()),
             brightness_pct: Some(50.0),
             color_temp_k: 5000,
             gain_r: 1.0,
@@ -434,8 +434,8 @@ pub fn get_builtin_presets() -> Vec<DisplayColorPreset> {
         },
         DisplayColorPreset {
             id: "preset_cinema".to_string(),
-            name: "影院模式 (Cinema)".to_string(),
-            author: Some("机械革命官方".to_string()),
+            name: "Cinema".to_string(),
+            author: Some("MECHREVO official".to_string()),
             brightness_pct: Some(55.0),
             color_temp_k: 6000,
             gain_r: 107.0 / 128.0,
@@ -448,8 +448,8 @@ pub fn get_builtin_presets() -> Vec<DisplayColorPreset> {
         },
         DisplayColorPreset {
             id: "preset_photo".to_string(),
-            name: "照片模式 (Photo)".to_string(),
-            author: Some("机械革命官方".to_string()),
+            name: "Photo".to_string(),
+            author: Some("MECHREVO official".to_string()),
             brightness_pct: Some(55.0),
             color_temp_k: 6500,
             gain_r: 98.0 / 128.0,
@@ -577,7 +577,7 @@ pub fn import_color_preset_json(
         p.id = format!("custom_color_{}", timestamp);
         p.is_builtin = false;
         if let Some(fname) = &original_filename {
-            if p.name.is_empty() || p.name == "极客自定义" {
+            if p.name.is_empty() || p.name == "Geek custom" {
                 p.name = fname.replace(".json", "");
             }
         }
@@ -611,14 +611,14 @@ pub fn import_color_preset_json(
                 let raw_name = first_item
                     .get("colorProfileName")
                     .and_then(|v| v.as_str())
-                    .unwrap_or("官方导入方案");
+                    .unwrap_or("Official imported profile");
                 let name = match raw_name {
-                    "VibrantMode" => "多彩鲜艳 (Vibrant)",
-                    "InternetMode" => "上网模式 (Internet)",
-                    "VideoMode" => "视频模式 (Video)",
-                    "LowBlueMode" => "低蓝光护眼 (Low Blue)",
-                    "CinemaMode" => "影院模式 (Cinema)",
-                    "PhotoMode" => "照片模式 (Photo)",
+                    "VibrantMode" => "Vibrant",
+                    "InternetMode" => "Internet",
+                    "VideoMode" => "Video",
+                    "LowBlueMode" => "Low Blue Light",
+                    "CinemaMode" => "Cinema",
+                    "PhotoMode" => "Photo",
                     other => other,
                 }.to_string();
                 let color_temp = first_item
@@ -657,7 +657,7 @@ pub fn import_color_preset_json(
                 let preset = DisplayColorPreset {
                     id: format!("custom_color_{}", timestamp),
                     name,
-                    author: Some("官方预设".to_string()),
+                    author: Some("Official preset".to_string()),
                     brightness_pct: brightness,
                     color_temp_k: color_temp.clamp(2000, 12000),
                     gain_r: (color_r / 128.0).clamp(0.0, 2.0),
@@ -675,7 +675,7 @@ pub fn import_color_preset_json(
 
         // 3. Loose key-value mapping from generic JSON
         let name = original_filename
-            .unwrap_or_else(|| "导入方案".to_string())
+            .unwrap_or_else(|| "Imported profile".to_string())
             .replace(".json", "");
         let temp = val
             .get("color_temp_k")
@@ -718,7 +718,7 @@ pub fn import_color_preset_json(
         return Ok(preset);
     }
 
-    Err("无法识别的 JSON 方案文件格式".to_string())
+    Err("Unrecognized JSON profile file format".to_string())
 }
 
 /// Initialize display tuning on application startup: restore settings if enabled

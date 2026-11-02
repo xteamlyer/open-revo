@@ -95,13 +95,13 @@ pub fn get_windows_power_schemes() -> Result<Vec<WindowsPowerScheme>, String> {
                     };
 
                     let display_name = match clean.to_lowercase().as_str() {
-                        "381b4222-f694-41f0-9685-ff5bb260df2e" => "平衡 (Balanced)".to_string(),
-                        "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c" => "高性能 (High Performance)".to_string(),
-                        "a1841308-3541-4fab-bc81-f71556f20b4a" => "节能 (Power Saver)".to_string(),
-                        "e9a42b02-d5df-448d-aa00-03f14749eb61" => "卓越性能 (Ultimate Performance)".to_string(),
+                        "381b4222-f694-41f0-9685-ff5bb260df2e" => "Balanced".to_string(),
+                        "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c" => "High Performance".to_string(),
+                        "a1841308-3541-4fab-bc81-f71556f20b4a" => "Power Saver".to_string(),
+                        "e9a42b02-d5df-448d-aa00-03f14749eb61" => "Ultimate Performance".to_string(),
                         _ => {
                             if raw_name.contains('\u{FFFD}') || raw_name.is_empty() {
-                                format!("自定义方案 ({})", &clean[..8])
+                                format!("Custom plan ({})", &clean[..8])
                             } else {
                                 raw_name
                             }
@@ -121,7 +121,7 @@ pub fn get_windows_power_schemes() -> Result<Vec<WindowsPowerScheme>, String> {
         if schemes.is_empty() {
             schemes.push(WindowsPowerScheme {
                 guid: "381b4222-f694-41f0-9685-ff5bb260df2e".to_string(),
-                name: "平衡 (Balanced)".to_string(),
+                name: "Balanced".to_string(),
                 is_active: true,
             });
         }
@@ -417,7 +417,7 @@ pub fn restore_official_power_plan() -> Result<String, String> {
             let _ = std::fs::remove_dir(&temp_dir);
 
             crate::log_info!("POWER_PPM", "BLD/AMD PPM package restoration complete ({} packages installed)", installed_count);
-            "已成功恢复宝龙达/AMD 官方出厂电源计划与 PPM 处理器/NVMe 调度！".to_string()
+            "The official Bld / AMD factory power plans and the PPM processor / NVMe scheduling have been restored successfully!".to_string()
         } else {
             crate::log_info!("POWER_PPM", "Target platform detected as TongFang/Intel. Scanning and applying OEM PPM packages...");
 
@@ -458,7 +458,7 @@ pub fn restore_official_power_plan() -> Result<String, String> {
             }
 
             crate::log_info!("POWER_PPM", "TongFang/Intel PPM restoration complete ({} packages installed)", installed_count);
-            "已成功恢复同方/Intel 官方出厂电源计划与 PPM 调度！".to_string()
+            "The official TongFang / Intel factory power plans and the PPM scheduling have been restored successfully!".to_string()
         };
 
         let _ = run_powercfg(&["/setactive", "scheme_current"]);

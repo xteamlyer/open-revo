@@ -19,24 +19,24 @@ export const CpuBiosOcRow: React.FC<CpuBiosOcRowProps> = ({
   const isDisabled = biosToggling || isAmd || isUnsupported;
 
   const descText = isAmd
-    ? 'AMD 平台采用 SMU 动态功耗架构，无 Intel 格式 BIOS 超频菜单'
+    ? 'AMD platforms use dynamic SMU power management and do not expose Intel-style BIOS overclocking menus'
     : isUnsupported
-      ? '当前机型主板或移动标压CPU未开放BIOS超频菜单'
+      ? 'This model’s motherboard or mobile CPU does not expose BIOS overclocking controls'
       : biosStatus?.cpu_oc_supported && biosStatus?.mem_oc_supported
-        ? `同步解锁 CPU 与内存超频菜单 (CPU: ${biosStatus.cpu_oc_enabled ? '已开' : '未开'}, 内存: ${biosStatus.mem_oc_enabled ? '已开' : '未开'})`
-        : '向主板 UEFI NVRAM 同步写入 CPU 与内存超频菜单解锁标志位';
+        ? `Synchronize CPU and memory overclocking unlock (CPU: ${biosStatus.cpu_oc_enabled ? 'Enabled' : 'Disabled'}, Memory: ${biosStatus.mem_oc_enabled ? 'Enabled' : 'Disabled'})`
+        : 'Write CPU and memory overclocking unlock flags to motherboard UEFI NVRAM';
 
   const isPartial = Boolean(biosStatus?.cpu_oc_enabled || biosStatus?.mem_oc_enabled);
 
   const buttonText = biosToggling
-    ? '写入中...'
+    ? 'Writing...'
     : isAmd || isUnsupported
-      ? '不支持'
+      ? 'Not supported'
       : biosOcEnabled
-        ? '已开启'
+        ? 'Enabled'
         : isPartial
-          ? '部分开启'
-          : '关闭';
+          ? 'Partially Enabled'
+          : 'Close';
 
   const getButtonBg = () => {
     if (isAmd || isUnsupported) return 'var(--surface-pill)';
@@ -65,7 +65,7 @@ export const CpuBiosOcRow: React.FC<CpuBiosOcRowProps> = ({
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
         <span style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '11px', whiteSpace: 'nowrap' }}>
-          高级 BIOS 超频菜单
+          Advanced BIOS Overclocking Menu
         </span>
         <div style={{ fontSize: '10px', color: 'var(--text-dim)' }}>
           {descText}

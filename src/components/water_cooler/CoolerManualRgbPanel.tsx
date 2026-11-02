@@ -34,13 +34,13 @@ export const CoolerManualRgbPanel: React.FC<CoolerManualRgbPanelProps> = ({
         {/* 左侧：水泵电压手动挡 */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <span style={{ fontSize: '10.5px', fontWeight: 700, color: 'var(--text-muted)', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
-            <Zap size={11} className="text-cyan-400 cooler-pump-icon" /> 水泵档位：
+            <Zap size={11} className="text-cyan-400 cooler-pump-icon" /> Pump Level:
           </span>
           <div style={{ display: 'flex', gap: '5px' }}>
             {[
-              { tier: 0, label: '停泵', desc: '完全关闭 (0%)' },
-              { tier: 2, label: '标准', desc: '标准巡航 (平稳水流 45%)' },
-              { tier: 3, label: '狂暴', desc: '极限狂暴 (100% 满血极速)' },
+              { tier: 0, label: 'Stop Pump', desc: 'Fully Off (0%)' },
+              { tier: 2, label: 'Standard', desc: 'Standard Cruise (steady flow, 45%)' },
+              { tier: 3, label: 'Performance', desc: 'Extreme Performance (100%)' },
             ].map(({ tier, label, desc }) => {
               const currentTier = coolerData.pump_tier !== undefined
                 ? coolerData.pump_tier
@@ -72,17 +72,17 @@ export const CoolerManualRgbPanel: React.FC<CoolerManualRgbPanelProps> = ({
           </div>
           <span className="cooler-pump-label" style={{ fontSize: '10px', color: 'var(--color-fan)', minWidth: '50px' }}>
             {coolerData.pump_tier === 3 || coolerData.pump_voltage >= 11
-              ? '极速狂暴 (100%)'
+              ? 'Maximum Performance (100%)'
               : (coolerData.pump_tier === 0 || coolerData.pump_voltage === 0
-                ? '已停机 (0%)'
-                : '标准巡航 (45%)')}
+                ? 'Stopped (0%)'
+                : 'Standard Cruise (45%)')}
           </span>
         </div>
 
         {/* 右侧：冷排风扇手动滑块 */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <span style={{ fontSize: '10.5px', fontWeight: 700, color: 'var(--text-muted)', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
-            <Fan size={11} className="text-purple-400 cooler-fan-icon" /> 冷排风扇目标转速 (Duty)：
+            <Fan size={11} className="text-purple-400 cooler-fan-icon" /> Radiator Fan Target Speed (Duty):
           </span>
           <input
             type="range"
@@ -120,9 +120,9 @@ export const CoolerManualRgbPanel: React.FC<CoolerManualRgbPanelProps> = ({
             <span
               onClick={() => onUpdateCoolerLed(!coolerData.led_on)}
               style={{ fontSize: '10.5px', fontWeight: 700, color: 'var(--text-primary)', cursor: 'pointer', userSelect: 'none' }}
-              title="点击开关水冷 RGB 灯效"
+              title="Toggle cooler RGB lighting"
             >
-              水箱与冷排 RGB 灯效：
+              Reservoir and Radiator RGB Lighting:
             </span>
             <RevSwitch
               checked={coolerData.led_on}
@@ -133,10 +133,10 @@ export const CoolerManualRgbPanel: React.FC<CoolerManualRgbPanelProps> = ({
 
           <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
             {[
-              { id: 2, label: '炫彩流动 (默认)' },
-              { id: 3, label: '七彩呼吸' },
-              { id: 4, label: '旋转光斑' },
-              { id: 1, label: '单色呼吸 (定色)' },
+              { id: 2, label: 'Vibrant Flow (Default)' },
+              { id: 3, label: 'Rainbow Breathing' },
+              { id: 4, label: 'Rotating Light Spot' },
+              { id: 1, label: 'Single-Color Breathing' },
             ].map((m) => (
               <button
                 key={m.id}
@@ -170,7 +170,7 @@ export const CoolerManualRgbPanel: React.FC<CoolerManualRgbPanelProps> = ({
         {coolerData.led_on && coolerData.led_mode === 1 && (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', background: 'var(--surface-sunken)', padding: '5px 10px', borderRadius: 'var(--radius-sm)' }}>
             <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-              <span style={{ fontSize: '9.5px', color: 'var(--text-dim)' }}>原厂色：</span>
+              <span style={{ fontSize: '9.5px', color: 'var(--text-dim)' }}>Factory Color:</span>
               {COOLER_COLOR_PRESETS.map((c) => (
                 <div
                   key={c.name}

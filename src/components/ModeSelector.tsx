@@ -109,8 +109,8 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({
     <div
       className={`mode-oc-chip${gcuOc.on ? ' is-applied' : ''}${gcuOc.error ? ' is-error' : ''}`}
       title={gcuOc.on
-        ? `GPU OC 已开启（核心 +${ocDefaults.core} MHz / 显存 +${ocDefaults.mem} MHz），点击关闭`
-        : `GPU OC 未开启，点击开启（核心 +${ocDefaults.core} MHz / 显存 +${ocDefaults.mem} MHz）`}
+          ? `GPU OC on (core +${ocDefaults.core} MHz / memory +${ocDefaults.mem} MHz) — click to turn off`
+          : `GPU OC off — click to turn on (core +${ocDefaults.core} MHz / memory +${ocDefaults.mem} MHz)`}
       onClick={toggleGcuOc}
     >
       {gcuOc.busy ? 'OC...' : gcuOc.error ? 'GPU OC !' : gcuOc.on ? 'GPU OC ON' : 'GPU OC OFF'}
@@ -166,25 +166,25 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({
                   disabled={disabled || isRestricted || turboSub.busy}
                   onClick={() => applyTurboSeg(true, isRestricted)}
                   className={`mode-btn mode-seg-btn mode-beast ${silentActive ? 'active-beast' : ''}`}
-                  title={isRestricted ? '电池供电或受限供电下不可用，需接入原装电源适配器' : '静音狂暴：狂暴档内的安静子模式'}
+                  title={isRestricted ? 'Not available on battery or restricted power; please connect the factory power adapter' : 'Silent Beast: the quiet sub-mode within Beast mode'}
                   style={isRestricted ? { opacity: 0.45, cursor: 'not-allowed', filter: 'grayscale(0.6)' } : undefined}
                 >
                   {silentActive && !isRestricted && gcuOcChip()}
                   <div style={{ marginBottom: '2px' }}><Snowflake className="w-4 h-4 text-cyan-300" /></div>
-                  <div className="mode-title">静音狂暴</div>
-                  <div className="mode-sub">{isRestricted ? '需圆口DC' : silentActive ? '● 当前' : '静音'}</div>
+                  <div className="mode-title">Silent Beast</div>
+                  <div className="mode-sub">{isRestricted ? 'Needs DC' : silentActive ? '● Current' : 'Silent'}</div>
                 </button>
                 <button
                   disabled={disabled || isRestricted || turboSub.busy}
                   onClick={() => applyTurboSeg(false, isRestricted)}
                   className={`mode-btn mode-seg-btn mode-beast ${extremeActive ? 'active-beast' : ''}`}
-                  title={isRestricted ? '电池供电或受限供电下不可用，需接入原装电源适配器' : '高能狂暴：狂暴档内的高能/极限子模式'}
+                  title={isRestricted ? 'Not available on battery or restricted power; please connect the factory power adapter' : 'Extreme Beast: the high-power/limit sub-mode within Beast mode'}
                   style={isRestricted ? { opacity: 0.45, cursor: 'not-allowed', filter: 'grayscale(0.6)' } : undefined}
                 >
                   {extremeActive && !isRestricted && gcuOcChip()}
                   <div style={{ marginBottom: '2px' }}><Flame className="w-4 h-4 text-rose-400" /></div>
-                  <div className="mode-title">高能狂暴</div>
-                  <div className="mode-sub">{isRestricted ? '需圆口DC' : extremeActive ? '● 当前' : '高能'}</div>
+                  <div className="mode-title">Extreme Beast</div>
+                  <div className="mode-sub">{isRestricted ? 'Needs DC' : extremeActive ? '● Current' : 'Extreme'}</div>
                 </button>
               </div>
               {turboSub.error && <div role="alert" className="mode-sub">{turboSub.error}</div>}
@@ -207,9 +207,9 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({
             className={`mode-btn ${mode.id === 3 ? 'mode-beast' : ''} ${getActiveClass(mode.id)}`}
             title={
               isRestricted
-                ? '电池供电或受限供电下不可用，需接入原装电源适配器'
+                ? 'Unavailable on battery or limited power. Connect the original AC adapter.'
                 : isCustom
-                ? (isLight ? '点击直接打开自定义风扇曲线调校' : (isActive ? '已激活自定义模式，点击可直接打开硬件参数调校' : `${mode.nameEn} - ${mode.desc}`))
+                ? (isLight ? 'Open custom fan-curve tuning' : (isActive ? 'Custom mode is active. Click to open hardware tuning.' : `${mode.nameEn} - ${mode.desc}`))
                 : `${mode.nameEn} - ${mode.desc}`
             }
             style={{
@@ -250,29 +250,29 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({
                   cursor: 'pointer',
                   boxShadow: '0 0 6px rgba(168, 85, 247, 0.4)',
                 }}
-                title="打开自定义硬件参数调校"
+                title="Open custom hardware tuning"
               >
                 <Settings2 className="w-2.5 h-2.5" />
-                <span>调校</span>
+                <span>Tune</span>
               </div>
             )}
 
             <div style={{ marginBottom: '2px' }}>{getIcon(mode.id)}</div>
-            <div className="mode-title">{mode.name.replace('模式', '')}</div>
+            <div className="mode-title">{mode.name.replace('Mode', '')}</div>
             <div className="mode-sub">
               {isRestricted
-                ? '需圆口DC'
+                ? 'Barrel-jack power required'
                 : isActive
                 ? isCustom
-                  ? '● 极客调校'
-                  : '● 当前'
+                  ? '● Enthusiast Tuning'
+                  : '● Current'
                 : mode.id === 1
-                ? '静音'
+                ? 'Silent'
                 : mode.id === 2
-                ? '日常'
+                ? 'Everyday'
                 : mode.id === 3
-                ? '狂暴'
-                : '极客'}
+                ? 'Performance'
+                : 'Enthusiast'}
             </div>
           </button>
         );

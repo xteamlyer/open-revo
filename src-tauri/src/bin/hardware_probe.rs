@@ -81,14 +81,14 @@ fn main() {
     println!("[EC Controller Status]");
     let power_mode = ec.get_power_mode();
     let mode_str = match power_mode {
-        1 => "1 (Office / 办公)",
-        2 => "2 (Balance / 均衡)",
-        3 => "3 (Beast / 狂暴)",
-        4 => "4 (Custom / 自定义)",
+        1 => "1 (Office)",
+        2 => "2 (Balance)",
+        3 => "3 (Beast)",
+        4 => "4 (Custom)",
         other => Box::leak(format!("{} (Unknown)", other).into_boxed_str()),
     };
     println!("  - Power Mode:          {}", mode_str);
-    println!("  - Fan Boost Max:       {}", if ec.is_fan_boost() { "ON (开启)" } else { "OFF (自动)" });
+    println!("  - Fan Boost Max:       {}", if ec.is_fan_boost() { "ON" } else { "OFF" });
     println!("  - Battery Limit:       {}%", ec.get_battery_limit());
     println!("  - CPU Temperature:     {} °C", ec.get_cpu_temp());
     println!("  - GPU Temperature:     {} °C", ec.get_gpu_temp());

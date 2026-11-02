@@ -154,20 +154,20 @@ export const DrawerDisplayCard: React.FC<DrawerDisplayCardProps> = ({
   return (
     <>
       {/* =========================================================
-          第 3 排：屏幕刷新率 (多显示器自适应，四个按钮严格各占 1/4)
+          Row 3: Display refresh rate (adaptive for multiple displays; four equal-width buttons)
           ========================================================= */}
       <div className="m-card" style={{ position: 'relative', zIndex: showMonMenu ? 200 : 1 }}>
         <div className="m-card-header" style={{ position: 'relative', zIndex: 10 }}>
           <div className="m-header-left">
             <Tv size={13} style={{ color: 'var(--theme-hz)' }} />
-            <span>屏幕刷新率:</span>
+            <span>Display Refresh Rate:</span>
             <span style={{ color: 'var(--theme-hz)', fontWeight: 700 }}>{currentHz}Hz</span>
           </div>
 
           <div className="m-header-right" style={{ display: 'flex', alignItems: 'center' }}>
             {monitors.length <= 1 ? (
               <span style={{ color: 'var(--theme-hz)', fontSize: '10px' }}>
-                {activeMon ? activeMon.friendly_name : '2.5K 屏'}
+                {activeMon ? activeMon.friendly_name : '2.5K Display'}
               </span>
             ) : (
               /* 多显示器微型下拉选择器 (纯黑不透底，杜绝折行溢出) */
@@ -175,11 +175,11 @@ export const DrawerDisplayCard: React.FC<DrawerDisplayCardProps> = ({
                 <button
                   className="m-mon-selector-btn"
                   onClick={() => setShowMonMenu(!showMonMenu)}
-                  title="点击切换当前调控的显示器"
+                  title="Switch the display being adjusted"
                 >
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
                     {activeMon?.is_internal ? <Laptop size={11} /> : <Tv size={11} />}
-                    {activeMon?.friendly_name?.split(' ')[0] || '屏幕'} · {currentHz}Hz
+                    {activeMon?.friendly_name?.split(' ')[0] || 'Display'} · {currentHz}Hz
                   </span>
                   <ChevronDown size={10} />
                 </button>
@@ -225,10 +225,10 @@ export const DrawerDisplayCard: React.FC<DrawerDisplayCardProps> = ({
                 : {}
             }
             onClick={handleToggleAutoMinHz}
-            title="拔掉充电器时自动将内置屏幕切换至最低支持刷新率以延长续航 (外接屏不受影响)"
+            title="Automatically switch the built-in display to its lowest supported refresh rate when unplugged to extend battery life (external displays are unaffected)"
           >
             <Battery size={12} />
-            <span>拔电低刷</span>
+            <span>Low Refresh Rate on Battery</span>
           </button>
 
           {/* 2/4: 最低档 */}
@@ -282,7 +282,7 @@ export const DrawerDisplayCard: React.FC<DrawerDisplayCardProps> = ({
               }
               onClick={() => setShowHzMenu(!showHzMenu)}
             >
-              <span>{rates.intermediate.includes(currentHz) ? `${currentHz}Hz` : '更多'}</span>
+              <span>{rates.intermediate.includes(currentHz) ? `${currentHz}Hz` : 'More'}</span>
               <ChevronDown size={10} />
             </button>
 
@@ -308,19 +308,19 @@ export const DrawerDisplayCard: React.FC<DrawerDisplayCardProps> = ({
       </div>
 
       {/* =========================================================
-          第 4 排：屏幕亮度
+          Row 4: Display Brightness
           ========================================================= */}
       <div className="m-card">
         <div className="m-card-header">
           <div className="m-header-left">
             <Sun size={13} style={{ color: 'var(--theme-lux)' }} />
-            <span>屏幕亮度:</span>
+            <span>Display Brightness:</span>
             <span style={{ color: 'var(--theme-lux)', fontWeight: 700 }}>{brightness}%</span>
           </div>
           <div style={{ display: 'flex', gap: '5px' }}>
-            <div className="m-chip" onClick={() => handleBrightnessQuick(25)}>暗光 25%</div>
-            <div className="m-chip" onClick={() => handleBrightnessQuick(60)}>室内 60%</div>
-            <div className="m-chip" onClick={() => handleBrightnessQuick(100)}>户外 100%</div>
+            <div className="m-chip" onClick={() => handleBrightnessQuick(25)}>Dim 25%</div>
+            <div className="m-chip" onClick={() => handleBrightnessQuick(60)}>Indoor 60%</div>
+            <div className="m-chip" onClick={() => handleBrightnessQuick(100)}>Outdoor 100%</div>
           </div>
         </div>
 

@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="dark" />
-  <title>同方原厂云端校色助手</title>
+  <title>TongFang Factory Cloud ICC Assistant</title>
   <style>
     :root {
       color-scheme: dark;
@@ -429,23 +429,23 @@
         </div>
         <div>
           <div class="hero-title">
-            同方原厂云端校色助手
+            TongFang Factory Cloud ICC Assistant
             <span class="hero-badge">Cloud ICC v1.1</span>
           </div>
           <div class="hero-desc">
-            40/50 系多通道分流架构：针对 40 系自动定向 Uniwill 节点 (MAC 检索)，50 系定向 Aistone 节点并支持广色域多档位解压。
+            40/50-series multi-channel routing architecture: 40-series models are automatically routed to the Uniwill node (MAC lookup), while 50-series models are routed to the Aistone node with wide-gamut multi-profile archive extraction.
           </div>
         </div>
       </div>
       <div>
-        <button id="btnRefreshIdentity" class="btn btn-secondary" title="重新读取屏幕与主板硬件信息">
+        <button id="btnRefreshIdentity" class="btn btn-secondary" title="Re-read the screen and board hardware information">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
             <path d="M21 3v5h-5"/>
             <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
             <path d="M8 16H3v5"/>
           </svg>
-          重新探测
+          Re-probe
         </button>
       </div>
     </div>
@@ -459,30 +459,30 @@
             <line x1="8" x2="16" y1="21" y2="21"/>
             <line x1="12" x2="12" y1="17" y2="21"/>
           </svg>
-          本机硬件指纹库 (Hardware Fingerprint)
+          Local hardware fingerprint library (Hardware Fingerprint)
         </div>
-        <span id="identStatus" class="hero-badge">探测中...</span>
+        <span id="identStatus" class="hero-badge">Probing...</span>
       </div>
 
       <div class="grid-props">
         <div class="prop-item">
-          <div class="prop-label">声明式驱动架构 (Hardware Truth)</div>
+          <div class="prop-label">Declarative driver architecture (Hardware Truth)</div>
           <div id="valArch" class="prop-value" style="color: var(--status-info);">--</div>
         </div>
         <div class="prop-item">
-          <div class="prop-label">屏幕面板 PnP 代码 (EDID)</div>
+          <div class="prop-label">Panel PnP code (EDID)</div>
           <div id="valPnp" class="prop-value">--</div>
         </div>
         <div class="prop-item">
-          <div class="prop-label">屏幕序列号 (Panel SN)</div>
+          <div class="prop-label">Panel serial number (Panel SN)</div>
           <div id="valPanelSn" class="prop-value">--</div>
         </div>
         <div class="prop-item">
-          <div class="prop-label">主机 BIOS 序列号</div>
+          <div class="prop-label">Host BIOS serial number</div>
           <div id="valBiosSn" class="prop-value">--</div>
         </div>
         <div class="prop-item">
-          <div class="prop-label">物理网卡 MAC 地址</div>
+          <div class="prop-label">Physical NIC MAC address</div>
           <div id="valMac" class="prop-value">--</div>
         </div>
       </div>
@@ -496,17 +496,17 @@
             <circle cx="12" cy="12" r="10"/>
             <path d="m10 15 5-3-5-3v6Z"/>
           </svg>
-          云端校色探测与匹配中心
+          Cloud ICC probe and matching center
         </div>
       </div>
 
       <div class="control-row">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-size: 12px; color: var(--text-dim);">机型架构：</span>
+          <span style="font-size: 12px; color: var(--text-dim);">Chassis architecture:</span>
           <div class="segment-group">
-            <button class="segment-btn active" data-mode="auto">智能自动 (50系 $\rightarrow$ 40系)</button>
-            <button class="segment-btn" data-mode="40">40 系 (Uniwill · MAC检索)</button>
-            <button class="segment-btn" data-mode="50">50 系 (Aistone · SN检索)</button>
+            <button class="segment-btn active" data-mode="auto">Smart auto (50-series $\rightarrow$ 40-series)</button>
+            <button class="segment-btn" data-mode="40">40-series (Uniwill · MAC lookup)</button>
+            <button class="segment-btn" data-mode="50">50-series (Aistone · SN lookup)</button>
           </div>
         </div>
 
@@ -515,7 +515,7 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="5 3 19 12 5 21 5 3"/>
             </svg>
-            开始云端检索
+            Start the cloud lookup
           </button>
         </div>
       </div>
@@ -531,7 +531,7 @@
             </div>
             <div>
               <div id="hitFileName" class="result-name">BOE0B87_B025AA6D0A6A.icm</div>
-              <div id="hitMeta" class="result-meta">大小: 20.2 KB · 包含有效 acsp 签名 · 原厂出厂专属调校</div>
+              <div id="hitMeta" class="result-meta">Size: 20.2 KB · contains a valid acsp signature · factory-exclusive tuning</div>
             </div>
           </div>
           <div class="result-actions">
@@ -539,20 +539,20 @@
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 6 9 17l-5-5"/>
               </svg>
-              应用所选校色
+              Apply the selected profile
             </button>
-            <button id="btnApplyAll" class="btn btn-secondary hidden" title="将压缩包内的全部校色档导入 OpenRevo">
-              批量导入全部档位
+            <button id="btnApplyAll" class="btn btn-secondary hidden" title="Import every profile inside the archive into OpenRevo">
+              Bulk-import all profiles
             </button>
             <button id="btnSaveLocal" class="btn btn-secondary">
-              下载备份
+              Download backup
             </button>
           </div>
         </div>
 
         <!-- Multi-profile Dropdown (For 50 Series Wide Color Gamut ZIP packages) -->
         <div id="profileSelectRow" class="profile-select-row hidden">
-          <span class="profile-select-label">选择要应用的色彩配置：</span>
+          <span class="profile-select-label">Pick the color profile to apply:</span>
           <select id="profileDropdown" class="rev-select"></select>
         </div>
       </div>
@@ -560,8 +560,8 @@
       <!-- Realtime Log Console -->
       <div id="consoleLog" class="console-card">
         <div class="log-line">
-          <span class="log-time">[准备就绪]</span>
-          <span class="log-info">选择机型架构后点击“开始云端检索”，系统将自动分流定向至官方出厂校色节点。</span>
+          <span class="log-time">[Ready]</span>
+          <span class="log-info">Pick the chassis architecture and click "Start the cloud lookup"; the system will automatically route you to the official factory ICC node.</span>
         </div>
       </div>
     </div>
@@ -627,21 +627,21 @@
 
     // --- Load Identity ---
     async function refreshIdentity() {
-      DOM.identStatus.textContent = '探测中...';
+      DOM.identStatus.textContent = 'Probing...';
       try {
         const id = await rpc('get_cloud_icc_identity');
         STATE.identity = id;
 
         const mainMon = id.monitors.find(m => m.is_internal) || id.monitors[0];
-        DOM.valArch.textContent = id.arch_name || '未知架构';
-        DOM.valPnp.textContent = mainMon ? mainMon.pnp : '未检出';
-        DOM.valPanelSn.textContent = (mainMon && mainMon.panel_serial) ? mainMon.panel_serial : '(无独立面板SN)';
-        DOM.valBiosSn.textContent = id.bios_serial || '未检出';
-        DOM.valMac.textContent = id.mac_addresses.length > 0 ? id.mac_addresses.join(' / ') : '未检出';
+        DOM.valArch.textContent = id.arch_name || 'Unknown architecture';
+        DOM.valPnp.textContent = mainMon ? mainMon.pnp : 'Not detected';
+        DOM.valPanelSn.textContent = (mainMon && mainMon.panel_serial) ? mainMon.panel_serial : '(no dedicated panel SN)';
+        DOM.valBiosSn.textContent = id.bios_serial || 'Not detected';
+        DOM.valMac.textContent = id.mac_addresses.length > 0 ? id.mac_addresses.join(' / ') : 'Not detected';
 
-        DOM.identStatus.textContent = `就绪 (发现 ${id.monitors.length} 块显示屏)`;
+        DOM.identStatus.textContent = `Ready (${id.monitors.length} display(s) found)`;
         DOM.identStatus.style.color = 'var(--status-ok)';
-        appendLog('info', `[硬件真值识别] 声明式底层架构：${id.arch_name}，PnP=${mainMon ? mainMon.pnp : 'None'}，MAC数=${id.mac_addresses.length}`);
+        appendLog('info', `[Hardware truth] Declarative low-level architecture: ${id.arch_name}, PnP=${mainMon ? mainMon.pnp : 'None'}, MAC count=${id.mac_addresses.length}`);
 
         // Automatically switch segment button to hardware recommended method
         if (id.recommended_method) {
@@ -652,9 +652,9 @@
           });
         }
       } catch (err) {
-        DOM.identStatus.textContent = '探测失败';
+        DOM.identStatus.textContent = 'Probe failed';
         DOM.identStatus.style.color = 'var(--status-error)';
-        appendLog('warn', `硬件识别异常: ${err.message || err}`);
+        appendLog('warn', `Hardware identification error: ${err.message || err}`);
       }
     }
 
@@ -664,7 +664,7 @@
         document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         STATE.mode = btn.dataset.mode;
-        appendLog('info', `已选择检索架构：${btn.textContent}`);
+        appendLog('info', `Lookup architecture selected: ${btn.textContent}`);
       });
     });
 
@@ -674,7 +674,7 @@
         await refreshIdentity();
       }
       if (!STATE.identity) {
-        alert('无法获取本机硬件识别码，请先点击重新探测');
+        alert('Could not obtain the local hardware identity. Please click re-probe first.');
         return;
       }
 
@@ -689,25 +689,25 @@
       let candidateQueue = [];
       if (STATE.mode === '50') {
         // 50 series: SN candidates first with method="50"
-        candidateQueue = STATE.identity.candidates_method1.map(c => ({ name: c, method: '50', label: '50系专属(SN)' }));
+        candidateQueue = STATE.identity.candidates_method1.map(c => ({ name: c, method: '50', label: '50-series exclusive (SN)' }));
       } else if (STATE.mode === '40') {
         // 40 series: MAC candidates first with method="40"
-        candidateQueue = STATE.identity.candidates_method2.map(c => ({ name: c, method: '40', label: '40系专属(MAC)' }));
+        candidateQueue = STATE.identity.candidates_method2.map(c => ({ name: c, method: '40', label: '40-series exclusive (MAC)' }));
       } else {
         // Auto mode: 50 series first, then 40 series, then fallback
         candidateQueue = [
-          ...STATE.identity.candidates_method1.map(c => ({ name: c, method: '50', label: '方法1 [50系 Aistone]' })),
-          ...STATE.identity.candidates_method2.map(c => ({ name: c, method: '40', label: '方法2 [40系 Uniwill]' })),
-          ...STATE.identity.candidates_fallback.map(c => ({ name: c, method: 'auto', label: '方法3 [通用兜底]' })),
+          ...STATE.identity.candidates_method1.map(c => ({ name: c, method: '50', label: 'Method 1 [50-series Aistone]' })),
+          ...STATE.identity.candidates_method2.map(c => ({ name: c, method: '40', label: 'Method 2 [40-series Uniwill]' })),
+          ...STATE.identity.candidates_fallback.map(c => ({ name: c, method: 'auto', label: 'Method 3 [generic fallback]' })),
         ];
       }
 
-      appendLog('info', `启动分流检索队列，共计 ${candidateQueue.length} 个候选方案...`);
+      appendLog('info', `Starting the routed lookup queue, ${candidateQueue.length} candidate(s) in total...`);
 
       let hit = null;
       for (let i = 0; i < candidateQueue.length; i++) {
         const item = candidateQueue[i];
-        appendLog('info', `正在检索 [${i + 1}/${candidateQueue.length}] ${item.label} -> ${item.name}...`);
+        appendLog('info', `Looking up [${i + 1}/${candidateQueue.length}] ${item.label} -> ${item.name}...`);
         try {
           const res = await rpc('fetch_cloud_icc_profile', {
             candidate: item.name,
@@ -716,11 +716,11 @@
           if (res && res.icc_profiles && res.icc_profiles.length > 0) {
             hit = res;
             const profileCount = res.icc_profiles.length;
-            appendLog('hit', `🎯 成功命中！来源: ${res.server_url.includes('uniwill') ? 'Uniwill 台湾' : 'Aistone 8001'}，解包获得 ${profileCount} 个校色文件！`);
+            appendLog('hit', `🎯 Match found! Source: ${res.server_url.includes('uniwill') ? 'Uniwill Taiwan' : 'Aistone 8001'}, unpacked ${profileCount} ICC file(s)!`);
             break;
           }
         } catch (e) {
-          appendLog('miss', `未命中: ${item.name}`);
+          appendLog('miss', `No match: ${item.name}`);
         }
       }
 
@@ -734,7 +734,7 @@
         
         const isUniwill = hit.server_url.includes('uniwill');
         const count = hit.icc_profiles.length;
-        DOM.hitMeta.textContent = `总包大小: ${(hit.file_size / 1024).toFixed(1)} KB · 节点: ${isUniwill ? 'Uniwill (40系)' : 'Aistone (50系)'} · 内含 ${count} 个有效色彩配置`;
+        DOM.hitMeta.textContent = `Total size: ${(hit.file_size / 1024).toFixed(1)} KB · Node: ${isUniwill ? 'Uniwill (40-series)' : 'Aistone (50-series)'} · Contains ${count} valid color profile(s)`;
 
         // Handle multiple profiles inside ZIP
         DOM.profileDropdown.innerHTML = '';
@@ -755,14 +755,14 @@
 
         DOM.resultBanner.classList.remove('hidden');
       } else {
-        appendLog('warn', `所有指定路径均未命中，当前机型可能未在所选服务器留存出厂专属校色。`);
+        appendLog('warn', `None of the specified paths matched. This model may not have a factory-exclusive profile stored on the selected server.`);
       }
     }
 
     DOM.profileDropdown.addEventListener('change', (e) => {
       STATE.selectedProfileIndex = parseInt(e.target.value, 10) || 0;
       const cur = STATE.hitResult.icc_profiles[STATE.selectedProfileIndex];
-      appendLog('info', `当前选定色彩配置：${cur.file_name}`);
+      appendLog('info', `Currently selected color profile: ${cur.file_name}`);
     });
 
     // --- Apply Single Profile ---
@@ -772,10 +772,10 @@
 
       DOM.btnApply.disabled = true;
       const originalText = DOM.btnApply.innerHTML;
-      DOM.btnApply.innerHTML = '正在注册并应用...';
+      DOM.btnApply.innerHTML = 'Registering and applying...';
 
       try {
-        appendLog('info', `正在将 ${target.file_name} 注册至系统颜色库...`);
+        appendLog('info', `Registering ${target.file_name} with the system color library...`);
         const importRes = await rpc('import_custom_color_profile', {
           fileName: target.file_name,
           fileBytes: target.file_bytes,
@@ -789,15 +789,15 @@
           });
         }
 
-        appendLog('hit', `✅ 出厂色彩配置 [${target.file_name}] 已成功应用至当前显示器！`);
-        DOM.btnApply.innerHTML = '✔ 应用生效';
+        appendLog('hit', `✅ The factory color profile [${target.file_name}] has been applied to the current display!`);
+        DOM.btnApply.innerHTML = '✔ Applied';
         setTimeout(() => {
           DOM.btnApply.innerHTML = originalText;
           DOM.btnApply.disabled = false;
         }, 3000);
       } catch (err) {
-        appendLog('warn', `应用失败: ${err.message || err}`);
-        alert(`应用失败: ${err.message || err}`);
+        appendLog('warn', `Apply failed: ${err.message || err}`);
+        alert(`Apply failed: ${err.message || err}`);
         DOM.btnApply.innerHTML = originalText;
         DOM.btnApply.disabled = false;
       }
@@ -807,7 +807,7 @@
     async function applyAllProfiles() {
       if (!STATE.hitResult || STATE.hitResult.icc_profiles.length <= 1) return;
       DOM.btnApplyAll.disabled = true;
-      appendLog('info', `开始批量导入 ${STATE.hitResult.icc_profiles.length} 个色彩档位至 OpenRevo 方案库...`);
+      appendLog('info', `Starting the bulk import of ${STATE.hitResult.icc_profiles.length} color profiles into the OpenRevo profile library...`);
 
       try {
         let lastId = null;
@@ -824,14 +824,14 @@
           await rpc('apply_color_profile', { profileId: lastId, deviceName: null });
         }
 
-        appendLog('hit', `🎉 全部 ${STATE.hitResult.icc_profiles.length} 个原厂色彩配置已全量导入并同步至显卡色彩管理！`);
-        DOM.btnApplyAll.textContent = '✔ 批量导入成功';
+        appendLog('hit', `🎉 All ${STATE.hitResult.icc_profiles.length} factory color profiles have been imported in full and synced to the GPU color management!`);
+        DOM.btnApplyAll.textContent = '✔ Bulk import done';
         setTimeout(() => {
-          DOM.btnApplyAll.textContent = '批量导入全部档位';
+          DOM.btnApplyAll.textContent = 'Bulk-import all profiles';
           DOM.btnApplyAll.disabled = false;
         }, 3000);
       } catch (err) {
-        appendLog('warn', `批量导入中断: ${err.message || err}`);
+        appendLog('warn', `Bulk import interrupted: ${err.message || err}`);
         DOM.btnApplyAll.disabled = false;
       }
     }
@@ -852,7 +852,7 @@
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      appendLog('info', `已保存文件至本地：${fileName}`);
+      appendLog('info', `File saved locally: ${fileName}`);
     }
 
     // Events
