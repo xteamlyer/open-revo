@@ -514,22 +514,22 @@ pub fn set_windows_power_overlay(ui_mode: u8) -> Result<(), String> {
             if is_thin_light {
                 (
                     &GUID_BALANCED as *const GUID,
-                    "GUID_BALANCED (平衡-轻薄本保留硬件EC功耗)",
+                    "GUID_BALANCED (balanced - thin and light keeps the hardware EC power envelope)",
                 )
             } else {
                 (
                     &GUID_OFFICE_SAVER as *const GUID,
-                    "GUID_OFFICE_SAVER (最佳能效)",
+                    "GUID_OFFICE_SAVER (best power efficiency)",
                 )
             }
         }
-        2 => (&GUID_BALANCED as *const GUID, "GUID_BALANCED (平衡)"),
+        2 => (&GUID_BALANCED as *const GUID, "GUID_BALANCED (Balanced)"),
         3 => (
             &GUID_TURBO_PERF as *const GUID,
-            "GUID_TURBO_PERF (最佳性能)",
+            "GUID_TURBO_PERF (best performance)",
         ),
-        4 => (&GUID_BALANCED as *const GUID, "GUID_BALANCED (平衡)"),
-        _ => (&GUID_BALANCED as *const GUID, "GUID_BALANCED (平衡)"),
+        4 => (&GUID_BALANCED as *const GUID, "GUID_BALANCED (Balanced)"),
+        _ => (&GUID_BALANCED as *const GUID, "GUID_BALANCED (Balanced)"),
     };
 
     set_active_overlay_scheme(guid_ptr)

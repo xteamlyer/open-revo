@@ -1,9 +1,9 @@
 {
   "id": "battery-hardware-limit",
-  "name": "电池充电上限守护者",
+  "name": "Battery Charge Limit Guardian",
   "version": "2.1.0",
   "author": "OpenRevo Official & Community",
-  "description": "官方演示插件：基于微内核硬件网关的多协议底层限充调控中心，支持同方脉冲存储法与宝龙达双阈值协议，自由设定 1~100% 充电阈值，全参数支持机型与目标双轨沙盒持久化。",
+  "description": "Official sample plugin: a multi-protocol low-level charge-limit control center built on the microkernel hardware gateway. Supports the TongFang pulse-storage method and the Bld dual-threshold protocol, freely setting a 1-100% charge threshold, with every parameter persisted per model and per target in a dual-track sandbox.",
   "type": "tab",
   "min_host_version": "0.9.4",
   "window": {
@@ -18,7 +18,7 @@
     "default_strategy": "tongfang_pulse",
     "strategies": {
       "tongfang_pulse": {
-        "name": "同方系脉冲触发存储法 (耀世/无界/蛟龙/旷世)",
+        "name": "TongFang pulse-triggered storage method (YaoShi / Wujie / Jiaolong / Kuangshi)",
         "protocol": "TongfangDirectEc",
         "limit_reg": 1977,
         "gate_reg": 1987,
@@ -30,14 +30,14 @@
         "status_bit": 2
       },
       "generic_wmi": {
-        "name": "通用 ACPI-WMI MULONG 邮箱通道",
+        "name": "Generic ACPI-WMI MULONG mailbox channel",
         "protocol": "GenericAcpiWmi",
         "limit_reg": 1977,
         "gate_reg": 1987,
         "storage_reg": 2175
       },
       "bld_mailbox": {
-        "name": "宝龙达 WMI Mailbox 协议",
+        "name": "Bld WMI Mailbox protocol",
         "protocol": "BldWmiMailbox",
         "cmd_battery": 16,
         "subcmd_limit": 13,

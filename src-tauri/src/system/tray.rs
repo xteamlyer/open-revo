@@ -102,28 +102,28 @@ pub fn build_tray_menu(
         .map(|w| crate::system::window::is_window_expanded(&w))
         .unwrap_or(false);
 
-    let full_panel_item = CheckMenuItem::with_id(app, "mode_full_panel", "🖥️ 完整面板", true, is_expanded, None::<&str>)?;
-    let mini_drawer_item = CheckMenuItem::with_id(app, "mode_mini_drawer", "🪟 迷你抽屉", true, !is_expanded, None::<&str>)?;
-    let turn_off_screen_item = MenuItem::with_id(app, "turn_off_screen", "🌙 关闭屏幕 (3秒防误触)", true, None::<&str>)?;
+    let full_panel_item = CheckMenuItem::with_id(app, "mode_full_panel", "🖥️ Full Panel", true, is_expanded, None::<&str>)?;
+    let mini_drawer_item = CheckMenuItem::with_id(app, "mode_mini_drawer", "🪟 Mini Drawer", true, !is_expanded, None::<&str>)?;
+    let turn_off_screen_item = MenuItem::with_id(app, "turn_off_screen", "🌙 Turn Off Screen (3s mistouch guard)", true, None::<&str>)?;
     let sep1 = PredefinedMenuItem::separator(app)?;
 
     let initial_mode = ec.lock().get_power_mode();
     let initial_fan = ec.lock().is_fan_boost();
 
-    let office_item = CheckMenuItem::with_id(app, "mode_office", "办公模式 (Office)", true, initial_mode == 1, None::<&str>)?;
-    let balance_item = CheckMenuItem::with_id(app, "mode_balance", "均衡模式 (Balance)", true, initial_mode == 2, None::<&str>)?;
-    let beast_item = CheckMenuItem::with_id(app, "mode_beast", "狂暴模式 (Beast)", true, initial_mode == 3, None::<&str>)?;
-    let custom_item = CheckMenuItem::with_id(app, "mode_custom", "极客调校 (Custom)", true, initial_mode == 4, None::<&str>)?;
+    let office_item = CheckMenuItem::with_id(app, "mode_office", "Office Mode", true, initial_mode == 1, None::<&str>)?;
+    let balance_item = CheckMenuItem::with_id(app, "mode_balance", "Balanced Mode", true, initial_mode == 2, None::<&str>)?;
+    let beast_item = CheckMenuItem::with_id(app, "mode_beast", "Beast Mode", true, initial_mode == 3, None::<&str>)?;
+    let custom_item = CheckMenuItem::with_id(app, "mode_custom", "Custom Tuning", true, initial_mode == 4, None::<&str>)?;
 
     let sep2 = PredefinedMenuItem::separator(app)?;
 
-    let fan_boost_item = CheckMenuItem::with_id(app, "toggle_fan", "一键强冷 (Fan Boost)", true, initial_fan, None::<&str>)?;
-    let oem_toggle_item = MenuItem::with_id(app, "takeover_toggle", "🔄 接管/恢复 官方后台服务", true, None::<&str>)?;
+    let fan_boost_item = CheckMenuItem::with_id(app, "toggle_fan", "Fan Boost", true, initial_fan, None::<&str>)?;
+    let oem_toggle_item = MenuItem::with_id(app, "takeover_toggle", "🔄 Take Over / Restore Official Service", true, None::<&str>)?;
 
     let sep3 = PredefinedMenuItem::separator(app)?;
 
     let notice_item = MenuItem::with_id(app, "notice", &format!("🛡️ {}", app_version_display()), false, None::<&str>)?;
-    let quit_item = MenuItem::with_id(app, "quit", "退出 OpenRevo", true, None::<&str>)?;
+    let quit_item = MenuItem::with_id(app, "quit", "Quit OpenRevo", true, None::<&str>)?;
 
     let _ = TRAY_MENU_CONTROLS.set(TrayMenuControls {
         full_panel: full_panel_item.clone(),
@@ -164,15 +164,15 @@ pub fn handle_tray_menu_event(
 ) {
     match event_id {
         "mode_full_panel" => {
-            crate::log_info!("TRAY", "Menu 'mode_full_panel' (完整面板) clicked");
+            crate::log_info!("TRAY", "Menu 'mode_full_panel' (full panel) clicked");
             crate::system::window::switch_to_full_panel(app_handle);
         }
         "mode_mini_drawer" => {
-            crate::log_info!("TRAY", "Menu 'mode_mini_drawer' (迷你抽屉) clicked");
+            crate::log_info!("TRAY", "Menu 'mode_mini_drawer' (mini drawer) clicked");
             crate::system::window::switch_to_mini_drawer(app_handle);
         }
         "turn_off_screen" => {
-            crate::log_info!("TRAY", "Menu 'turn_off_screen' (关闭屏幕) clicked");
+            crate::log_info!("TRAY", "Menu 'turn_off_screen' (turn off screen) clicked");
             let _ = crate::system::switches::turn_off_screen();
         }
         "mode_office" => {

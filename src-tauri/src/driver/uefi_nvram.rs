@@ -281,7 +281,7 @@ pub fn read_active_nvram() -> Result<NvramBuffer, String> {
 
     let err = unsafe { GetLastError() };
     Err(format!(
-        "UEFI NVRAM 未找到主板控制变量 (尝试了 OemMagicVariable 与 UniWillVariable, Win32 Error: {})",
+        "UEFI NVRAM: the board control variable was not found (tried OemMagicVariable and UniWillVariable, Win32 Error: {})",
         err
     ))
 }
@@ -613,7 +613,7 @@ pub fn probe_gpu_capabilities() -> GpuCapabilities {
                 supports_dgpu: false,
                 supports_hybrid: false,
                 supports_igpu_only: false,
-                reason_igpu_unsupported: Some("当前机型为纯核显轻薄架构（无物理独立显卡与 MUX 切换芯片），无需且不支持显卡模式切换。".to_string()),
+                reason_igpu_unsupported: Some("This model is a thin-and-light with an iGPU-only architecture (no physical discrete GPU and no MUX switch chip), so GPU mode switching is neither needed nor supported.".to_string()),
                 platform: platform_str,
                 is_50_series: false,
                 is_30_series: false,
@@ -641,7 +641,7 @@ pub fn probe_gpu_capabilities() -> GpuCapabilities {
                 reason_igpu_unsupported: if allow_geek {
                     None
                 } else {
-                    Some("当前模具为双显双模硬件架构（支持独显直连与混合输出），无物理核显直连走线，已锁定保护以防黑屏。".to_string())
+                    Some("This chassis has a dual-GPU dual-mode hardware architecture (supporting dGPU direct and hybrid output) with no physical iGPU direct routing; it is locked for protection against a black screen.".to_string())
                 },
                 platform: platform_str,
                 is_50_series: false,
@@ -698,7 +698,7 @@ pub fn evaluate_gpu_capabilities(
             supports_dgpu: false,
             supports_hybrid: false,
             supports_igpu_only: false,
-            reason_igpu_unsupported: Some("当前机型为纯核显轻薄架构（无物理独立显卡与 MUX 切换芯片），无需且不支持显卡模式切换。".to_string()),
+            reason_igpu_unsupported: Some("This model is a thin-and-light with an iGPU-only architecture (no physical discrete GPU and no MUX switch chip), so GPU mode switching is neither needed nor supported.".to_string()),
             platform,
             is_50_series: false,
             is_30_series: false,
@@ -723,7 +723,7 @@ pub fn evaluate_gpu_capabilities(
             supports_hybrid: true,
             supports_igpu_only: false,
             reason_igpu_unsupported: Some(format!(
-                "当前机型搭载的处理器 ({}) 物理未集成核显硬件单元 (No iGPU Silicon)。主板无核显直连走线，已启用不可旁路的硬件防变砖硬锁，禁止切换至纯核显模式以防黑屏！",
+                "The processor in this model ({}) physically has no integrated GPU silicon (No iGPU Silicon). The board has no iGPU direct routing, and an unbypassable hardware anti-brick lock is enabled. Switching to iGPU-only mode is forbidden to prevent a black screen!",
                 cpu_name
             )),
             platform,
@@ -761,7 +761,7 @@ pub fn evaluate_gpu_capabilities(
             supports_dgpu: false,
             supports_hybrid: true,
             supports_igpu_only: false,
-            reason_igpu_unsupported: Some("当前模具为前代独显混合输出架构 (NVIDIA Optimus)，主板未搭载 MUX 切换开关芯片，由系统与显卡驱动自动协同调度。".to_string()),
+            reason_igpu_unsupported: Some("This chassis uses a previous-generation discrete-GPU hybrid output architecture (NVIDIA Optimus). The board has no MUX switch chip, and output is scheduled automatically by the system and the GPU driver.".to_string()),
             platform,
             is_50_series: false,
             is_30_series: true,
@@ -797,11 +797,11 @@ pub fn evaluate_gpu_capabilities(
 
         let reason = if is_dragon_range_hx {
             format!(
-                "当前机型搭载 AMD Dragon Range 桌面架构处理器 ({})，仅集成 2CU 亮机集显，硬件公模未配置核显内屏直连走线。已启用防变砖安全锁定。若您已在 BIOS 中确认存在核显直连选项，可开启极客模式解除保护。",
+                "This model is powered by an AMD Dragon Range desktop-architecture processor ({}) with only a 2CU display iGPU, and the reference board design has no iGPU internal-display direct routing. The anti-brick safety lock is enabled. If you have confirmed an iGPU direct option in the BIOS, you can enable Geek mode to lift the protection.",
                 cpu_name
             )
         } else {
-            "当前模具为前代双模固件架构 (Legacy Dual-Mode)。主板硬件未设计纯核显 (iGPU Only) 直连供电旁路，已启用安全保护锁定以防止开机黑屏变砖。".to_string()
+            "This chassis uses a legacy dual-mode firmware architecture (Legacy Dual-Mode). The board hardware has no iGPU-only direct power bypass, and the safety lock is enabled to prevent a black screen at boot.".to_string()
         };
 
         return GpuCapabilities {
@@ -850,7 +850,7 @@ pub fn evaluate_gpu_capabilities(
             supports_hybrid: true,
             supports_igpu_only: false,
             reason_igpu_unsupported: Some(
-                "硬件真理探测: 检测到未知机型或未经验证主板 DMI，已默认启用防黑屏安全锁定，禁止纯核显模式。混合输出与独显直连完全正常开放。若您已在 BIOS 中确认支持纯核显，可开启极客模式解除保护。".to_string()
+                "Hardware truth probe: an unknown model or unverified board DMI was detected, so the anti-black-screen safety lock is enabled by default and iGPU-only mode is blocked. Hybrid output and dGPU direct remain fully available. If you have confirmed iGPU-only support in the BIOS, you can enable Geek mode to lift the protection.".to_string()
             ),
             platform,
             is_50_series: is_50,
@@ -895,10 +895,10 @@ pub fn write_gpu_mode(target_mode: &str) -> Result<GpuModeHardwareStatus, String
     let caps = probe_gpu_capabilities();
     if target_norm == "igpu" && !caps.supports_igpu_only {
         let reason = caps.reason_igpu_unsupported.unwrap_or_else(|| {
-            "当前模具硬件不支持核显独占模式 (iGPU Only)。".to_string()
+            "This chassis hardware does not support iGPU-only mode.".to_string()
         });
         crate::log_error!("NVRAM_GPU", "Anti-brick safety guard intercepted illegal iGPU write: {}", reason);
-        return Err(format!("【安全拦截】已阻止写入核显模式以防止主板黑屏变砖！\n{}", reason));
+        return Err(format!("[Safety block] Writing iGPU mode was blocked to prevent a black screen / bricked board!\n{}", reason));
     }
 
     // 0. Declarative Driver Contract First (Level 0 Architecture - e.g. Baolongda Jiaolong 16 Pro)
@@ -908,7 +908,7 @@ pub fn write_gpu_mode(target_mode: &str) -> Result<GpuModeHardwareStatus, String
                 "dgpu" => true,
                 "hybrid" => false,
                 "igpu" => {
-                    return Err("当前模具硬件架构为双显双模，不支持纯核显屏蔽模式。已绝对安全拦截写入！".to_string());
+                    return Err("This chassis has a dual-GPU dual-mode hardware architecture and does not support iGPU-only blanking mode. The write was absolutely blocked for safety!".to_string());
                 }
                 other => return Err(format!("Unknown GPU mode '{}' for declarative driver", other)),
             };
@@ -1070,11 +1070,11 @@ pub fn reboot_system() -> Result<(), String> {
 pub fn execute_runtime_hotswitch(enable_igpu: bool) -> Result<(), String> {
     let current_hw = read_gpu_mode();
     if current_hw.current_mode == "dgpu" {
-        return Err("当前处于【独显直连】硬件输出状态，屏幕物理走线直连独显。必须重启电脑经由 BIOS 自检切换 MUX 开关，不支持免重启热切换！".to_string());
+        return Err("The system is currently in [dGPU Direct] hardware output mode, with the internal panel physically wired to the dGPU. You must reboot the computer so the BIOS POST can switch the MUX; reboot-free hot-switching is not supported!".to_string());
     }
 
     if !crate::driver::wmi_mulong::probe_hotswitch_support() {
-        return Err("当前模具主板或 BIOS 固件未实现 ACPI-WMI 无感热切换接口 (GetSetULong 0x30000000003 != 85)。".to_string());
+        return Err("This chassis board or BIOS firmware does not implement the ACPI-WMI seamless hot-switch interface (GetSetULong 0x30000000003 != 85).".to_string());
     }
 
     let target_mode = if enable_igpu { "igpu" } else { "hybrid" };
@@ -1128,7 +1128,7 @@ pub fn execute_runtime_hotswitch(enable_igpu: bool) -> Result<(), String> {
 pub fn write_bios_advanced_menu_status(enable: bool) -> Result<BiosMenuStatus, String> {
     let (_cpu_name, is_amd) = get_cpu_info();
     if is_amd {
-        return Err("AMD 平台采用 SMU/CBS 架构，主板固件无 Intel 超频菜单开关，已绝对安全拦截写入！".to_string());
+        return Err("AMD platforms use the SMU/CBS architecture and the board firmware has no Intel overclocking menu switch; the write was absolutely blocked for safety!".to_string());
     }
 
     let mut nv = read_active_nvram()?;
@@ -1138,7 +1138,7 @@ pub fn write_bios_advanced_menu_status(enable: bool) -> Result<BiosMenuStatus, S
 
     // Safety guard: Check if motherboard firmware actually supports either OC menu
     if !cpu_oc_supported && !mem_oc_supported {
-        return Err("当前机器主板固件或处理器未声明支持高级超频菜单 (CPU 与内存超频均未开放)，已安全拦截写入！".to_string());
+        return Err("This machine's board firmware or processor does not declare support for the advanced overclocking menu (neither CPU nor memory overclocking is open); the write was safely blocked!".to_string());
     }
 
     let target_byte = if enable { 0x01 } else { 0x00 };
@@ -1196,7 +1196,7 @@ mod tests {
         assert!(!caps.supports_igpu_only, "7435H must NEVER allow iGPU mode!");
         assert!(caps.is_safety_locked);
         assert!(!caps.user_unlocked, "7435H cannot be unlocked by geek mode!");
-        assert!(caps.reason_igpu_unsupported.unwrap().contains("物理未集成核显"));
+        assert!(caps.reason_igpu_unsupported.unwrap().contains("no integrated GPU silicon"));
     }
 
     #[test]

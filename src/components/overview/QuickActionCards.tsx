@@ -144,12 +144,12 @@ export const QuickActionCards: React.FC<QuickActionCardsProps> = ({
         isBldFanLock ? (
           <div
             className="glass-card bld-fan-card"
-            title="宝龙达模具风扇锁定：可在 0~5800 RPM 之间自由设定目标转速，开启后锁定转速，关闭后恢复 BIOS 自动温控"
+            title="Baolongda fan lock: set a target speed from 0 to 5800 RPM. Disable it to restore BIOS automatic fan control."
           >
             <div className="bld-fan-header">
               <div className="bld-fan-title-group">
                 <Fan className={`w-3.5 h-3.5 flex-shrink-0 ${status.fan_boost ? 'text-cyan-400 animate-spin' : 'text-cyan-400'}`} />
-                <span className="bld-fan-title">强冷锁速</span>
+                <span className="bld-fan-title">Fan Boost Speed Lock</span>
                 <span className={`bld-fan-rpm-badge ${status.fan_boost ? '' : 'inactive'}`}>
                   {bldRpm} RPM
                 </span>
@@ -157,9 +157,9 @@ export const QuickActionCards: React.FC<QuickActionCardsProps> = ({
               <button
                 onClick={handleBldSwitchToggle}
                 className={`bld-fan-switch ${status.fan_boost ? 'active' : ''}`}
-                title={status.fan_boost ? '点击关闭转速锁定，恢复原厂自动温控' : '点击开启风扇锁定'}
+                title={status.fan_boost ? 'Click to disable the fan speed lock and restore factory automatic control' : 'Click to lock fan speed'}
               >
-                {status.fan_boost ? '已锁定' : '自动'}
+                {status.fan_boost ? 'Locked' : 'Auto'}
               </button>
             </div>
             <div className="bld-fan-slider-row">
@@ -172,7 +172,7 @@ export const QuickActionCards: React.FC<QuickActionCardsProps> = ({
                 value={bldRpm}
                 onChange={(e) => handleBldRpmChange(Number(e.target.value))}
                 className="bld-fan-range"
-                title={`目标转速: ${bldRpm} RPM`}
+                title={`Target speed: ${bldRpm} RPM`}
               />
               <span className="bld-fan-limit-hint">5800</span>
             </div>
@@ -191,15 +191,15 @@ export const QuickActionCards: React.FC<QuickActionCardsProps> = ({
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Fan className="w-5 h-5 text-cyan-400 flex-shrink-0" />
               <div>
-                <div style={{ fontSize: '12px', fontWeight: 600 }}>一键强冷</div>
-                <div style={{ fontSize: '10px', color: 'var(--text-dim)' }}>最高转速极限降温</div>
+                <div style={{ fontSize: '12px', fontWeight: 600 }}>Fan Boost</div>
+                <div style={{ fontSize: '10px', color: 'var(--text-dim)' }}>Maximum fan speed for extreme cooling</div>
               </div>
             </div>
             <button
               onClick={() => checkOemGuard(onToggleFanBoost)}
               className={`toggle-btn ${status.fan_boost ? 'active-cyan' : ''}`}
             >
-              {status.fan_boost ? '已开启' : '关闭'}
+              {status.fan_boost ? 'Enabled' : 'Close'}
             </button>
           </div>
         )
@@ -208,7 +208,7 @@ export const QuickActionCards: React.FC<QuickActionCardsProps> = ({
       {/* 2. 拔电自动低刷 */}
       <div
         className="glass-card"
-        title="开启后，当断开电源适配器时自动将屏幕切换至面板支持的最低刷新率以最大化电池续航；若使用电池时手动调整了刷新率，将维持手动设定"
+        title="When enabled, unplugging the AC adapter automatically switches the built-in display to its lowest supported refresh rate to maximize battery life. Manual refresh-rate changes made on battery are preserved."
         style={{
           minWidth: '180px',
           display: 'flex',
@@ -220,15 +220,15 @@ export const QuickActionCards: React.FC<QuickActionCardsProps> = ({
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <ZapOff className={`w-5 h-5 ${autoMinRefresh ? 'text-indigo-400' : 'text-slate-400'} flex-shrink-0`} />
           <div>
-            <div style={{ fontSize: '12px', fontWeight: 600 }}>拔电自动低刷</div>
-            <div style={{ fontSize: '10px', color: 'var(--text-dim)' }}>离电续航最大化</div>
+            <div style={{ fontSize: '12px', fontWeight: 600 }}>Lower Refresh Rate on Battery</div>
+            <div style={{ fontSize: '10px', color: 'var(--text-dim)' }}>Maximize Battery Life</div>
           </div>
         </div>
         <button
           onClick={handleToggleAutoMinRefresh}
           className={`toggle-btn ${autoMinRefresh ? 'active-indigo' : ''}`}
         >
-          {autoMinRefresh ? '已开启' : '关闭'}
+          {autoMinRefresh ? 'Enabled' : 'Close'}
         </button>
       </div>
 
@@ -248,23 +248,23 @@ export const QuickActionCards: React.FC<QuickActionCardsProps> = ({
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: '130px', flexShrink: 0 }}>
           <Monitor className="w-5 h-5 text-indigo-400 flex-shrink-0" />
           <div>
-            <div style={{ fontSize: '12px', fontWeight: 600 }}>屏幕刷新率</div>
+            <div style={{ fontSize: '12px', fontWeight: 600 }}>Display Refresh Rate</div>
             {monitors.length <= 1 ? (
               <div style={{ fontSize: '10px', color: 'var(--text-dim)' }}>
-                {activeMon ? activeMon.friendly_name : '2.5K 屏'}
+                {activeMon ? activeMon.friendly_name : '2.5K Display'}
               </div>
             ) : (
               /* 多屏微型下拉选择器 */
               <div style={{ position: 'relative' }} onClick={(e) => e.stopPropagation()}>
                 <button
                   onClick={() => setShowMonMenu(!showMonMenu)}
-                  title="点击选择调控的显示器"
+                  title="Select a display to adjust"
                   className="monitor-select-btn"
                   style={{ marginTop: '2px' }}
                 >
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: '3px' }}>
                     {activeMon?.is_internal ? <Laptop size={11} /> : <Tv size={11} />}
-                    {activeMon?.friendly_name?.split(' ')[0] || '屏幕'}
+                    {activeMon?.friendly_name?.split(' ')[0] || 'Display'}
                   </span>
                   <ChevronDown size={10} />
                 </button>

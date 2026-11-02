@@ -206,9 +206,9 @@ $d = @(Get-CimInstance -Namespace root\wmi -ClassName WmiMonitorID -ErrorAction 
     // Query declarative hardware ground truth (OemMagicVariable vs UniWillVariable)
     let is_50 = crate::driver::wmi_ec::is_nextgen_oem_magic_ec();
     let arch_name = if is_50 {
-        "OemMagicVariable (50系)".to_string()
+        "OemMagicVariable (50-series)".to_string()
     } else {
-        "UniWillVariable (40系)".to_string()
+        "UniWillVariable (40-series)".to_string()
     };
     let recommended_method = if is_50 { "50".to_string() } else { "40".to_string() };
 

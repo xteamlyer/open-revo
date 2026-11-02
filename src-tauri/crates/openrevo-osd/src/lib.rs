@@ -350,29 +350,29 @@ pub fn handle_ipc_message(
 fn show_power_mode_internal(ui: &OsdWindow, mode: u8) {
     let (title, subtitle, icon, color, bg) = match mode {
         1 => (
-            "办公模式",
-            "OFFICE MODE · 极致静音与续航优先",
+            "Office Mode",
+            "OFFICE MODE · ultimate silence, battery-first",
             "🌱",
             Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }),
             Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 35 }),
         ),
         2 => (
-            "均衡模式",
-            "BALANCE MODE · 日常智能高能效调度",
+            "Balanced Mode",
+            "BALANCE MODE · smart everyday efficiency",
             "⚖️",
             Color::from(RgbaColor { red: 6, green: 182, blue: 212, alpha: 255 }),
             Color::from(RgbaColor { red: 6, green: 182, blue: 212, alpha: 35 }),
         ),
         3 => (
-            "狂暴模式",
-            "BEAST MODE · 极致性能与功耗全开",
+            "Beast Mode",
+            "BEAST MODE · maximum performance, full power",
             "⚡",
             Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }),
             Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 35 }),
         ),
         _ => (
-            "极客调校",
-            "CUSTOM MODE · 深度功耗与温控曲线",
+            "Custom Tuning",
+            "CUSTOM MODE · deep power and thermal curves",
             "💧",
             Color::from(RgbaColor { red: 168, green: 85, blue: 247, alpha: 255 }),
             Color::from(RgbaColor { red: 168, green: 85, blue: 247, alpha: 35 }),
@@ -390,16 +390,16 @@ fn show_power_mode_internal(ui: &OsdWindow, mode: u8) {
 fn show_fan_boost_internal(ui: &OsdWindow, enabled: bool) {
     let (title, subtitle, icon, color, bg) = if enabled {
         (
-            "强冷模式 开启",
-            "FAN BOOST: ON · 双风扇满载高速运转",
+            "Fan Boost On",
+            "FAN BOOST: ON · both fans at full speed",
             "🌪️",
             Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }),
             Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 35 }),
         )
     } else {
         (
-            "强冷模式 关闭",
-            "FAN BOOST: OFF · 恢复智能温控策略",
+            "Fan Boost Off",
+            "FAN BOOST: OFF · back to the smart thermal profile",
             "💨",
             Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }),
             Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 35 }),
@@ -418,51 +418,51 @@ fn show_key_lock_toast_internal(ui: &OsdWindow, name: &str, locked: bool) {
     let (title, sub, icon, color) = match name {
         "win" => {
             if locked {
-                ("Win 键锁定 开启", "WIN KEY LOCKED · 避免游戏误触", "🔒", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
+                ("Win Key Lock On", "WIN KEY LOCKED · no in-game mistouches", "🔒", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
             } else {
-                ("Win 键锁定 关闭", "WIN KEY UNLOCKED · 恢复系统响应", "🔓", Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }))
+                ("Win Key Lock Off", "WIN KEY UNLOCKED · system response restored", "🔓", Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }))
             }
         }
         "fn" => {
             if locked {
-                ("Fn 键锁定 开启", "FN LOCK: ON · 首选多媒体与快捷功能", "⚡", Color::from(RgbaColor { red: 6, green: 182, blue: 212, alpha: 255 }))
+                ("Fn Lock On", "FN LOCK: ON · media and shortcut keys first", "⚡", Color::from(RgbaColor { red: 6, green: 182, blue: 212, alpha: 255 }))
             } else {
-                ("Fn 键锁定 关闭", "FN LOCK: OFF · 首选 F1-F12 标准功能", "⌨️", Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }))
+                ("Fn Lock Off", "FN LOCK: OFF · standard F1-F12 keys first", "⌨️", Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }))
             }
         }
         "touchpad" => {
             if locked {
-                ("触摸板 禁用", "TOUCHPAD DISABLED · 避免游戏误触", "🚫", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
+                ("Touchpad Disabled", "TOUCHPAD DISABLED · no in-game mistouches", "🚫", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
             } else {
-                ("触摸板 启用", "TOUCHPAD ENABLED · 恢复触控操作", "🖱️", Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }))
+                ("Touchpad Enabled", "TOUCHPAD ENABLED · touch input restored", "🖱️", Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }))
             }
         }
         "caps" => {
             if locked {
-                ("大写锁定 开启", "CAPS LOCK: ON · 输入大写英文字母", "🔠", Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }))
+                ("Caps Lock On", "CAPS LOCK: ON · typing uppercase letters", "🔠", Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }))
             } else {
-                ("大写锁定 关闭", "CAPS LOCK: OFF · 输入小写英文字母", "🔡", Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }))
+                ("Caps Lock Off", "CAPS LOCK: OFF · typing lowercase letters", "🔡", Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }))
             }
         }
         "num" => {
             if locked {
-                ("数字锁定 开启", "NUM LOCK: ON · 开启右侧数字小键盘", "🔢", Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }))
+                ("Num Lock On", "NUM LOCK: ON · right numeric keypad active", "🔢", Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }))
             } else {
-                ("数字锁定 关闭", "NUM LOCK: OFF · 方向与控制导航模式", "⌨️", Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }))
+                ("Num Lock Off", "NUM LOCK: OFF · arrow and navigation mode", "⌨️", Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }))
             }
         }
         "scroll" => {
             if locked {
-                ("滚动锁定 开启", "SCROLL LOCK: ON · 滚动锁定已生效", "📜", Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }))
+                ("Scroll Lock On", "SCROLL LOCK: ON · scroll lock is active", "📜", Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }))
             } else {
-                ("滚动锁定 关闭", "SCROLL LOCK: OFF · 正常光标滚动模式", "📄", Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }))
+                ("Scroll Lock Off", "SCROLL LOCK: OFF · normal cursor scrolling", "📄", Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }))
             }
         }
         _ => {
             if locked {
-                ("锁定已生效", "LOCKED · 状态已切换", "🔒", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
+                ("Locked", "LOCKED · state switched", "🔒", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
             } else {
-                ("解锁已生效", "UNLOCKED · 状态已恢复", "🔓", Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }))
+                ("Unlocked", "UNLOCKED · state restored", "🔓", Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }))
             }
         }
     };
@@ -479,44 +479,44 @@ fn show_device_switch_internal(ui: &OsdWindow, name: &str, enabled: bool) {
     let (title, sub, icon, color) = match name {
         "camera" => {
             if enabled {
-                ("摄像头 开启", "CAMERA ENABLED · 镜头画面已恢复", "📷", Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }))
+                ("Camera On", "CAMERA ENABLED · live view restored", "📷", Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }))
             } else {
-                ("摄像头 关闭", "CAMERA DISABLED · 硬件级遮蔽防偷窥", "🚫", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
+                ("Camera Off", "CAMERA DISABLED · hardware-level privacy shutter", "🚫", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
             }
         }
         "mic" => {
             if enabled {
-                ("麦克风 开启", "MICROPHONE UNMUTED · 拾音功能已恢复", "🎙️", Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }))
+                ("Microphone On", "MICROPHONE UNMUTED · audio capture restored", "🎙️", Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }))
             } else {
-                ("麦克风 静音", "MICROPHONE MUTED · 麦克风已闭麦", "🔇", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
+                ("Microphone Muted", "MICROPHONE MUTED · the mic is silenced", "🔇", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
             }
         }
         "wifi" => {
             if enabled {
-                ("Wi-Fi 无线网 开启", "WI-FI ENABLED · 无线网卡已启用", "📶", Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }))
+                ("Wi-Fi On", "WI-FI ENABLED · wireless adapter active", "📶", Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }))
             } else {
-                ("Wi-Fi 无线网 关闭", "WI-FI DISABLED · 无线网卡已停用", "✈️", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
+                ("Wi-Fi Off", "WI-FI DISABLED · wireless adapter stopped", "✈️", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
             }
         }
         "bluetooth" => {
             if enabled {
-                ("蓝牙 开启", "BLUETOOTH ENABLED · 蓝牙射频已开启", "ᛒ", Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }))
+                ("Bluetooth On", "BLUETOOTH ENABLED · Bluetooth radio on", "ᛒ", Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }))
             } else {
-                ("蓝牙 关闭", "BLUETOOTH DISABLED · 蓝牙射频已关闭", "📵", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
+                ("Bluetooth Off", "BLUETOOTH DISABLED · Bluetooth radio off", "📵", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
             }
         }
         "keep_awake" => {
             if enabled {
-                ("始终保持唤醒 开启", "KEEP AWAKE: ON · 阻止系统自动休眠", "☕", Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }))
+                ("Keep Awake On", "KEEP AWAKE: ON · blocks automatic system sleep", "☕", Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }))
             } else {
-                ("始终保持唤醒 关闭", "KEEP AWAKE: OFF · 恢复默认睡眠策略", "💤", Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }))
+                ("Keep Awake Off", "KEEP AWAKE: OFF · default sleep policy restored", "💤", Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }))
             }
         }
         _ => {
             if enabled {
-                ("功能已开启", "FEATURE ENABLED", "✅", Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }))
+                ("Feature Enabled", "FEATURE ENABLED", "✅", Color::from(RgbaColor { red: 16, green: 185, blue: 129, alpha: 255 }))
             } else {
-                ("功能已关闭", "FEATURE DISABLED", "❌", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
+                ("Feature Disabled", "FEATURE DISABLED", "❌", Color::from(RgbaColor { red: 239, green: 68, blue: 68, alpha: 255 }))
             }
         }
     };
@@ -531,7 +531,7 @@ fn show_device_switch_internal(ui: &OsdWindow, name: &str, enabled: bool) {
 
 fn show_kb_brightness_internal(ui: &OsdWindow, level: u8) {
     let (title, sub, icon, color) = if level == 0 {
-        ("键盘背光 关闭".to_string(), "KEYBOARD BACKLIGHT: OFF · 背光已熄灭".to_string(), "💡", Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }))
+        ("Keyboard Backlight Off".to_string(), "KEYBOARD BACKLIGHT: OFF · backlight turned off".to_string(), "💡", Color::from(RgbaColor { red: 148, green: 163, blue: 184, alpha: 255 }))
     } else {
         let pct = match level {
             1 => 25,
@@ -540,8 +540,8 @@ fn show_kb_brightness_internal(ui: &OsdWindow, level: u8) {
             _ => 100,
         };
         (
-            format!("键盘背光 {}%", pct),
-            format!("KEYBOARD BACKLIGHT · 亮度调节 (档位 {})", level),
+            format!("Keyboard Backlight {}%", pct),
+            format!("KEYBOARD BACKLIGHT · brightness (level {})", level),
             "💡",
             Color::from(RgbaColor { red: 56, green: 189, blue: 248, alpha: 255 }),
         )
@@ -557,11 +557,11 @@ fn show_kb_brightness_internal(ui: &OsdWindow, level: u8) {
 
 fn show_kb_sleep_internal(ui: &OsdWindow, seconds: u32) {
     let (title, sub) = if seconds == 0 {
-        ("键盘背光 常亮".to_string(), "KEYBOARD TIMEOUT · 背光持续点亮不熄灭".to_string())
+        ("Keyboard Backlight Always On".to_string(), "KEYBOARD TIMEOUT · the backlight stays lit permanently".to_string())
     } else {
         (
-            format!("背光 {}秒熄灭", seconds),
-            format!("KEYBOARD TIMEOUT · {}秒无操作自动熄灭", seconds),
+            format!("Backlight turns off in {}s", seconds),
+            format!("KEYBOARD TIMEOUT · auto-off after {}s of inactivity", seconds),
         )
     };
 

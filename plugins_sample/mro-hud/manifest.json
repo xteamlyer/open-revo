@@ -1,0 +1,50 @@
+{
+  "id": "mro-hud",
+  "name": "MRO HUD",
+  "version": "2.1.1",
+  "author": "OpenRevo Community",
+  "description": "[Note] This plugin must be installed together with \"MRO HUD · Settings\"; installed on its own you cannot adjust the appearance or 1% Low, and full functionality is unavailable. Please download the other plugin as well. [MRO HUD main plugin] A desktop floating HUD: GPU/CPU temperature, clocks, fans, power, utilization, VRAM and memory, plus FPS / frametime / 1% Low. Ported from mro_monitor. Appearance and 1% Low settings are changed in the companion \"MRO HUD · Settings\" tab.",
+  "plugin_type": "widget",
+  "entry": "index.html",
+  "window": {
+    "width": 490,
+    "height": 104,
+    "transparent": true,
+    "always_on_top": true,
+    "resizable": false,
+    "decorations": false,
+    "skip_taskbar": true
+  },
+  "telemetry": {
+    "enabled": true,
+    "desiredIntervalMs": 1500,
+    "sensors": [
+      "cpu_temp",
+      "cpu_freq",
+      "cpu_power_w",
+      "cpu_usage",
+      "gpu_temp",
+      "gpu_core_freq",
+      "gpu_power_w",
+      "gpu_usage",
+      "gpu_vram_mb",
+      "gpu_vram_used_mb",
+      "cpu_fan_rpm",
+      "gpu_fan_rpm"
+    ]
+  },
+  "service": {
+    "executable": "agent/mro_agent.exe",
+    "args": ["--port", "18946"],
+    "port": 18946,
+    "health_url": "http://127.0.0.1:18946/api/ping",
+    "elevated": true,
+    "auto_start": true,
+    "auto_stop": true,
+    "description": "Read-only sensor agent: RTSS shared-memory FPS/frametime + system memory usage, and it starts RTSS automatically when it is not running"
+  },
+  "permissions": [
+    "telemetry:read"
+  ],
+  "min_host_version": "0.9.0"
+}

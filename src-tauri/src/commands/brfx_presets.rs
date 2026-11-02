@@ -4,8 +4,8 @@ pub const KAMEHAMEHA: &str = r#"// ==========================================
 // @name: 龟派气功 vs 终极闪光 (Kamehameha)
 // @author: OpenRevo Community
 // @version: 2.0.0
-// @description: 经典龙珠对波：左侧幽蓝激光贯穿、右侧终极闪光对冲，两头极细束流在中心激烈相撞拉锯，四射高能电流电弧
-// @tags: 龙珠, 对波, 龟派气功, 终极闪光, 电流闪电
+// @description: The classic Dragon Ball beam clash: a blue laser sweeps in from the left while a brilliant flash charges in from the right; two razor-thin beams collide dead center and grind against each other, scattering high-energy electric arcs
+// @tags: dragon ball, beam clash, kamehameha, final flash, lightning
 // @default_speed: 1.2
 // @default_scale: 1.0
 // @default_direction: 0
@@ -268,8 +268,8 @@ pub const CYBER_LOTUS: &str = r#"// ==========================================
 // @name: 赛博青莲 (Cyber Lotus)
 // @author: OpenRevo Community
 // @version: 2.0.0
-// @description: 6瓣极坐标青莲舒展盛开，伴随量子花蕊脉冲与荷塘微澜；小键盘区及外围静谧点缀时不时闪烁的冰晶/翡翠/流萤星芒
-// @tags: 极坐标, 莲花, 赛博朋克, 星芒, 优雅
+// @description: A six-petal polar cyber lotus blooms in full, with a quantum stamen pulse and gentle ripples across the pond; the numpad area and the outer edges are dotted with randomly twinkling ice-crystal, emerald and firefly starlight
+// @tags: polar coordinates, lotus, cyberpunk, starlight, elegant
 // @default_speed: 1.0
 // @default_scale: 1.0
 // @default_direction: 0
@@ -364,8 +364,8 @@ pub const SINGULARITY: &str = r#"// ==========================================
 // @name: 引力黑洞 (Singularity)
 // @author: OpenRevo Community
 // @version: 1.0.0
-// @description: 时空曲率吸积盘剧烈旋转，事件视界吞噬光芒，击键触发引力红移坍缩
-// @tags: 宇宙, 黑洞, 吸积盘, 相对论
+// @description: Spacetime curvature - an accretion disk spins violently, the event horizon swallows light, and key presses trigger a gravitational redshift collapse
+// @tags: cosmos, black hole, accretion disk, relativity
 // @default_speed: 1.5
 // @default_scale: 1.0
 // @default_direction: 0
@@ -428,8 +428,8 @@ pub const MARQUEE: &str = r#"// ==========================================
 // @name: 文字弹幕 (Cyber Marquee)
 // @author: OpenRevo Community
 // @version: 1.0.0
-// @description: 顶天立地大字体从右向左全盘流动滚动，自适应大写英文与数字，智能避让下沉方向键保持纯正矩形排版
-// @tags: 弹幕, 文字, 走马灯, 赛博朋克, 霓虹
+// @description: Towering giant letters flow from right to left across the whole keyboard, auto-adapting to uppercase English and digits, smartly avoiding the sunken arrow keys to keep a perfectly rectangular layout
+// @tags: marquee, text, scrolling sign, cyberpunk, neon
 // @default_speed: 1.0
 // @default_scale: 1.0
 // @default_direction: 0

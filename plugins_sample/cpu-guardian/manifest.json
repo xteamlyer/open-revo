@@ -1,9 +1,9 @@
 {
   "id": "cpu-guardian",
-  "name": "13/14代 CPU 防缩卫士",
+  "name": "13th/14th Gen CPU Guardian",
   "version": "1.0.0",
   "author": "OpenRevo Official & Community",
-  "description": "专为 13/14 代 HX 处理器（如 i9-14900HX/13900HX）打造的原生防缩缸硬件调控中心。通过 Intel 官方 7.14 内核通道实现全核睿频削峰、稳态核心降压、瞬变电流压制与 UVP 状态自动回检，彻底杜绝 1.50V+ 峰值电压击穿风险。",
+  "description": "A native anti-degradation hardware control center built for 13th/14th gen HX processors (e.g. i9-14900HX/13900HX). Uses the official Intel 7.14 kernel channel for all-core turbo peak clipping, steady-state core undervolting, transient current suppression and automatic UVP status re-checking, eliminating the risk of 1.50V+ peak voltage breakdown.",
   "type": "tab",
   "entry": "index.html",
   "min_host_version": "0.9.4",

@@ -1,46 +1,46 @@
-# 全局快捷键工坊 (Universal Shortcut Studio)
+# Universal Shortcut Studio
 
-> **类型**：主界面选项卡 / 独立弹出视窗 (`plugin_type: "tab"`)  
-> **面向对象**：全场景极客、电竞玩家、移动办公人士与机械革命硬件调优玩家
-
----
-
-## 插件概述
-
-`shortcut-workshop` 是 OpenRevo 官方的高级全局快捷键可视化调谐工坊。无需编写任何代码或编译动态库，即可通过可视化界面录制物理按键、组合修饰键、绑定硬件与系统动作，并随时随地在全屏独占游戏或任意前台应用中全局触发！
+> **Type**: main-interface tab / standalone pop-out window (`plugin_type: "tab"`)
+> **Audience**: all-around geeks, esports gamers, mobile office workers and MECHREVO hardware tuning enthusiasts
 
 ---
 
-## 核心特性
+## Plugin overview
 
-1. **按键实时捕获录制引擎**：
-   - 支持点击“按下键盘录制 (Record)”后直接在物理键盘上同时按下快捷键（如 `Ctrl` + `Alt` + `F`），毫秒级自动捕获修饰键与主键。
-   - 提供按键机械键帽效果实时预览（`<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd>`）。
-2. **全硬件调谐动作覆盖**：
-   - 🌪️ **散热与性能**：一键全速强冷 (5400+ RPM 暴走)、循环切换性能模式、锁定办公/均衡/狂暴模式、高刷与60Hz瞬切。
-   - 🎮 **电竞外设与键盘锁**：触控板硬件开关、屏蔽/解锁 Win 键（防误弹桌面）、Fn 功能键锁定切换、4 档键盘背光循环。
-   - 💻 **系统挂机与便捷**：一键黑屏息屏（节能下载不进休眠）、快速锁屏工作台、老板一键静音、音量调节。
-   - 🚀 **外部程序启动**：一键拉起任意外部可执行文件或调试脚本。
-3. **原生机甲战术 OSD 弹窗联动**：
-   - 按键触发时可选择自动在屏幕正上方弹出战术机甲 HUD 悬浮窗，不遮挡游戏视线，实时感知硬件状态变化。
-4. **动作即时测试 (Test Action)**：
-   - 配置完成后可直接点击“立即测试动作”，无需按键即可直观验证硬件反馈与 OSD 提示。
-5. **一键极速预设套件**：
-   - 预置【狂暴电竞套件】、【移动办公与续航】、【工位摸鱼与防窥】三大场景套件，一键批量生效。
-6. **双模通讯保障 (Dual Gateway)**：
-   - 在控制中心内嵌 Tab 中使用标准微内核沙盒通信，同时原生支持右上角【独立视窗运行】，多屏调优与游戏常驻两不误。
+`shortcut-workshop` is OpenRevo's official advanced global shortcut visual tuning studio. Without writing any code or compiling any dynamic library, you can record physical keys, combine modifiers, and bind hardware and system actions through the visual interface, triggering them globally from full-screen exclusive games or any foreground application at any time!
 
 ---
 
-## 插件清单 (`manifest.json`)
+## Core features
+
+1. **Live key capture and recording engine**:
+   - Click "Press keys to record" and then press the shortcut on the physical keyboard (e.g. `Ctrl` + `Alt` + `F`); the modifiers and the primary key are captured automatically in milliseconds.
+   - Provides a live mechanical keycap preview (`<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>F</kbd>`).
+2. **Full hardware tuning action coverage**:
+   - 🌪️ **Cooling and performance**: one-click full-speed fan boost (5400+ RPM berserk), cycling performance modes, locking Office / Balanced / Turbo modes, instant high-refresh ↔ 60Hz switching.
+   - 🎮 **Esports peripherals and keyboard locks**: touchpad hardware toggle, block / unblock the Win key (prevents the desktop popping up), Fn function-key lock toggling, 4-level keyboard backlight cycling.
+   - 💻 **System AFK and conveniences**: one-click screen-off (power-saving downloads without sleeping), quick workstation lock, boss-key mute, volume control.
+   - 🚀 **External program launch**: launch any external executable or debug script with one click.
+3. **Native mecha tactical OSD popup linkage**:
+   - When a hotkey fires, you can optionally pop up the tactical mecha HUD overlay at the top of the screen, keeping your view of the game clear while staying aware of hardware state changes in real time.
+4. **Instant action testing (Test Action)**:
+   - After configuring, click "Test the action now" to verify the hardware feedback and the OSD hint without pressing the key.
+5. **One-click instant preset packs**:
+   - Ships three scenario packs - [Berserk esports], [Mobile office and battery life] and [Desk slacking and anti-peeking] - all applied in bulk with one click.
+6. **Dual-mode communication guarantee (Dual Gateway)**:
+   - Inside the control center's embedded tab it uses the standard microkernel sandbox channel, and it natively supports the top-right [Pop-out window] for multi-screen tuning and a persistent companion while gaming.
+
+---
+
+## Plugin manifest (`manifest.json`)
 
 ```json
 {
   "id": "shortcut-workshop",
-  "name": "全局快捷键工坊",
+  "name": "Universal Shortcut Studio",
   "version": "1.0.0",
   "author": "OpenRevo Official & Community",
-  "description": "官方演示插件：全功能全局快捷键调谐工坊，支持键盘按键实时捕获、修饰键自定义组合、硬件强冷/性能模式/刷新率/外设开关/系统挂机动作绑定，以及按键动作实时测试与注销。",
+  "description": "Official sample plugin: the full-featured global shortcut tuning studio. Supports live key capture, custom modifier combinations, bindings for hardware fan boost / performance modes / refresh rate / peripheral toggles / system AFK actions, plus live action testing and unregistration.",
   "type": "tab",
   "entry": "index.html",
   "min_host_version": "0.9.4",
@@ -59,4 +59,3 @@
   ]
 }
 ```
-

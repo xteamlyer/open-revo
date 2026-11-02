@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="dark" />
-  <title>全局快捷键工坊 - OpenRevo</title>
+  <title>Universal Shortcut Studio - OpenRevo</title>
   <style>
     :root {
       color-scheme: dark;
@@ -754,23 +754,23 @@
         </div>
         <div class="header-title-wrap">
           <div class="header-title-row">
-            <span class="header-title">全局快捷键工坊 (Universal Shortcut Studio)</span>
+            <span class="header-title">Universal Shortcut Studio</span>
             <span class="badge badge-primary">v1.0.0</span>
             <span class="badge badge-cyan">Ring3 WH_KEYBOARD_LL</span>
           </div>
           <div class="header-desc">
-            全功能微内核全局热键调谐中心：支持键盘按键实时捕获、修饰键组合、强冷/模式/刷新率/挂机动作绑定与 OSD 弹窗联动
+            The full-featured microkernel global hotkey tuning center: live key capture, modifier combinations, fan boost / power mode / refresh rate / AFK action bindings and OSD popup linkage
           </div>
         </div>
       </div>
       <div class="header-actions">
-        <button id="btnRefreshList" class="btn" title="刷新所有已生效快捷键">
+        <button id="btnRefreshList" class="btn" title="Refresh all active shortcuts">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
-          <span>刷新</span>
+          <span>Refresh</span>
         </button>
-        <button id="btnOpenPluginsDir" class="btn" title="打开插件目录">
+        <button id="btnOpenPluginsDir" class="btn" title="Open the plugins directory">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-          <span>插件目录</span>
+          <span>Plugins folder</span>
         </button>
       </div>
     </div>
@@ -778,19 +778,19 @@
     <!-- Quick Stats -->
     <div class="stats-grid">
       <div class="stat-card">
-        <span class="stat-title">⚡ 已生效全局热键</span>
+        <span class="stat-title">⚡ Active global hotkeys</span>
         <span id="statTotalCount" class="stat-value">0</span>
       </div>
       <div class="stat-card">
-        <span class="stat-title">🌪️ 散热与性能动作</span>
+        <span class="stat-title">🌪️ Cooling & performance actions</span>
         <span id="statHardwareCount" class="stat-value">0</span>
       </div>
       <div class="stat-card">
-        <span class="stat-title">🖥️ 系统与挂机便捷</span>
+        <span class="stat-title">🖥️ System & AFK conveniences</span>
         <span id="statSystemCount" class="stat-value">0</span>
       </div>
       <div class="stat-card">
-        <span class="stat-title">🔔 战术 OSD 屏幕通知</span>
+        <span class="stat-title">🔔 Tactical OSD notifications</span>
         <span id="statOsdCount" class="stat-value">0</span>
       </div>
     </div>
@@ -800,47 +800,47 @@
       <div class="card-header">
         <div class="card-title-wrap">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="var(--accent-indigo)"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-          <span class="card-title">快捷键绑定定制器</span>
+          <span class="card-title">Shortcut binding customizer</span>
         </div>
-        <span class="card-desc">配置自定义按键组合，关联硬件调谐或系统操作</span>
+        <span class="card-desc">Configure custom key combinations and link them to hardware tuning or system actions</span>
       </div>
 
       <div class="form-grid">
         <!-- 1. Name & Presets -->
         <div class="form-group full">
           <label class="form-label">
-            <span>快捷键名称与描述</span>
-            <span class="form-hint">在 OSD 屏幕通知与列表中显示的名称</span>
+            <span>Shortcut name and description</span>
+            <span class="form-hint">The name shown in OSD notifications and in the list</span>
           </label>
-          <input id="inputShortcutName" type="text" class="input-text" placeholder="例如：一键全速强冷切换" value="极速切换全速强冷" />
+          <input id="inputShortcutName" type="text" class="input-text" placeholder="e.g. Toggle full-speed fan boost" value="Instant full-speed fan boost toggle" />
           <div class="quick-tags">
-            <span class="quick-tag" onclick="setNameQuick('一键全速强冷切换', 'ToggleFanBoost')">🌪️ 一键强冷</span>
-            <span class="quick-tag" onclick="setNameQuick('循环性能模式 (办公/均衡/狂暴)', 'CyclePowerMode')">⚡ 循环性能</span>
-            <span class="quick-tag" onclick="setNameQuick('锁定狂暴模式', 'SetPowerMode_3')">🔥 锁定狂暴</span>
-            <span class="quick-tag" onclick="setNameQuick('刷新率瞬切 (高刷/省电)', 'ToggleRefreshRate')">🖥️ 刷新率瞬切</span>
-            <span class="quick-tag" onclick="setNameQuick('触控板硬件开关', 'ToggleTouchpad')">🖱️ 触控板开关</span>
-            <span class="quick-tag" onclick="setNameQuick('游戏屏蔽 Win 键', 'ToggleWinLock')">🎮 屏蔽Win键</span>
-            <span class="quick-tag" onclick="setNameQuick('一键息屏挂机 (节能黑屏)', 'MonitorOff')">🌙 一键息屏</span>
-            <span class="quick-tag" onclick="setNameQuick('快速锁屏工作台', 'LockScreen')">🔒 快速锁屏</span>
-            <span class="quick-tag" onclick="setNameQuick('系统一键静音 (老板键)', 'VolumeMute')">🤫 一键静音</span>
+            <span class="quick-tag" onclick="setNameQuick('Toggle full-speed fan boost', 'ToggleFanBoost')">🌪️ Fan boost</span>
+            <span class="quick-tag" onclick="setNameQuick('Cycle power modes (Office/Balanced/Turbo)', 'CyclePowerMode')">⚡ Cycle performance</span>
+            <span class="quick-tag" onclick="setNameQuick('Lock Turbo mode', 'SetPowerMode_3')">🔥 Lock Turbo</span>
+            <span class="quick-tag" onclick="setNameQuick('Instant refresh rate switch (high/low)', 'ToggleRefreshRate')">🖥️ Refresh rate</span>
+            <span class="quick-tag" onclick="setNameQuick('Touchpad hardware toggle', 'ToggleTouchpad')">🖱️ Touchpad</span>
+            <span class="quick-tag" onclick="setNameQuick('Block Win key for gaming', 'ToggleWinLock')">🎮 Win lock</span>
+            <span class="quick-tag" onclick="setNameQuick('One-click screen-off AFK (power-saving black screen)', 'MonitorOff')">🌙 Screen off</span>
+            <span class="quick-tag" onclick="setNameQuick('Quick lock the workstation', 'LockScreen')">🔒 Lock screen</span>
+            <span class="quick-tag" onclick="setNameQuick('System-wide mute (boss key)', 'VolumeMute')">🤫 Mute</span>
           </div>
         </div>
 
         <!-- 2. Live Key Combo Display & Recorder -->
         <div class="form-group full">
           <label class="form-label">
-            <span>按键组合预览与实时录制</span>
-            <span id="recordHint" class="form-hint">点击右侧按钮按下键盘，或手动点选修饰键</span>
+            <span>Key combination preview and live recording</span>
+            <span id="recordHint" class="form-hint">Click the button on the right and press the keys, or pick the modifiers manually</span>
           </label>
 
           <div class="recorder-container" id="recorderContainer">
             <div class="recorder-text">
-              <span id="recorderStatus" class="recorder-label">🎯 当前组合键</span>
-              <span class="recorder-sub">支持键盘物理直录或手动组合</span>
+              <span id="recorderStatus" class="recorder-label">🎯 Current combination</span>
+              <span class="recorder-sub">Supports physical key recording or manual composition</span>
             </div>
             <button id="btnStartRecord" class="btn btn-cyan" onclick="toggleRecording()">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>
-              <span id="recordBtnText">按下键盘录制 (Record)</span>
+              <span id="recordBtnText">Press keys to record</span>
             </button>
           </div>
 
@@ -853,8 +853,8 @@
         <!-- 3. Modifiers and Primary Key Selectors -->
         <div class="form-group">
           <label class="form-label">
-            <span>修饰键组合 (Modifiers)</span>
-            <span class="form-hint">可多选</span>
+            <span>Modifiers</span>
+            <span class="form-hint">Multi-select</span>
           </label>
           <div class="mod-btn-group">
             <button type="button" class="mod-btn active" id="modCtrl" onclick="toggleModifier('ctrl')">Ctrl</button>
@@ -866,11 +866,11 @@
 
         <div class="form-group">
           <label class="form-label">
-            <span>触发主键 (Primary Key)</span>
-            <span class="form-hint">支持 F1~F12, 字母, 数字, 导航键</span>
+            <span>Primary key</span>
+            <span class="form-hint">Supports F1-F12, letters, digits, navigation keys</span>
           </label>
           <select id="selectPrimaryKey" class="select-box" onchange="onPrimaryKeyChange(this.value)">
-            <optgroup label="功能键 (F1 - F12)">
+            <optgroup label="Function keys (F1 - F12)">
               <option value="F1">F1</option>
               <option value="F2">F2</option>
               <option value="F3">F3</option>
@@ -884,7 +884,7 @@
               <option value="F11">F11</option>
               <option value="F12">F12</option>
             </optgroup>
-            <optgroup label="常用字母键 (A - Z)">
+            <optgroup label="Common letters (A - Z)">
               <option value="F" selected>F (Fan / Freeze)</option>
               <option value="M">M (Mode)</option>
               <option value="R">R (Refresh Rate)</option>
@@ -911,7 +911,7 @@
               <option value="Y">Y</option>
               <option value="Z">Z</option>
             </optgroup>
-            <optgroup label="数字键 (0 - 9)">
+            <optgroup label="Digits (0 - 9)">
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -923,22 +923,22 @@
               <option value="8">8</option>
               <option value="9">9</option>
             </optgroup>
-            <optgroup label="导航与常用按键">
-              <option value="SPACE">SPACE (空格键)</option>
-              <option value="TAB">TAB (制表键)</option>
-              <option value="RETURN">ENTER / RETURN (回车键)</option>
-              <option value="ESC">ESC (退出键)</option>
-              <option value="BACKSPACE">BACKSPACE (退格键)</option>
-              <option value="DELETE">DELETE (删除键)</option>
+            <optgroup label="Navigation and common keys">
+              <option value="SPACE">SPACE (space bar)</option>
+              <option value="TAB">TAB (tab key)</option>
+              <option value="RETURN">ENTER / RETURN (enter key)</option>
+              <option value="ESC">ESC (escape key)</option>
+              <option value="BACKSPACE">BACKSPACE (backspace key)</option>
+              <option value="DELETE">DELETE (delete key)</option>
               <option value="HOME">HOME</option>
               <option value="END">END</option>
-              <option value="PAGEUP">PAGEUP (上翻页)</option>
-              <option value="PAGEDOWN">PAGEDOWN (下翻页)</option>
+              <option value="PAGEUP">PAGEUP (page up)</option>
+              <option value="PAGEDOWN">PAGEDOWN (page down)</option>
             </optgroup>
-            <optgroup label="媒体与音量">
-              <option value="MUTE">MUTE (系统静音)</option>
-              <option value="VOLUMEUP">VOLUMEUP (音量增加)</option>
-              <option value="VOLUMEDOWN">VOLUMEDOWN (音量减小)</option>
+            <optgroup label="Media and volume">
+              <option value="MUTE">MUTE (system mute)</option>
+              <option value="VOLUMEUP">VOLUMEUP (volume up)</option>
+              <option value="VOLUMEDOWN">VOLUMEDOWN (volume down)</option>
             </optgroup>
           </select>
         </div>
@@ -946,36 +946,36 @@
         <!-- 4. Target Action Selector -->
         <div class="form-group full">
           <label class="form-label">
-            <span>对应触发功能 (Target Action)</span>
-            <span class="form-hint">选择执行的硬件控制或系统指令</span>
+            <span>Target action</span>
+            <span class="form-hint">Pick the hardware control or system command to run</span>
           </label>
 
           <select id="selectActionType" class="select-box" onchange="onActionTypeChange(this.value)">
-            <optgroup label="🌪️ 散热调谐与功耗释放">
-              <option value="ToggleFanBoost" selected>一键全速强冷切换 (ToggleFanBoost - 5400+ RPM 暴走)</option>
-              <option value="CyclePowerMode">循环切换性能模式 (CyclePowerMode - 办公 ➔ 均衡 ➔ 狂暴)</option>
-              <option value="SetPowerMode_1">锁定办公模式 (SetPowerMode: 1 - 离电/静音省电)</option>
-              <option value="SetPowerMode_2">锁定均衡模式 (SetPowerMode: 2 - 日常平稳平衡)</option>
-              <option value="SetPowerMode_3">锁定狂暴模式 (SetPowerMode: 3 - 极致性能功耗释放)</option>
-              <option value="SetPowerMode_4">锁定自定义模式 (SetPowerMode: 4 - 极客深度自定义)</option>
-              <option value="ToggleRefreshRate">屏幕刷新率瞬切 (ToggleRefreshRate - 高刷 ↔ 60Hz 快速切换)</option>
+            <optgroup label="🌪️ Cooling tuning and power release">
+              <option value="ToggleFanBoost" selected>Toggle full-speed fan boost (ToggleFanBoost - 5400+ RPM berserk)</option>
+              <option value="CyclePowerMode">Cycle performance modes (CyclePowerMode - Office ➔ Balanced ➔ Turbo)</option>
+              <option value="SetPowerMode_1">Lock Office mode (SetPowerMode: 1 - unplugged / silent power saving)</option>
+              <option value="SetPowerMode_2">Lock Balanced mode (SetPowerMode: 2 - steady everyday balance)</option>
+              <option value="SetPowerMode_3">Lock Turbo mode (SetPowerMode: 3 - maximum performance and power release)</option>
+              <option value="SetPowerMode_4">Lock Custom mode (SetPowerMode: 4 - deep geek customization)</option>
+              <option value="ToggleRefreshRate">Instant refresh rate switch (ToggleRefreshRate - high refresh ↔ 60Hz quick toggle)</option>
             </optgroup>
-            <optgroup label="🎮 电竞外设与键盘锁">
-              <option value="ToggleTouchpad">触控板硬件开关 (ToggleTouchpad - 防打字/电竞误触)</option>
-              <option value="ToggleWinLock">屏蔽/解锁 Win 键 (ToggleWinLock - 游戏防误触弹窗)</option>
-              <option value="ToggleFnLock">切换 Fn 键锁定状态 (ToggleFnLock - 切换多媒体/F区行为)</option>
-              <option value="CycleKeyboardBrightness">循环调节键盘背光亮度 (CycleKeyboardBrightness - 4档循环)</option>
+            <optgroup label="🎮 Esports peripherals and keyboard locks">
+              <option value="ToggleTouchpad">Touchpad hardware toggle (ToggleTouchpad - prevents typing / esports mistouches)</option>
+              <option value="ToggleWinLock">Block / unblock the Win key (ToggleWinLock - prevents in-game pop-ups)</option>
+              <option value="ToggleFnLock">Toggle Fn key lock state (ToggleFnLock - switches multimedia / F-row behavior)</option>
+              <option value="CycleKeyboardBrightness">Cycle keyboard backlight brightness (CycleKeyboardBrightness - 4-level cycle)</option>
             </optgroup>
-            <optgroup label="💻 极客系统与挂机便捷">
-              <option value="MonitorOff">一键黑屏息屏 (MonitorOff - 挂机下载省电，系统不休眠)</option>
-              <option value="LockScreen">快速锁屏工作台 (LockScreen - 离开工位瞬间锁定)</option>
-              <option value="VolumeMute">系统一键静音 (VolumeMute - 摸鱼老板静音键)</option>
-              <option value="VolumeUp">系统音量增加 (VolumeUp)</option>
-              <option value="VolumeDown">系统音量减小 (VolumeDown)</option>
-              <option value="TriggerOsdPreview">唤起 OSD 屏幕弹窗预览 (TriggerOsdPreview)</option>
+            <optgroup label="💻 Geek system and AFK conveniences">
+              <option value="MonitorOff">One-click screen-off (MonitorOff - power-saving AFK downloads, system stays awake)</option>
+              <option value="LockScreen">Quickly lock the workstation (LockScreen - instantly lock when leaving your desk)</option>
+              <option value="VolumeMute">System-wide mute (VolumeMute - the slacker boss-key mute)</option>
+              <option value="VolumeUp">System volume up (VolumeUp)</option>
+              <option value="VolumeDown">System volume down (VolumeDown)</option>
+              <option value="TriggerOsdPreview">Invoke the OSD popup preview (TriggerOsdPreview)</option>
             </optgroup>
-            <optgroup label="🚀 外部程序与脚本拉起">
-              <option value="LaunchApp">快速启动外部程序 (LaunchApp - 运行指定 exe 或脚本)</option>
+            <optgroup label="🚀 External programs and scripts">
+              <option value="LaunchApp">Quickly launch an external program (LaunchApp - run a specified exe or script)</option>
             </optgroup>
           </select>
         </div>
@@ -983,12 +983,12 @@
         <!-- Optional LaunchApp Config -->
         <div id="launchAppConfigBox" class="form-group full" style="display: none;">
           <label class="form-label">
-            <span>可执行程序路径与参数</span>
-            <span class="form-hint">输入绝对路径 (如 C:\Windows\notepad.exe)</span>
+            <span>Executable path and arguments</span>
+            <span class="form-hint">Enter an absolute path (e.g. C:\Windows\notepad.exe)</span>
           </label>
           <div style="display: flex; gap: 8px;">
-            <input id="inputAppPath" type="text" class="input-text" placeholder="程序路径 (如 notepad.exe 或 D:\tool.exe)" />
-            <input id="inputAppArgs" type="text" class="input-text" placeholder="可选参数 (空格分隔)" style="width: 200px;" />
+            <input id="inputAppPath" type="text" class="input-text" placeholder="Program path (e.g. notepad.exe or D:\tool.exe)" />
+            <input id="inputAppArgs" type="text" class="input-text" placeholder="Optional arguments (space separated)" style="width: 200px;" />
           </div>
         </div>
 
@@ -996,8 +996,8 @@
         <div class="form-group">
           <div class="switch-row">
             <div class="switch-label-wrap">
-              <span class="switch-title">🔔 屏幕机甲 OSD 弹窗</span>
-              <span class="switch-desc">按键触发时，在屏幕中央弹出战术 HUD 提示</span>
+              <span class="switch-title">🔔 On-screen mecha OSD popup</span>
+              <span class="switch-desc">When the hotkey fires, pop up a tactical HUD hint in the center of the screen</span>
             </div>
             <input id="checkOsd" type="checkbox" class="toggle-checkbox" checked />
           </div>
@@ -1006,8 +1006,8 @@
         <div class="form-group">
           <div class="switch-row">
             <div class="switch-label-wrap">
-              <span class="switch-title">🚫 吞噬按键 (Swallow)</span>
-              <span class="switch-desc">微内核拦截按键，不透传给前台其他窗口</span>
+              <span class="switch-title">🚫 Swallow the key press</span>
+              <span class="switch-desc">The microkernel intercepts the key and does not pass it through to other foreground windows</span>
             </div>
             <input id="checkSwallow" type="checkbox" class="toggle-checkbox" />
           </div>
@@ -1018,11 +1018,11 @@
       <div style="display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-top: 6px;">
         <button id="btnTestAction" class="btn" onclick="testCurrentAction()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          <span>立即测试动作 (Test Action)</span>
+          <span>Test the action now</span>
         </button>
         <button id="btnRegisterShortcut" class="btn btn-primary" onclick="saveAndRegisterShortcut()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-          <span>保存并注册热键 (Register)</span>
+          <span>Save and register the hotkey</span>
         </button>
       </div>
     </div>
@@ -1032,29 +1032,29 @@
       <div class="card-header">
         <div class="card-title-wrap">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="var(--accent-cyan)"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-          <span class="card-title">一键极速预设方案套件</span>
+          <span class="card-title">One-click instant preset packs</span>
         </div>
-        <span class="card-desc">为不同场景量身定制的按键方案，一键批量加载</span>
+        <span class="card-desc">Key profiles tailored for different scenarios, loaded in bulk with one click</span>
       </div>
 
       <div class="preset-pack-grid">
         <!-- Pack 0: Recommended -->
         <div class="preset-pack-card" style="border-color: rgba(99, 102, 241, 0.4); background: rgba(99, 102, 241, 0.06);">
           <div class="pack-header">
-            <span class="pack-title" style="color: #a5b4fc;">⭐ 官方推荐核心</span>
-            <button class="btn btn-sm btn-primary" onclick="applyPresetPack('recommended')">载入方案</button>
+            <span class="pack-title" style="color: #a5b4fc;">⭐ Official recommended core</span>
+            <button class="btn btn-sm btn-primary" onclick="applyPresetPack('recommended')">Load pack</button>
           </div>
           <div class="pack-items-list">
             <div class="pack-item-row">
-              <span>全速强冷暴走</span>
+              <span>Full-speed fan boost</span>
               <div><span class="keycap">Ctrl</span>+<span class="keycap">Alt</span>+<span class="keycap">F</span></div>
             </div>
             <div class="pack-item-row">
-              <span>循环性能模式</span>
+              <span>Cycle performance modes</span>
               <div><span class="keycap">Ctrl</span>+<span class="keycap">Alt</span>+<span class="keycap">M</span></div>
             </div>
             <div class="pack-item-row">
-              <span>刷新率瞬切 (高刷)</span>
+              <span>Instant refresh rate switch (high refresh)</span>
               <div><span class="keycap">Ctrl</span>+<span class="keycap">Alt</span>+<span class="keycap">R</span></div>
             </div>
           </div>
@@ -1063,20 +1063,20 @@
         <!-- Pack 1 -->
         <div class="preset-pack-card">
           <div class="pack-header">
-            <span class="pack-title">🎮 狂暴电竞套件</span>
-            <button class="btn btn-sm btn-cyan" onclick="applyPresetPack('gamer')">载入方案</button>
+            <span class="pack-title">🎮 Berserk esports pack</span>
+            <button class="btn btn-sm btn-cyan" onclick="applyPresetPack('gamer')">Load pack</button>
           </div>
           <div class="pack-items-list">
             <div class="pack-item-row">
-              <span>全速强冷暴走</span>
+              <span>Full-speed fan boost</span>
               <div><span class="keycap">Ctrl</span>+<span class="keycap">Alt</span>+<span class="keycap">F</span></div>
             </div>
             <div class="pack-item-row">
-              <span>循环性能模式</span>
+              <span>Cycle performance modes</span>
               <div><span class="keycap">Ctrl</span>+<span class="keycap">Alt</span>+<span class="keycap">M</span></div>
             </div>
             <div class="pack-item-row">
-              <span>锁定 Win 键</span>
+              <span>Lock the Win key</span>
               <div><span class="keycap">Ctrl</span>+<span class="keycap">Alt</span>+<span class="keycap">W</span></div>
             </div>
           </div>
@@ -1085,20 +1085,20 @@
         <!-- Pack 2 -->
         <div class="preset-pack-card">
           <div class="pack-header">
-            <span class="pack-title">💼 移动办公与续航</span>
-            <button class="btn btn-sm btn-cyan" onclick="applyPresetPack('office')">载入方案</button>
+            <span class="pack-title">💼 Mobile office and battery life</span>
+            <button class="btn btn-sm btn-cyan" onclick="applyPresetPack('office')">Load pack</button>
           </div>
           <div class="pack-items-list">
             <div class="pack-item-row">
-              <span>刷新率瞬切 (60Hz)</span>
+              <span>Instant refresh rate switch (60Hz)</span>
               <div><span class="keycap">Ctrl</span>+<span class="keycap">Alt</span>+<span class="keycap">R</span></div>
             </div>
             <div class="pack-item-row">
-              <span>触控板硬件开关</span>
+              <span>Touchpad hardware toggle</span>
               <div><span class="keycap">Ctrl</span>+<span class="keycap">Alt</span>+<span class="keycap">T</span></div>
             </div>
             <div class="pack-item-row">
-              <span>锁定办公静音模式</span>
+              <span>Lock silent Office mode</span>
               <div><span class="keycap">Ctrl</span>+<span class="keycap">Alt</span>+<span class="keycap">1</span></div>
             </div>
           </div>
@@ -1107,20 +1107,20 @@
         <!-- Pack 3 -->
         <div class="preset-pack-card">
           <div class="pack-header">
-            <span class="pack-title">🤫 工位摸鱼与防窥</span>
-            <button class="btn btn-sm btn-cyan" onclick="applyPresetPack('boss')">载入方案</button>
+            <span class="pack-title">🤫 Desk slacking and anti-peeking</span>
+            <button class="btn btn-sm btn-cyan" onclick="applyPresetPack('boss')">Load pack</button>
           </div>
           <div class="pack-items-list">
             <div class="pack-item-row">
-              <span>快速锁屏工作台</span>
+              <span>Quickly lock the workstation</span>
               <div><span class="keycap">Ctrl</span>+<span class="keycap">Alt</span>+<span class="keycap">B</span></div>
             </div>
             <div class="pack-item-row">
-              <span>一键黑屏挂机</span>
+              <span>One-click screen-off AFK</span>
               <div><span class="keycap">Ctrl</span>+<span class="keycap">Alt</span>+<span class="keycap">L</span></div>
             </div>
             <div class="pack-item-row">
-              <span>系统一键静音</span>
+              <span>System-wide mute</span>
               <div><span class="keycap">Ctrl</span>+<span class="keycap">Alt</span>+<span class="keycap">0</span></div>
             </div>
           </div>
@@ -1133,26 +1133,26 @@
       <div class="card-header">
         <div class="card-title-wrap">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" color="var(--status-ok)"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-          <span class="card-title">当前已生效全局快捷键清单</span>
+          <span class="card-title">Currently active global shortcuts</span>
         </div>
-        <span id="registeredCountBadge" class="badge badge-dim">共 0 项</span>
+        <span id="registeredCountBadge" class="badge badge-dim">0 total</span>
       </div>
 
       <div style="overflow-x: auto;">
         <table class="shortcut-table">
           <thead>
             <tr>
-              <th style="width: 210px;">快捷键组合</th>
-              <th>功能名称与动作</th>
-              <th style="width: 140px;">来源归属</th>
-              <th style="width: 110px;">OSD 提醒</th>
-              <th style="width: 160px; text-align: right;">操作</th>
+              <th style="width: 210px;">Key combination</th>
+              <th>Action name and type</th>
+              <th style="width: 140px;">Source</th>
+              <th style="width: 110px;">OSD hint</th>
+              <th style="width: 160px; text-align: right;">Actions</th>
             </tr>
           </thead>
           <tbody id="shortcutsTableBody">
             <tr>
               <td colspan="5" style="text-align: center; color: var(--text-dim); padding: 24px 0;">
-                正在查询微内核快捷键总线...
+                Querying the microkernel shortcut bus...
               </td>
             </tr>
           </tbody>
@@ -1164,7 +1164,7 @@
   <!-- Toast -->
   <div id="toast" class="toast-box">
     <span id="toastIcon">ℹ️</span>
-    <span id="toastMsg">提示消息</span>
+    <span id="toastMsg">Notification</span>
   </div>
 
   <script>
@@ -1247,7 +1247,7 @@
       if (STATE.primaryKey) parts.push(STATE.primaryKey);
 
       if (parts.length === 0) {
-        container.innerHTML = '<span style="color: var(--text-dim); font-size: 13px;">请选择修饰键或主键...</span>';
+        container.innerHTML = '<span style="color: var(--text-dim); font-size: 13px;">Pick a modifier or a primary key...</span>';
         return;
       }
 
@@ -1282,19 +1282,19 @@
             banner.style.background = 'rgba(245, 158, 11, 0.12)';
             banner.style.border = '1px solid rgba(245, 158, 11, 0.35)';
             banner.style.color = '#fbbf24';
-            banner.innerHTML = '⚠️ <strong>系统冲突提醒</strong>：检测到该快捷键已被 Windows 中的第三方程序 (如 QQ、微信或剪贴板工具) 注册占用。若仍要使用，请勾选下方的【🚫 吞噬按键 (Swallow)】以阻止外部软件并发展开。';
+            banner.innerHTML = '⚠️ <strong>System conflict warning</strong>: this shortcut is already registered by a third-party program in Windows (e.g. QQ, WeChat or a clipboard tool). To keep using it, check 【🚫 Swallow the key press】 below to stop the external software from expanding it.';
           } else if (res.openrevo_occupant) {
             banner.style.display = 'flex';
             banner.style.background = 'rgba(99, 102, 241, 0.12)';
             banner.style.border = '1px solid rgba(99, 102, 241, 0.35)';
             banner.style.color = '#a5b4fc';
-            banner.innerHTML = `💡 <strong>工坊绑定提醒</strong>：该快捷键当前已绑定到【${res.openrevo_occupant}】。保存时将会自动置换覆盖。`;
+            banner.innerHTML = `💡 <strong>Studio binding reminder</strong>: this shortcut is currently bound to 【${res.openrevo_occupant}】. Saving will automatically replace it.`;
           } else {
             banner.style.display = 'flex';
             banner.style.background = 'rgba(16, 185, 129, 0.08)';
             banner.style.border = '1px solid rgba(16, 185, 129, 0.25)';
             banner.style.color = '#34d399';
-            banner.innerHTML = '🟢 <strong>按键通畅</strong>：该组合键在 Windows 全局空闲，未被其他软件占用，可安全注册。';
+            banner.innerHTML = '🟢 <strong>Key is free</strong>: this combination is globally idle in Windows, not occupied by any other software, and can be registered safely.';
           }
         } catch (_) {}
       }, 250);
@@ -1336,9 +1336,9 @@
       STATE.isRecording = true;
       const box = document.getElementById('recorderContainer');
       box.classList.add('recording');
-      document.getElementById('recorderStatus').textContent = '⚡ 正在录制按键... (请同时按下目标快捷键)';
-      document.getElementById('recordHint').textContent = '按 ESC 取消录制';
-      document.getElementById('recordBtnText').textContent = '取消录制 (ESC)';
+      document.getElementById('recorderStatus').textContent = '⚡ Recording keys... (press the target shortcut now)';
+      document.getElementById('recordHint').textContent = 'Press ESC to cancel';
+      document.getElementById('recordBtnText').textContent = 'Cancel (ESC)';
       window.addEventListener('keydown', handleKeyCapture, true);
     }
 
@@ -1346,9 +1346,9 @@
       STATE.isRecording = false;
       const box = document.getElementById('recorderContainer');
       box.classList.remove('recording');
-      document.getElementById('recorderStatus').textContent = '🎯 当前组合键';
-      document.getElementById('recordHint').textContent = '点击右侧按钮按下键盘，或手动点选修饰键';
-      document.getElementById('recordBtnText').textContent = '按下键盘录制 (Record)';
+      document.getElementById('recorderStatus').textContent = '🎯 Current combination';
+      document.getElementById('recordHint').textContent = 'Click the button on the right and press the keys, or pick the modifiers manually';
+      document.getElementById('recordBtnText').textContent = 'Press keys to record';
       window.removeEventListener('keydown', handleKeyCapture, true);
     }
 
@@ -1358,7 +1358,7 @@
 
       if (e.key === 'Escape' && !e.ctrlKey && !e.altKey && !e.shiftKey && !e.metaKey) {
         stopRecording();
-        showToast('已取消按键录制');
+        showToast('Key recording cancelled');
         return;
       }
 
@@ -1413,7 +1413,7 @@
         STATE.primaryKey = primary;
         renderKeyPreview();
         stopRecording();
-        showToast(`🎉 成功捕获按键: ${getCurrentComboString()}`);
+        showToast(`🎉 Key captured: ${getCurrentComboString()}`);
       } else {
         renderKeyPreview();
       }
@@ -1461,28 +1461,28 @@
     }
 
     function getActionLabel(action) {
-      if (!action) return '未知动作';
+      if (!action) return 'Unknown action';
       const actType = action.type;
-      if (actType === 'ToggleFanBoost') return '🌪️ 切换全速强冷 (5400+ RPM)';
-      if (actType === 'CyclePowerMode') return '⚡ 循环性能模式 (办公/均衡/狂暴)';
+      if (actType === 'ToggleFanBoost') return '🌪️ Toggle full-speed fan boost (5400+ RPM)';
+      if (actType === 'CyclePowerMode') return '⚡ Cycle performance modes (Office/Balanced/Turbo)';
       if (actType === 'SetPowerMode') {
         const m = action.payload;
-        const name = m === 1 ? '办公模式' : m === 2 ? '均衡模式' : m === 3 ? '狂暴模式' : '自定义模式';
-        return `🎯 锁定${name} (${m})`;
+        const name = m === 1 ? 'Office mode' : m === 2 ? 'Balanced mode' : m === 3 ? 'Turbo mode' : 'Custom mode';
+        return `🎯 Lock ${name} (${m})`;
       }
-      if (actType === 'ToggleRefreshRate') return '🖥️ 刷新率瞬切 (高刷/60Hz)';
-      if (actType === 'ToggleTouchpad') return '🖱️ 触控板硬件开关';
-      if (actType === 'ToggleWinLock') return '🎮 锁定/解锁 Win 键';
-      if (actType === 'ToggleFnLock') return '⌨️ 切换 Fn 功能键锁定';
-      if (actType === 'CycleKeyboardBrightness') return '💡 循环键盘背光亮度';
-      if (actType === 'MonitorOff') return '🌙 一键黑屏息屏挂机';
-      if (actType === 'LockScreen') return '🔒 快速锁屏工作台';
-      if (actType === 'VolumeMute') return '🤫 系统一键静音 (老板键)';
-      if (actType === 'VolumeUp') return '🔊 系统音量增加';
-      if (actType === 'VolumeDown') return '🔉 系统音量减小';
-      if (actType === 'TriggerOsdPreview') return '🔔 OSD 弹窗预览';
-      if (actType === 'LaunchApp') return `🚀 拉起程序: ${action.payload?.path || '未指定'}`;
-      if (actType === 'PluginEvent') return `📡 跨插件总线: ${action.payload?.event_name}`;
+      if (actType === 'ToggleRefreshRate') return '🖥️ Instant refresh rate switch (high/60Hz)';
+      if (actType === 'ToggleTouchpad') return '🖱️ Touchpad hardware toggle';
+      if (actType === 'ToggleWinLock') return '🎮 Lock / unlock the Win key';
+      if (actType === 'ToggleFnLock') return '⌨️ Toggle Fn function-key lock';
+      if (actType === 'CycleKeyboardBrightness') return '💡 Cycle keyboard backlight brightness';
+      if (actType === 'MonitorOff') return '🌙 One-click screen-off AFK';
+      if (actType === 'LockScreen') return '🔒 Quickly lock the workstation';
+      if (actType === 'VolumeMute') return '🤫 System-wide mute (boss key)';
+      if (actType === 'VolumeUp') return '🔊 System volume up';
+      if (actType === 'VolumeDown') return '🔉 System volume down';
+      if (actType === 'TriggerOsdPreview') return '🔔 OSD popup preview';
+      if (actType === 'LaunchApp') return `🚀 Launch program: ${action.payload?.path || 'not specified'}`;
+      if (actType === 'PluginEvent') return `📡 Cross-plugin bus: ${action.payload?.event_name}`;
       return actType;
     }
 
@@ -1490,19 +1490,19 @@
     async function saveAndRegisterShortcut() {
       const name = document.getElementById('inputShortcutName').value.trim();
       if (!name) {
-        showToast('⚠️ 请填写快捷键名称');
+        showToast('⚠️ Please fill in the shortcut name');
         return;
       }
 
       const combo = getCurrentComboString();
       if (!combo || !STATE.primaryKey) {
-        showToast('⚠️ 请先配置有效的主键与修饰键');
+        showToast('⚠️ Please configure a valid primary key and modifiers first');
         return;
       }
 
       // 如果没有任何修饰键，给出防误触警告
       if (!STATE.ctrl && !STATE.alt && !STATE.shift && !STATE.win) {
-        if (!confirm(`⚠️ 您配置了无修饰键的单键 '${combo}'，这可能导致在正常打字时意外触发硬件动作。确定继续吗？`)) {
+        if (!confirm(`⚠️ You configured the bare single key '${combo}' with no modifier, which may accidentally trigger hardware actions while typing. Continue?`)) {
           return;
         }
       }
@@ -1515,7 +1515,7 @@
       // 1. 按键冲突检查：同一按键组合已被其他功能占用
       const existingByCombo = STATE.shortcuts.find(s => s.combo.toUpperCase() === combo.toUpperCase());
       if (existingByCombo) {
-        if (!confirm(`⚠️ 快捷键 [${combo}] 已被【${existingByCombo.name}】使用。\n\n是否覆盖并用新功能替换它？`)) {
+        if (!confirm(`⚠️ The shortcut [${combo}] is already used by 【${existingByCombo.name}】.\n\nOverwrite it and replace it with the new action?`)) {
           return;
         }
         try {
@@ -1530,7 +1530,7 @@
       });
       if (existingByAction) {
         const actLabel = getActionLabel(action);
-        if (!confirm(`💡 功能【${actLabel}】当前已绑定快捷键 [${existingByAction.combo}]。\n\n是否改换为新按键 [${combo}] 并注销旧绑定？`)) {
+        if (!confirm(`💡 The action 【${actLabel}】 is currently bound to [${existingByAction.combo}].\n\nSwitch it to the new key [${combo}] and unregister the old binding?`)) {
           return;
         }
         try {
@@ -1553,10 +1553,10 @@
 
       try {
         await rpc('register_custom_shortcut', { binding });
-        showToast(`✅ 成功注册快捷键: [${combo}] ${name}`);
+        showToast(`✅ Shortcut registered: [${combo}] ${name}`);
         await refreshShortcutsList();
       } catch (err) {
-        alert(`注册快捷键失败: ${err.message || err}`);
+        alert(`Failed to register the shortcut: ${err.message || err}`);
       }
     }
 
@@ -1567,22 +1567,22 @@
 
       try {
         await rpc('trigger_shortcut_action', { action, osd: true });
-        showToast('⚡ 动作已立即下发微内核执行！(已呼出 OSD 提示)');
+        showToast('⚡ The action has been dispatched to the microkernel! (OSD notification shown)');
       } catch (err) {
-        showToast(`[-] 测试执行失败: ${err.message || err}`);
+        showToast(`[-] Test execution failed: ${err.message || err}`);
       }
     }
 
     // --- 业务：注销指定快捷键 ---
     async function deleteShortcut(id, name) {
-      if (!confirm(`确定要注销并移除快捷键 [${name}] 吗？`)) return;
+      if (!confirm(`Are you sure you want to unregister and remove the shortcut [${name}]?`)) return;
 
       try {
         await rpc('unregister_custom_shortcut', { id });
-        showToast(`🗑️ 已注销快捷键: ${name}`);
+        showToast(`🗑️ Shortcut unregistered: ${name}`);
         await refreshShortcutsList();
       } catch (err) {
-        alert(`注销快捷键失败: ${err.message || err}`);
+        alert(`Failed to unregister the shortcut: ${err.message || err}`);
       }
     }
 
@@ -1590,9 +1590,9 @@
     async function triggerListItem(binding) {
       try {
         await rpc('trigger_shortcut_action', { action: binding.action, osd: true });
-        showToast(`⚡ 已触发动作: ${binding.name}`);
+        showToast(`⚡ Action triggered: ${binding.name}`);
       } catch (err) {
-        showToast(`[-] 触发失败: ${err.message || err}`);
+        showToast(`[-] Trigger failed: ${err.message || err}`);
       }
     }
 
@@ -1601,36 +1601,36 @@
       let pack = [];
       let packName = '';
       if (packType === 'recommended') {
-        packName = '官方推荐核心套件';
+        packName = 'Official recommended core pack';
         pack = [
-          { name: '一键全速强冷切换', combo: 'Ctrl+Alt+F', action: { type: 'ToggleFanBoost' }, osd: true },
-          { name: '循环切换性能模式', combo: 'Ctrl+Alt+M', action: { type: 'CyclePowerMode' }, osd: true },
-          { name: '屏幕刷新率瞬切 (高刷/省电)', combo: 'Ctrl+Alt+R', action: { type: 'ToggleRefreshRate' }, osd: true },
+          { name: 'Toggle full-speed fan boost', combo: 'Ctrl+Alt+F', action: { type: 'ToggleFanBoost' }, osd: true },
+          { name: 'Cycle performance modes', combo: 'Ctrl+Alt+M', action: { type: 'CyclePowerMode' }, osd: true },
+          { name: 'Instant refresh rate switch (high/power-saving)', combo: 'Ctrl+Alt+R', action: { type: 'ToggleRefreshRate' }, osd: true },
         ];
       } else if (packType === 'gamer') {
-        packName = '狂暴电竞套件';
+        packName = 'Berserk esports pack';
         pack = [
-          { name: '全速强冷暴走', combo: 'Ctrl+Alt+F', action: { type: 'ToggleFanBoost' }, osd: true },
-          { name: '循环性能模式', combo: 'Ctrl+Alt+M', action: { type: 'CyclePowerMode' }, osd: true },
-          { name: '锁定 Win 键', combo: 'Ctrl+Alt+W', action: { type: 'ToggleWinLock' }, osd: true },
+          { name: 'Full-speed fan boost', combo: 'Ctrl+Alt+F', action: { type: 'ToggleFanBoost' }, osd: true },
+          { name: 'Cycle performance modes', combo: 'Ctrl+Alt+M', action: { type: 'CyclePowerMode' }, osd: true },
+          { name: 'Lock the Win key', combo: 'Ctrl+Alt+W', action: { type: 'ToggleWinLock' }, osd: true },
         ];
       } else if (packType === 'office') {
-        packName = '移动办公与续航';
+        packName = 'Mobile office and battery life';
         pack = [
-          { name: '刷新率瞬切 (60Hz/高刷)', combo: 'Ctrl+Alt+R', action: { type: 'ToggleRefreshRate' }, osd: true },
-          { name: '触控板硬件开关', combo: 'Ctrl+Alt+T', action: { type: 'ToggleTouchpad' }, osd: true },
-          { name: '锁定办公模式', combo: 'Ctrl+Alt+1', action: { type: 'SetPowerMode', payload: 1 }, osd: true },
+          { name: 'Instant refresh rate switch (60Hz/high refresh)', combo: 'Ctrl+Alt+R', action: { type: 'ToggleRefreshRate' }, osd: true },
+          { name: 'Touchpad hardware toggle', combo: 'Ctrl+Alt+T', action: { type: 'ToggleTouchpad' }, osd: true },
+          { name: 'Lock Office mode', combo: 'Ctrl+Alt+1', action: { type: 'SetPowerMode', payload: 1 }, osd: true },
         ];
       } else if (packType === 'boss') {
-        packName = '工位摸鱼与防窥';
+        packName = 'Desk slacking and anti-peeking';
         pack = [
-          { name: '快速锁屏工作台', combo: 'Ctrl+Alt+B', action: { type: 'LockScreen' }, osd: false },
-          { name: '一键黑屏挂机', combo: 'Ctrl+Alt+L', action: { type: 'MonitorOff' }, osd: false },
-          { name: '系统一键静音', combo: 'Ctrl+Alt+0', action: { type: 'VolumeMute' }, osd: false },
+          { name: 'Quickly lock the workstation', combo: 'Ctrl+Alt+B', action: { type: 'LockScreen' }, osd: false },
+          { name: 'One-click screen-off AFK', combo: 'Ctrl+Alt+L', action: { type: 'MonitorOff' }, osd: false },
+          { name: 'System-wide mute', combo: 'Ctrl+Alt+0', action: { type: 'VolumeMute' }, osd: false },
         ];
       }
 
-      if (!confirm(`确定一键注册 [${packName}] 中的 ${pack.length} 组快捷键吗？`)) {
+      if (!confirm(`Register all ${pack.length} shortcuts from [${packName}] with one click?`)) {
         return;
       }
 
@@ -1659,11 +1659,11 @@
           await rpc('register_custom_shortcut', { binding });
           successCount++;
         } catch (e) {
-          console.warn('注册预设项失败:', item, e);
+          console.warn('Failed to register a preset item:', item, e);
         }
       }
 
-      showToast(`🎉 成功载入预设套件！已注册 ${successCount}/${pack.length} 项`);
+      showToast(`🎉 Preset pack loaded! Registered ${successCount}/${pack.length} items`);
       await refreshShortcutsList();
     }
 
@@ -1675,11 +1675,11 @@
         renderTable(STATE.shortcuts);
         updateStats(STATE.shortcuts);
       } catch (err) {
-        console.error('获取快捷键列表失败:', err);
+        console.error('Failed to fetch the shortcut list:', err);
         document.getElementById('shortcutsTableBody').innerHTML = `
           <tr>
             <td colspan="5" style="text-align: center; color: var(--status-error); padding: 24px 0;">
-              ❌ 获取快捷键清单失败: ${err.message || err}
+              ❌ Failed to fetch the shortcut list: ${err.message || err}
             </td>
           </tr>
         `;
@@ -1689,7 +1689,7 @@
     function renderTable(list) {
       const tbody = document.getElementById('shortcutsTableBody');
       const badge = document.getElementById('registeredCountBadge');
-      badge.textContent = `共 ${list.length} 项`;
+      badge.textContent = `${list.length} total`;
 
       if (list.length === 0) {
         tbody.innerHTML = `
@@ -1697,13 +1697,13 @@
             <td colspan="5" style="text-align: center; padding: 36px 16px;">
               <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
                 <div style="font-size: 14px; font-weight: 600; color: var(--text-primary);">
-                  💡 当前系统未挂载任何全局热键 (纯净状态)
+                  💡 No global hotkeys are mounted right now (clean state)
                 </div>
                 <div style="font-size: 12px; color: var(--text-dim); max-width: 480px; margin-bottom: 4px;">
-                  微内核默认快捷键已全部解耦移出，零背景抢键。您可以自主在上方案板录制，也可以一键载入官方推荐套件：
+                  All microkernel default shortcuts have been decoupled and removed, with zero background key grabbing. You can record your own in the panel above, or load the official recommended pack with one click:
                 </div>
                 <button class="btn btn-primary" onclick="applyPresetPack('recommended')">
-                  ⚡ 一键载入官方推荐核心套件 (强冷 / 切模 / 刷新率)
+                  ⚡ Load the official recommended core pack (fan boost / mode switch / refresh rate)
                 </button>
               </div>
             </td>
@@ -1719,11 +1719,11 @@
         const comboHtml = comboParts.map(p => `<span class="keycap">${p}</span>`).join('<span class="keycap-plus">+</span>');
 
         // Source badge
-        let srcBadge = '<span class="badge badge-dim">系统核心</span>';
+        let srcBadge = '<span class="badge badge-dim">System core</span>';
         if (item.plugin_id === STATE.pluginId || item.id?.startsWith('pack_') || item.id?.startsWith('custom_')) {
-          srcBadge = '<span class="badge badge-primary">工坊自定义</span>';
+          srcBadge = '<span class="badge badge-primary">Studio custom</span>';
         } else if (item.plugin_id) {
-          srcBadge = `<span class="badge badge-cyan" title="来自插件: ${item.plugin_id}">🧩 ${item.plugin_id}</span>`;
+          srcBadge = `<span class="badge badge-cyan" title="From plugin: ${item.plugin_id}">🧩 ${item.plugin_id}</span>`;
         }
 
         // Action Label
@@ -1731,8 +1731,8 @@
 
         // OSD badge
         const osdBadge = item.osd
-          ? '<span class="badge badge-ok">● 开启</span>'
-          : '<span class="badge badge-dim">○ 关闭</span>';
+          ? '<span class="badge badge-ok">● On</span>'
+          : '<span class="badge badge-dim">○ Off</span>';
 
         // Escaped JSON for testing
         const bindingJson = JSON.stringify(item).replace(/"/g, '&quot;');
@@ -1754,13 +1754,13 @@
             <td>${osdBadge}</td>
             <td style="text-align: right;">
               <div style="display: flex; align-items: center; justify-content: flex-end; gap: 6px;">
-                <button class="btn btn-sm" onclick='triggerListItem(${bindingJson})' title="立即下发动作测试">
+                <button class="btn btn-sm" onclick='triggerListItem(${bindingJson})' title="Dispatch the action now to test it">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                  <span>测试</span>
+                  <span>Test</span>
                 </button>
-                <button class="btn btn-sm btn-danger" onclick="deleteShortcut('${item.id}', '${item.name}')" title="注销此快捷键">
+                <button class="btn btn-sm btn-danger" onclick="deleteShortcut('${item.id}', '${item.name}')" title="Unregister this shortcut">
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                  <span>注销</span>
+                  <span>Remove</span>
                 </button>
               </div>
             </td>
@@ -1811,7 +1811,7 @@
 
       document.getElementById('btnRefreshList').addEventListener('click', () => {
         refreshShortcutsList();
-        showToast('已刷新快捷键清单');
+        showToast('Shortcut list refreshed');
       });
 
       document.getElementById('btnOpenPluginsDir').addEventListener('click', async () => {

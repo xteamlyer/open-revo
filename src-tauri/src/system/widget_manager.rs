@@ -75,7 +75,7 @@ pub async fn spawn_widget_window_internal(app: &AppHandle, plugin_id: &str) -> R
 
     let (is_compat, notice) = crate::commands::system_cmd::check_version_compatibility(manifest.min_host_version.as_deref());
     if !is_compat {
-        return Err(notice.unwrap_or_else(|| "当前 OpenRevo 版本低于该挂件最低要求版本".into()));
+        return Err(notice.unwrap_or_else(|| "The current OpenRevo version is lower than the minimum version required by this widget".into()));
     }
 
     let p_type = manifest.plugin_type.as_deref().unwrap_or_default();

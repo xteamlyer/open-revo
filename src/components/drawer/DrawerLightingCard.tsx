@@ -31,44 +31,44 @@ interface KeyboardHardwareInfo {
 }
 
 const KBD_PRESET_COLORS = [
-  { name: '冰晶蓝', hex: '#38bdf8' },
-  { name: '机械青', hex: '#00ffff' },
-  { name: '电竞紫', hex: '#a855f7' },
-  { name: '极光绿', hex: '#10b981' },
-  { name: '烈焰红', hex: '#f43f5e' },
-  { name: '暖阳金', hex: '#fbbf24' },
-  { name: '幻影粉', hex: '#ec4899' },
-  { name: '纯净白', hex: '#ffffff' },
+  { name: 'Crystal Blue', hex: '#38bdf8' },
+  { name: 'Mecha Cyan', hex: '#00ffff' },
+  { name: 'Gaming Purple', hex: '#a855f7' },
+  { name: 'Aurora Green', hex: '#10b981' },
+  { name: 'Flame Red', hex: '#f43f5e' },
+  { name: 'Warm Gold', hex: '#fbbf24' },
+  { name: 'Phantom Pink', hex: '#ec4899' },
+  { name: 'Pure White', hex: '#ffffff' },
 ];
 
 const PERKEY_MODES = [
-  { id: 3, name: '炫彩波浪' },
-  { id: 1, name: '静态恒亮' },
-  { id: 2, name: '单色呼吸' },
-  { id: 21, name: '游戏高亮' },
-  { id: 5, name: '炫彩彩虹' },
-  { id: 0, name: '关闭背光' },
+  { id: 3, name: 'Vibrant Wave' },
+  { id: 1, name: 'Static On' },
+  { id: 2, name: 'Single-Color Breathing' },
+  { id: 21, name: 'Gaming Highlights' },
+  { id: 5, name: 'Vibrant Rainbow' },
+  { id: 0, name: 'Turn Backlight Off' },
 ];
 
 const STREAMER_DRAWER_MODES = [
-  { id: 101, name: '极客波浪' },
-  { id: 100, name: '正弦呼吸' },
-  { id: 102, name: '同心涟漪' },
-  { id: 103, name: '丝滑流沙' },
-  { id: 106, name: '全彩彩虹' },
-  { id: 113, name: '静态恒亮' },
-  { id: 0, name: '关闭背光' },
+  { id: 101, name: 'Enthusiast Wave' },
+  { id: 100, name: 'Sine-Wave Breathing' },
+  { id: 102, name: 'Concentric Ripples' },
+  { id: 103, name: 'Smooth Quicksand' },
+  { id: 106, name: 'Full-Color Rainbow' },
+  { id: 113, name: 'Static On' },
+  { id: 0, name: 'Turn Backlight Off' },
 ];
 
 const SINGLE_ZONE_MODES = [
-  { id: 1, name: '单色常亮' },
-  { id: 2, name: '彩虹循环' },
-  { id: 0, name: '关闭背光' },
+  { id: 1, name: 'Static Color' },
+  { id: 2, name: 'Rainbow cycle' },
+  { id: 0, name: 'Turn Backlight Off' },
 ];
 
 const SINGLE_COLOR_MODES = [
-  { id: 1, name: '开启照明' },
-  { id: 0, name: '关闭背光' },
+  { id: 1, name: 'Turn Lighting On' },
+  { id: 0, name: 'Turn Backlight Off' },
 ];
 
 
@@ -212,12 +212,12 @@ export const DrawerLightingCard: React.FC<DrawerLightingCardProps> = ({
       const max = validSteps[0] || 1;
       let name = '';
       if (validSteps.length === 2) {
-        name = lvl === 2 ? '100% 满亮' : '50% 柔和';
+        name = lvl === 2 ? '100% Brightness' : '50% Soft';
       } else if (validSteps.length === 3) {
-        name = lvl === 3 ? '100% 满亮' : lvl === 2 ? '60% 柔和' : '30% 微光';
+        name = lvl === 3 ? '100% Brightness' : lvl === 2 ? '60% Soft' : '30% Dim';
       } else {
         const pct = Math.round((lvl / max) * 100);
-        name = lvl === max ? `${pct}% 满亮` : `${pct}% 档位`;
+        name = lvl === max ? `${pct}% Brightness` : `${pct}% Level`;
       }
       return { level: lvl, name };
     });
@@ -259,22 +259,22 @@ export const DrawerLightingCard: React.FC<DrawerLightingCardProps> = ({
   }, [isSingleColor, isSingleZone, kbdEngine]);
 
   const activeModeName = useMemo(() => {
-    if (kbdEffect === 0) return '关闭背光';
-    if (isSingleColor) return '开启照明';
+    if (kbdEffect === 0) return 'Turn Backlight Off';
+    if (isSingleColor) return 'Turn Lighting On';
     if (!isSingleZone && kbdEngine === 'streamer') {
       const normalized = typeof streamerEffect === 'number'
         ? (streamerEffect >= 100 ? streamerEffect : streamerEffect + 100)
         : 101;
       const found = STREAMER_DRAWER_MODES.find((m) => m.id === normalized);
-      return found ? found.name : '极客波浪';
+      return found ? found.name : 'Enthusiast Wave';
     }
     const found = currentModes.find((m) => m.id === kbdEffect);
-    return found ? found.name : '炫彩波浪';
+    return found ? found.name : 'Vibrant Wave';
   }, [currentModes, kbdEffect, isSingleColor, isSingleZone, kbdEngine, streamerEffect]);
 
   const activeColorObj = useMemo(() => {
     const found = KBD_PRESET_COLORS.find((c) => c.hex.toLowerCase() === kbdColor.toLowerCase());
-    return found || { name: '自定义', hex: kbdColor };
+    return found || { name: 'Custom', hex: kbdColor };
   }, [kbdColor]);
 
 
@@ -390,20 +390,20 @@ export const DrawerLightingCard: React.FC<DrawerLightingCardProps> = ({
         <div className="m-card-header">
           <div className="m-header-left">
             <Keyboard size={13} style={{ color: 'var(--theme-kbd)' }} />
-            <span>键盘背光休眠延时</span>
+            <span>Keyboard Backlight Idle Timeout</span>
           </div>
 
           <div className="m-header-right" style={{ color: 'var(--theme-kbd)', fontSize: '10px' }}>
-            Fn+F8 硬件调光
+            Fn+F8 Hardware Brightness Control
           </div>
         </div>
 
         <div className="m-grid-4">
           {[
-            { label: '常亮', sec: 0 },
-            { label: '10秒', sec: 10 },
-            { label: '30秒', sec: 30 },
-            { label: '60秒', sec: 60 },
+            { label: 'Always On', sec: 0 },
+            { label: '10 sec', sec: 10 },
+            { label: '30 sec', sec: 30 },
+            { label: '60 sec', sec: 60 },
           ].map((item) => (
             <button
               key={item.sec}
@@ -419,7 +419,7 @@ export const DrawerLightingCard: React.FC<DrawerLightingCardProps> = ({
                   : {}
               }
               onClick={() => handleSetTimeout(item.sec)}
-              title={item.sec === 0 ? '背光常亮不灭' : `无人操作 ${item.label} 后自动熄灭节能`}
+              title={item.sec === 0 ? 'Keep backlight on' : `Turn off automatically after ${item.label} of inactivity to save power`}
             >
               <span style={{ fontSize: '11px', fontWeight: 600 }}>{item.label}</span>
             </button>
@@ -434,7 +434,7 @@ export const DrawerLightingCard: React.FC<DrawerLightingCardProps> = ({
         <div className="m-card-header">
           <div className="m-header-left">
             <Keyboard size={13} style={{ color: 'var(--theme-kbd)' }} />
-            <span>笔记本键盘背光</span>
+            <span>Laptop Keyboard Backlight</span>
             {kbHwInfo && (
               <span
                 style={{
@@ -446,7 +446,7 @@ export const DrawerLightingCard: React.FC<DrawerLightingCardProps> = ({
                   fontWeight: 600,
                 }}
               >
-                {isSingleColor ? '单色白光' : isSingleZone ? '单区RGB' : '全彩RGB'}
+                {isSingleColor ? 'Solid White' : isSingleZone ? 'Single-Zone RGB' : 'Full-Color RGB'}
               </span>
             )}
           </div>
@@ -462,7 +462,7 @@ export const DrawerLightingCard: React.FC<DrawerLightingCardProps> = ({
                 setShowKbdColorMenu(false);
                 setShowKbdBrightMenu(false);
               }}
-              title="切换键盘背光效果模式"
+              title="Switch keyboard backlight mode"
             >
               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {activeModeName}
@@ -502,9 +502,9 @@ export const DrawerLightingCard: React.FC<DrawerLightingCardProps> = ({
                   setShowKbdModeMenu(false);
                   setShowKbdColorMenu(false);
                 }}
-                title={isKbdTurnedOn ? "选择单色白光背光亮度档位" : "背光已关闭，点击选择档位开启照明"}
+                title={isKbdTurnedOn ? "Select white backlight brightness" : "Backlight is off. Select a level to turn it on."}
               >
-                <span>{isKbdTurnedOn ? `档位 ${currentSingleColorLevel}档` : '已灭灯'}</span>
+                <span>{isKbdTurnedOn ? `Level ${currentSingleColorLevel}` : 'Lights Off'}</span>
                 <ChevronDown size={11} style={{ opacity: 0.7, flexShrink: 0, marginLeft: '3px' }} />
               </button>
 
@@ -535,7 +535,7 @@ export const DrawerLightingCard: React.FC<DrawerLightingCardProps> = ({
                   setShowKbdModeMenu(false);
                   setShowKbdBrightMenu(false);
                 }}
-                title="选择背光预设主色调"
+                title="Select a preset backlight color"
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                   <span
@@ -597,11 +597,11 @@ export const DrawerLightingCard: React.FC<DrawerLightingCardProps> = ({
                 justifyContent: 'center',
                 gap: '4px',
               }}
-              title="展开控制中心大面板并直达 RGB 灯效工坊"
+              title="Expand the control center and open the RGB Lighting Studio"
               onClick={() => onExpandDashboard('lighting')}
             >
               <Palette size={12} />
-              <span>更多</span>
+              <span>More</span>
             </button>
           )}
         </div>

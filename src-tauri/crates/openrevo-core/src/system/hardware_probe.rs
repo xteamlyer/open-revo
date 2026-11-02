@@ -355,9 +355,9 @@ pub fn collect_hardware_snapshot() -> HardwareSnapshot {
 
     // 2. GPU Environment
     let topology = if gpus.iter().any(|g| g.contains("NVIDIA") || g.contains("Radeon RX")) {
-        "独显游戏本/全能本 (Hybrid/dGPU)".to_string()
+        "Discrete-GPU gaming / all-round laptop (Hybrid/dGPU)".to_string()
     } else {
-        "核显轻薄本 (iGPU Only)".to_string()
+        "iGPU-only thin and light (iGPU Only)".to_string()
     };
     let gpu_env = GpuEnvironmentSnapshot {
         topology_type: topology,
@@ -366,7 +366,7 @@ pub fn collect_hardware_snapshot() -> HardwareSnapshot {
 
     // 3. Display Panel
     let friendly_internal = if probe_res.internal_panel.is_empty() {
-        "内建标准面板".to_string()
+        "Built-in standard panel".to_string()
     } else {
         probe_res.internal_panel
     };
@@ -384,12 +384,12 @@ pub fn collect_hardware_snapshot() -> HardwareSnapshot {
     // 4. BIOS Overclock Menu
     let oc_code = probe_res.oc_status;
     let oc_desc = match oc_code.as_str() {
-        "ENABLED" => "硬件支持且当前已开启 [ENABLED] (开机按 F2/Del 可直接进入高级超频菜单)".to_string(),
-        "DISABLED" => "硬件支持但当前已隐藏 [DISABLED] (可通过 OpenRevo 免进 BIOS 一键解锁)".to_string(),
-        "AMD_NOT_APPLICABLE" => "不适用 (AMD 平台采用 SMU 硬件功耗调度与 PBO/CBS 架构，无 Intel UniWillVariable 菜单结构)".to_string(),
-        "UNSUPPORTED" => "当前主板固件未声明开启超频菜单能力".to_string(),
-        "NOT_FOUND_OR_RESTRICTED" => "主板 NVRAM 未找到 OemMagicVariable / UniWillVariable 变量或需要管理员权限".to_string(),
-        _ => "未探测到超频状态".to_string(),
+        "ENABLED" => "Supported by the hardware and currently enabled [ENABLED] (press F2/Del at boot to enter the advanced overclocking menu directly)".to_string(),
+        "DISABLED" => "Supported by the hardware but currently hidden [DISABLED] (can be unlocked with one click from OpenRevo, no BIOS entry needed)".to_string(),
+        "AMD_NOT_APPLICABLE" => "Not applicable (AMD platforms use SMU hardware power scheduling and the PBO/CBS architecture, and have no Intel UniWillVariable menu structure)".to_string(),
+        "UNSUPPORTED" => "The current board firmware does not declare the overclocking menu capability".to_string(),
+        "NOT_FOUND_OR_RESTRICTED" => "The OemMagicVariable / UniWillVariable variables were not found in the board NVRAM, or administrator rights are required".to_string(),
+        _ => "Overclocking status not detected".to_string(),
     };
 
     let oc_menu = BiosOverclockSnapshot {
@@ -409,13 +409,13 @@ pub fn collect_hardware_snapshot() -> HardwareSnapshot {
     let is_single_color = (raw_bl_white & 0x01) != 0;
 
     let (hw_type, desc) = if has_ite8291 {
-        ("PerKey_RGB".to_string(), "独立 ITE 8291 USB 全彩逐键/4区 RGB 键盘 [支持 16 种炫彩流动特效与调色盘]".to_string())
+        ("PerKey_RGB".to_string(), "Standalone ITE 8291 USB full-color per-key / 4-zone RGB keyboard [supports 16 vivid flowing effects and a color palette]".to_string())
     } else if is_single_zone {
-        ("SingleZone_RGB".to_string(), "主板 EC 单区 RGB 键盘 (全键同色调光)".to_string())
+        ("SingleZone_RGB".to_string(), "Board EC single-zone RGB keyboard (whole keyboard one color)".to_string())
     } else if is_single_color {
-        ("SingleColor".to_string(), "单色白光背光键盘 (支持4档亮度调节)".to_string())
+        ("SingleColor".to_string(), "Monochrome white backlit keyboard (supports 4 brightness levels)".to_string())
     } else {
-        ("SingleColor".to_string(), "通用单色背光键盘".to_string())
+        ("SingleColor".to_string(), "Generic monochrome backlit keyboard".to_string())
     };
 
     let kb_snap = KeyboardLightingSnapshot {
@@ -441,23 +441,23 @@ pub fn collect_hardware_snapshot() -> HardwareSnapshot {
     let is_water_cooler = crate::driver::wmi_ec::get_hardware_support_flags().has_water_cooler;
 
     let bat_mode_desc = match raw_bat_mode {
-        0x21 => "工作站模式".to_string(),
-        0x11 => "平衡模式".to_string(),
-        0x01 => "长效模式".to_string(),
-        _ => format!("模式码: 0x{:02X}", raw_bat_mode),
+        0x21 => "Workstation mode".to_string(),
+        0x11 => "Balanced mode".to_string(),
+        0x01 => "Long-life mode".to_string(),
+        _ => format!("Mode code: 0x{:02X}", raw_bat_mode),
     };
 
     let pwr_snap = PeripheralsPowerSnapshot {
         water_cooler_supported: is_water_cooler,
-        ec_access_status: "正常直通 [ACPIDriver_IOCTL / WMI]".to_string(),
+        ec_access_status: "Direct access OK [ACPIDriver_IOCTL / WMI]".to_string(),
         battery_mode: bat_mode_desc,
         charge_limit_upper_pct: if raw_bat_limit_up > 0 { raw_bat_limit_up } else { 80 },
         charge_limit_lower_pct: if raw_bat_limit_down > 0 { raw_bat_limit_down } else { 75 },
-        power_off_usb_charging: if (raw_pwr_trigger & 0x10) != 0 { "开启 [0x10]".to_string() } else { "关闭 [0x00] (节能防耗)".to_string() },
-        ac_power_recovery: if (raw_ac_recovery & crate::driver::wmi_ec::AC_RECOVERY_BITMASK) != 0 { "开启 [0x08]".to_string() } else { "关闭 [0x00]".to_string() },
-        fn_key_mode: if raw_fn_mode == 0x11 { "Fn 键锁定 [0x11] (F1~F12为功能键)".to_string() } else { "标准功能键 [0x01]".to_string() },
-        win_key_lock: if (raw_hw_status & crate::driver::wmi_ec::STATUS_WINLOCK) != 0 { "硬件锁定 [0x01]".to_string() } else { "正常开启 [0x00]".to_string() },
-        camera_power: if (raw_camera_power & crate::driver::wmi_ec::CAMERA_CUTOFF_BITMASK) != 0 { "物理断电 [0x08]".to_string() } else { "正常供电 [0x00]".to_string() },
+        power_off_usb_charging: if (raw_pwr_trigger & 0x10) != 0 { "On [0x10]".to_string() } else { "Off [0x00] (power-saving)".to_string() },
+        ac_power_recovery: if (raw_ac_recovery & crate::driver::wmi_ec::AC_RECOVERY_BITMASK) != 0 { "On [0x08]".to_string() } else { "Off [0x00]".to_string() },
+        fn_key_mode: if raw_fn_mode == 0x11 { "Fn key locked [0x11] (F1-F12 act as function keys)".to_string() } else { "Standard function keys [0x01]".to_string() },
+        win_key_lock: if (raw_hw_status & crate::driver::wmi_ec::STATUS_WINLOCK) != 0 { "Hardware locked [0x01]".to_string() } else { "Normal, enabled [0x00]".to_string() },
+        camera_power: if (raw_camera_power & crate::driver::wmi_ec::CAMERA_CUTOFF_BITMASK) != 0 { "Physically powered off [0x08]".to_string() } else { "Normally powered [0x00]".to_string() },
     };
 
     // 7. Factory Power Presets Snapshot (EC Power Tables)
@@ -493,11 +493,11 @@ pub fn collect_hardware_snapshot() -> HardwareSnapshot {
 
     let diag_summary = if ec_accessible {
         format!(
-            "出厂模具预设: 办公 {}W | 平衡 {}W | 狂暴 {}W | GPU DB +{}W (当前运行: {}W)",
+            "Factory chassis presets: Office {}W | Balanced {}W | Beast {}W | GPU DB +{}W (currently running: {}W)",
             off_pl1, bal_pl1, tur_pl1, gpu_db_max, cur_pl1
         )
     } else {
-        "未能通过 EC 硬件通道直读出厂预设功耗表".to_string()
+        "Could not read the factory preset power table directly through the EC hardware channel".to_string()
     };
 
     let pwr_presets = FactoryPowerPresetsSnapshot {

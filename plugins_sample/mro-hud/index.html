@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MRO HUD</title>
+<style>
+  :root {
+    /* 整体缩放系数：所有尺寸都乘它，改字号而不是拉伸位图，放大后不糊 */
+    --s: 1;
+    --text: #ffffff;
+    --dim: #94a3b8;
+    --cpu: #22d3ee;
+    --gpu: #4ade80;
+    --bar-bg: rgba(255, 255, 255, 0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    /* 清单里 window.transparent = true，宿主用 DirectComposition 逐像素合成：
+       页面不画的地方就是真正的透明，能直接看到游戏。
+       所以这里绝不能铺任何底色，否则整窗会被涂成一块黑底。 */
+    background: transparent;
+    overflow: hidden;
+    font-family: Consolas, "Cascadia Mono", "Microsoft YaHei UI", monospace;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* 卡片铺满整个窗口，圆角交给 DWM 裁；这里只画内层高光与渐变。 */
+  /* 三层结构，各自独立：
+     .hud     —— 纯裁剪容器（透明，负责圆角裁切），不画任何底色
+     .bg      —— 背景图层，opacity 由「背景不透明度」控制；透明预设下直接隐藏
+     .inner   —— 字体图层，opacity 由「字体不透明度」控制
+     背景和字体两层各调各的，互不干扰；窗口本身是透明的，透出游戏画面。 */
+  .hud {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: transparent;
+    overflow: hidden;
+    color: var(--text);
+    cursor: grab;
+  }
+
+  .bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    background: linear-gradient(180deg, #1a212b 0%, #0e131a 46%, #070a0e 100%);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.075),
+                inset 0 1px 0 rgba(255, 255, 255, 0.09);
+    opacity: var(--bg-op, 1);
+    transition: opacity 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    pointer-events: none;
+  }
+
+  .inner {
+    position: relative;
+    z-index: 1;
+    width: calc(490px * var(--s));
+    height: calc(104px * var(--s));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: calc(5px * var(--s));
+    padding: calc(10px * var(--s)) calc(16px * var(--s));
+    opacity: var(--text-op, 1);
+    transition: opacity 0.18s ease;
+  }
+
+  .hud:active { cursor: grabbing; }
+
+  .row {
+    display: grid;
+    grid-template-columns:
+      calc(36px * var(--s)) calc(28px * var(--s)) calc(36px * var(--s))
+      minmax(0, 1fr)
+      calc(42px * var(--s)) calc(28px * var(--s)) calc(26px * var(--s))
+      calc(42px * var(--s)) calc(23px * var(--s));
+    align-items: center;
+    column-gap: calc(5px * var(--s));
+    height: calc(18px * var(--s));
+    font-size: calc(12px * var(--s));
+    line-height: 1;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lab { font-weight: 700; letter-spacing: 0.4px; }
+  .lab.gpu { color: var(--gpu); }
+  .lab.cpu { color: var(--cpu); }
+
+  /* 数值统一纯白，风扇/功耗/显存这类次要项降到 90% 白，仍然比旧版亮 */
+  .v { color: #ffffff; font-weight: 500; overflow: hidden; text-overflow: ellipsis; }
+  .v.temp { font-weight: 700; }
+  .v.fan, .v.pw, .v.mem { color: #e8eef6; }
+  .v.use { color: #ffffff; }
+
+  .bar {
+    height: calc(6px * var(--s));
+    border-radius: 3px;
+    background: var(--bar-bg);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bar i {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: #22d3ee;
+    border-radius: 3px;
+    transition: width 0.35s ease, background 0.3s ease;
+  }
+
+  .row.gpu-row .bar i { background: #4ade80; }
+  .row.cpu-row .bar i { background: #22d3ee; }
+
+  .fpsline {
+    display: flex;
+    align-items: baseline;
+    gap: calc(9px * var(--s));
+    height: calc(26px * var(--s));
+    margin-top: 1px;
+    white-space: nowrap;
+  }
+
+  .fps-main { display: inline-flex; align-items: baseline; gap: 4px; }
+
+  /* 空状态：只留一个小号提示，不要大号 -- 旁边挂一整句中文 */
+  .fps-status {
+    display: none;
+    font-size: calc(11.5px * var(--s));
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    color: #94a3b8;
+    align-self: center;
+  }
+
+  /* 空状态下没有大号数字，基线对齐会把 FPS 标签压到行底，改成整体居中 */
+  .fpsline.empty { align-items: center; }
+  .fpsline.empty .fps-main { align-items: center; }
+  .fpsline.empty .fps-main b { display: none; }
+  .fpsline.empty .fps-status { display: inline-block; }
+
+  .fps-main em {
+    font-style: normal;
+    font-size: calc(10px * var(--s));
+    letter-spacing: 1px;
+    color: #94a3b8;
+  }
+
+  .fps-main b {
+    font-family: Consolas, monospace;
+    font-size: calc(22px * var(--s));
+    font-weight: 700;
+    line-height: 1;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    text-shadow: 0 0 12px rgba(34, 211, 238, 0.20);
+  }
+
+  .ft {
+    font-family: Consolas, monospace;
+    font-size: calc(13.5px * var(--s));
+    font-weight: 600;
+    color: #cbd5e1;
+  }
+
+  .low {
+    font-family: Consolas, monospace;
+    font-size: calc(12.5px * var(--s));
+    color: #94a3b8;
+  }
+
+  .low b { color: #e2e8f0; font-weight: 700; }
+
+  .fpsline .spacer { flex: 1 1 auto; }
+
+  .fpsline .app {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: calc(10px * var(--s));
+    color: #7c8ba1;
+  }
+
+  .tag {
+    font-size: calc(9px * var(--s));
+    letter-spacing: 0.6px;
+    color: #55637a;
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    padding: calc(2px * var(--s)) calc(6px * var(--s));
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .tag:hover {
+    color: #9fb0c6;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.20);
+  }
+
+  .tag.warn {
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.55);
+    background: rgba(239, 68, 68, 0.10);
+  }
+
+  /* 未开启「MRO HUD · 设置」时的整卡警告（替代正常 HUD 内容） */
+  .warncard {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: none;
+    align-items: center;
+    gap: calc(12px * var(--s));
+    padding: calc(12px * var(--s)) calc(18px * var(--s));
+    background: #17130b;
+    border: 1px solid rgba(245, 158, 11, 0.55);
+    border-radius: 10px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    color: #fcd34d;
+  }
+  .warncard.show { display: flex; }
+  .warn-ic {
+    flex: 0 0 auto;
+    width: calc(26px * var(--s));
+    height: calc(26px * var(--s));
+    border-radius: 50%;
+    background: rgba(245, 158, 11, 0.92);
+    color: #241a02;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: calc(16px * var(--s));
+    font-family: Consolas, monospace;
+  }
+  .warn-tx { display: flex; flex-direction: column; gap: calc(3px * var(--s)); min-width: 0; }
+  .warn-tx b { font-size: calc(13px * var(--s)); color: #fde68a; font-weight: 700; white-space: nowrap; }
+  .warn-tx span { font-size: calc(11px * var(--s)); color: #c9a94e; line-height: 1.4; }
+
+  .fpsline.off .fps-main b { color: #94a3b8; text-shadow: none; }
+</style>
+</head>
+<body>
+
+<div class="hud" id="hud" data-tauri-drag-region>
+  <div class="bg" id="bg"></div>
+  <div class="inner" id="inner" data-tauri-drag-region>
+  <div class="row gpu-row" data-tauri-drag-region>
+    <span class="lab gpu">GPU:</span>
+    <span class="v temp" id="g-temp" style="color:#64748b">--</span>
+    <span class="v" id="g-freq">--</span>
+    <span class="v fan" id="g-fan">--</span>
+    <span class="v pw" id="g-pow">--</span>
+    <span class="v use" id="g-use">--</span>
+    <span class="bar"><i id="g-bar"></i></span>
+    <span class="v mem" id="g-mem">--</span>
+    <span class="bar"><i id="g-membar"></i></span>
+  </div>
+
+  <div class="row cpu-row" data-tauri-drag-region>
+    <span class="lab cpu">CPU:</span>
+    <span class="v temp" id="c-temp" style="color:#64748b">--</span>
+    <span class="v" id="c-freq">--</span>
+    <span class="v fan" id="c-fan">--</span>
+    <span class="v pw" id="c-pow">--</span>
+    <span class="v use" id="c-use">--</span>
+    <span class="bar"><i id="c-bar"></i></span>
+    <span class="v mem" id="c-mem">--</span>
+    <span class="bar"><i id="c-membar"></i></span>
+  </div>
+
+  <div class="fpsline off empty" id="fpsline" data-tauri-drag-region>
+    <span class="fps-main"><em>FPS</em><b id="fps">--</b></span>
+    <span class="fps-status" id="fpsStatus">Waiting for the game frame rate</span>
+    <span class="ft" id="ft">-- ms</span>
+    <span class="low" id="low" style="display:none">1% <b id="lowVal">--</b></span>
+    <span class="spacer"></span>
+    <span class="app" id="rapp"></span>
+    <span class="tag" id="rtssTag" data-no-drag="1" title="Click to start RTSS manually">RTSS</span>
+    <span class="tag warn" id="warnTag" style="display:none" title="&quot;MRO HUD · Settings&quot; was not detected. Please install it as well and restart, otherwise the appearance and 1% Low cannot be adjusted">No settings tab</span>
+  </div>
+  </div>
+  <div class="warncard" id="warnCard">
+    <div class="warn-ic">!</div>
+    <div class="warn-tx">
+      <b>Please enable the "MRO HUD · Settings" plugin first</b>
+      <span>The two plugins must be used together; this notice disappears automatically once the settings plugin is enabled.</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var HW_POLL = 1500;
+  var AGENT_POLL = 700;
+  var AGENT_BASE = "http://127.0.0.1:18946";
+  var AGENT_URL = AGENT_BASE + "/api/sensors";
+  var PLUGIN_ID = "mro-hud";
+  // 改了 index.html 就把这个构建号一起改掉，页面会自己发现并刷新
+  var PAGE_BUILD = "2026-10-31.17";
+
+  var hw = null;
+  var agent = null;
+  var agentOnline = false;
+  var hwPolling = false;
+  var agentFails = 0;
+  var lastEnsure = 0;
+  var startingRtss = false;
+  var showLow = true;
+
+  function $(id) { return document.getElementById(id); }
+
+  function hostBridge() {
+    var list = [];
+    try { if (window.parent && window.parent !== window) list.push(window.parent); } catch (e) {}
+    list.push(window);
+    for (var i = 0; i < list.length; i++) {
+      try {
+        var w = list[i];
+        if (w && w.__TAURI_INTERNALS__ && typeof w.__TAURI_INTERNALS__.invoke === "function") return w.__TAURI_INTERNALS__;
+      } catch (e2) {}
+    }
+    return null;
+  }
+
+  function invoke(cmd, args) {
+    var b = hostBridge();
+    if (!b) return Promise.reject(new Error("NO_BRIDGE"));
+    try { return Promise.resolve(b.invoke(cmd, args || {})); } catch (e) { return Promise.reject(e); }
+  }
+
+  /* 关键：把 WebView2 自身的背景刷成透明。
+     宿主清单里的 window.transparent 实际不生效，WebView2 画布默认是一块不透明白底，
+     页面再透明也只是露出白底（这就是"透明却发白"的根因）。
+     宿主暴露了 Tauri 的 set_webview_background_color / set_background_color，
+     调用后画布变真透明，页面里不画的地方就能直接看到游戏。
+     多处尝试不同 label / 参数形状，失败也不影响其它功能。 */
+  function makeWebviewTransparent() {
+    var b = hostBridge();
+    if (!b) return;
+    var labels = [];
+    try {
+      var m = b.metadata || {};
+      if (m.currentWindow && m.currentWindow.label) labels.push(m.currentWindow.label);
+      if (m.currentWebview && m.currentWebview.label) labels.push(m.currentWebview.label);
+    } catch (e) {}
+    labels.push("mro-hud", "plugin:mro-hud");
+    var seen = {};
+    labels = labels.filter(function (l) { if (!l || seen[l]) return false; seen[l] = 1; return true; });
+
+    var colors = [[0, 0, 0, 0], "#00000000"];
+    labels.forEach(function (label) {
+      colors.forEach(function (c) {
+        // 覆盖 Tauri 各版本可能的参数形状：{label,value} / {label,color} / {value} / {color}
+        var shapes = [
+          { label: label, value: c },
+          { label: label, color: c },
+          { value: c },
+          { color: c }
+        ];
+        shapes.forEach(function (args) {
+          try { b.invoke("plugin:webview|set_webview_background_color", args).catch(function () {}); } catch (e) {}
+          try { b.invoke("plugin:window|set_background_color", args).catch(function () {}); } catch (e) {}
+        });
+      });
+    });
+
+    // 官方 JS API（若全局暴露了 __TAURI__）
+    try {
+      if (window.__TAURI__ && window.__TAURI__.webview && window.__TAURI__.webview.getCurrentWebview) {
+        var wv = window.__TAURI__.webview.getCurrentWebview();
+        if (wv && wv.setBackgroundColor) wv.setBackgroundColor([0, 0, 0, 0]);
+      }
+    } catch (e) {}
+  }
+
+  function nz(v) { return (typeof v === "number" && isFinite(v) && v > 0) ? v : 0; }
+
+  function set(id, text) {
+    var el = $(id);
+    if (el && el.textContent !== text) el.textContent = text;
+  }
+
+  function setWidth(id, pct) {
+    var el = $(id);
+    if (el) el.style.width = Math.max(0, Math.min(100, pct || 0)) + "%";
+  }
+
+  function tempColor(t) {
+    if (!(t > 0)) return "#64748b";
+    if (t >= 88) return "#ef4444";
+    if (t >= 75) return "#f59e0b";
+    return "#f3f5f8";
+  }
+
+  function ghz(mhz) { return nz(mhz) > 0 ? (mhz / 1000).toFixed(1) + "G" : "--"; }
+
+  function rpmText(rpm) {
+    if (!(rpm > 0)) return "-- RPM · --%";
+    var pct = Math.round(Math.min(100, rpm / 5000 * 100));
+    return Math.round(rpm) + " RPM · " + pct + "%";
+  }
+
+  function watts(w) { return nz(w) > 0 ? Number(w).toFixed(1) + "W" : "--"; }
+  function pctText(v) { return Math.round(nz(v)) + "%"; }
+  function mbText(mb) {
+    if (!(mb > 0)) return "--";
+    return mb >= 1024 ? (mb / 1024).toFixed(1) + "GB" : Math.round(mb) + "MB";
+  }
+
+  /* ---------------- HUD 渲染 ---------------- */
+
+  function render() {
+    var d = hw || {};
+
+    var ct = nz(d.cpu_temp);
+    var gt = nz(d.gpu_temp);
+
+    set("g-temp", gt > 0 ? Math.round(gt) + "°" : "--");
+    $("g-temp").style.color = tempColor(gt);
+    set("c-temp", ct > 0 ? Math.round(ct) + "°" : "--");
+    $("c-temp").style.color = tempColor(ct);
+
+    set("g-freq", ghz(d.gpu_core_freq));
+    set("c-freq", ghz(d.cpu_freq));
+
+    set("g-fan", rpmText(nz(d.gpu_fan_rpm)));
+    set("c-fan", rpmText(nz(d.cpu_fan_rpm)));
+
+    set("g-pow", watts(d.gpu_power_w));
+    set("c-pow", watts(d.cpu_power_w));
+
+    set("g-use", pctText(d.gpu_usage));
+    set("c-use", pctText(d.cpu_usage));
+    setWidth("g-bar", nz(d.gpu_usage));
+    setWidth("c-bar", nz(d.cpu_usage));
+
+    var vUsed = nz(d.gpu_vram_used_mb);
+    var vTotal = nz(d.gpu_vram_mb);
+    set("g-mem", mbText(vUsed));
+    setWidth("g-membar", vTotal > 0 ? vUsed / vTotal * 100 : 0);
+
+    var a = agent || {};
+    set("c-mem", mbText(nz(a.ram_used_mb)));
+    setWidth("c-membar", nz(a.ram_percent));
+
+    if (a.hud) {
+      applyHudSettings(a.hud);
+      showLow = a.hud.show_low !== false;
+    }
+    renderFps(a);
+    // 未开启「MRO HUD · 设置」时：整卡警告替代正常内容（而不是直接显示 HUD）
+    var showWarn = !!(a && (a.settings_plugin === false || a.settings_plugin_enabled === false));
+    var wc = $("warnCard");
+    if (wc) wc.classList.toggle("show", showWarn);
+    var innerEl = $("inner");
+    if (innerEl) innerEl.style.display = showWarn ? "none" : "";
+    // 没装「MRO HUD · 设置」时给个提示标签
+    var wt = $("warnTag");
+    if (wt) wt.style.display = (a && a.settings_plugin === false) ? "" : "none";
+    sendOverlayFrame();
+  }
+
+  function applyHudSettings(h) {
+    if (!h) return;
+    var el = $("hud");
+    if (!el) return;
+
+    var bg = h.bg || "dark";
+    overlayOn = h.overlay !== false;
+    overlayActive = h.overlay_active === true;
+
+    /* 背景不透明度和字体不透明度完全独立：
+       - bg_alpha   只作用在 .bg 图层（卡片底色）→ 0 时背景彻底消失
+       - text_alpha 只作用在 .inner 图层（文字）→ 调背景绝不会连带把字变淡
+       窗口本身透明（DirectComposition 逐像素），所以 .bg 淡出后透出的是游戏，不是黑底。 */
+    var bgOp = Math.max(0, Math.min(1, nz(h.bg_alpha) / 100));
+    var textOp = Math.max(0.2, Math.min(1, nz(h.text_alpha) / 100 || 1));
+    var scale = Math.max(0.7, Math.min(1.6, nz(h.ui_scale) || 1));
+
+    var inner = $("inner");
+    if (inner) inner.style.setProperty("--text-op", textOp.toFixed(3));
+    // 缩放系数放在根上，所有 calc(基础 * var(--s)) 一起生效
+    document.documentElement.style.setProperty("--s", scale.toFixed(3));
+
+    // 设置一变就立刻发一帧（不等轮询/节流），让覆盖层响应更快
+    var sig = [bg, h.bg_alpha, h.text_alpha, h.ui_scale, overlayOn, overlayActive].join("|");
+    if (sig !== lastSig) { lastSig = sig; lastFrameAt = 0; }
+
+    var bgEl = $("bg");
+    if (bgEl) {
+      // 覆盖层未生效（关闭 / 看门狗回退）时 WebView 是可见的、画布是白底：
+      // 透明样式会变成白底，所以退回不透明深色卡片，且不透明度必须 100%。
+      var effBg = bg;
+      var effOp = bgOp;
+      if (!overlayOn || !overlayActive) {
+        if (effBg === "clear") effBg = "none";
+        effOp = 1;
+      }
+
+      if (effBg === "clear") {
+        // 透明预设：把背景图层整个去掉，只保留字体图层 → 覆盖层上只有文字
+        bgEl.style.display = "none";
+        bgEl.style.opacity = "0";
+      } else {
+        bgEl.style.display = "";
+        bgEl.style.opacity = effOp.toFixed(3);
+        if (effBg === "none") {
+          bgEl.style.background = "#0a0d11";
+          bgEl.style.boxShadow = "none";
+        } else if (effBg === "glass") {
+          bgEl.style.background = "#12181f";
+          bgEl.style.boxShadow = "inset 0 0 0 1px rgba(255,255,255,0.11), inset 0 1px 0 rgba(255,255,255,0.16)";
+        } else {
+          bgEl.style.background = "linear-gradient(180deg, #1a212b 0%, #0e131a 46%, #070a0e 100%)";
+          bgEl.style.boxShadow = "inset 0 0 0 1px rgba(255,255,255,0.075), inset 0 1px 0 rgba(255,255,255,0.09)";
+        }
+      }
+    }
+  }
+
+  /* ---------------- 逐像素透明覆盖层 ----------------
+     宿主不支持透明窗口，这里把 HUD 自身光栅化成带透明通道的 PNG，
+     POST 给代理，由代理用分层窗口(UpdateLayeredWindow)按 alpha 显示。
+     背景真正透明，能看到游戏画面；原 WebView 由代理设为不可见，
+     但仍接收鼠标，所以拖动 / 点 RTSS 标签照常。 */
+  var overlayOn = true;
+  var overlayActive = true;
+  var lastFrameAt = 0;
+  var frameBusy = false;
+  var lastSig = "";
+  var lastContentSig = "";
+  var lastPng = null;
+
+  function rasterizeHud() {
+    return new Promise(function (resolve) {
+      try {
+        var hud = $("hud");
+        if (!hud) { resolve(null); return; }
+        var rect = hud.getBoundingClientRect();
+        var W = Math.max(1, Math.round(rect.width));
+        var H = Math.max(1, Math.round(rect.height));
+        var css = "";
+        var st = document.querySelector("style");
+        if (st) css = st.textContent;
+        var s = (getComputedStyle(document.documentElement).getPropertyValue("--s") || "1").trim() || "1";
+        var clone = hud.cloneNode(true);
+        clone.style.position = "relative";
+        clone.style.inset = "auto";
+        clone.style.width = W + "px";
+        clone.style.height = H + "px";
+        var wrapper = '<div xmlns="http://www.w3.org/1999/xhtml" style="position:relative;width:' + W +
+          "px;height:" + H + "px;background:transparent;--s:" + s +
+          ';font-family:Consolas,monospace"><style>' + css + "</style>" + clone.outerHTML + "</div>";
+        var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + H + '">' +
+          '<foreignObject width="100%" height="100%">' + wrapper + "</foreignObject></svg>";
+        var img = new Image();
+        img.onload = function () {
+          try {
+            var c = document.createElement("canvas");
+            c.width = W; c.height = H;
+            var g = c.getContext("2d");
+            g.clearRect(0, 0, W, H);
+            g.drawImage(img, 0, 0, W, H);
+            resolve(c.toDataURL("image/png"));
+          } catch (e) { resolve(null); }
+        };
+        img.onerror = function () { resolve(null); };
+        img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+      } catch (e) { resolve(null); }
+    });
+  }
+
+  function sendOverlayFrame(force) {
+    if (!overlayOn || frameBusy || typeof fetch !== "function") return;
+    var now = Date.now();
+    if (!force && now - lastFrameAt < 500) return;
+    lastFrameAt = now;
+    frameBusy = true;
+
+    var hud = $("hud");
+    // 内容签名要带上外观设置（不透明度/背景/缩放）与警告态，否则改透明度/开关提示会命中旧缓存
+    var wcEl = $("warnCard");
+    var contentSig = (hud ? hud.textContent : "") + "|" + lastSig + "|" +
+      (wcEl && wcEl.classList.contains("show") ? "W" : "");
+
+    var getPng = function () {
+      if (contentSig === lastContentSig && lastPng) return Promise.resolve(lastPng);
+      return rasterizeHud().then(function (png) {
+        if (png) { lastPng = png; lastContentSig = contentSig; }
+        return png;
+      });
+    };
+
+    getPng().then(function (png) {
+      frameBusy = false;
+      if (!png) return;
+      var dpr = window.devicePixelRatio || 1;
+      var tagEl = $("rtssTag");
+      var tr = tagEl ? tagEl.getBoundingClientRect() : null;
+      var payload = JSON.stringify({
+        png: png,
+        x: Math.round((window.screenX || 0) * dpr),
+        y: Math.round((window.screenY || 0) * dpr),
+        w: Math.round(window.innerWidth * dpr),
+        h: Math.round(window.innerHeight * dpr),
+        tagx: tr ? Math.round(tr.left * dpr) : 0,
+        tagy: tr ? Math.round(tr.top * dpr) : 0,
+        tagw: tr ? Math.round(tr.width * dpr) : 0,
+        tagh: tr ? Math.round(tr.height * dpr) : 0
+      });
+      fetch(AGENT_BASE + "/api/hud/frame?t=" + Date.now(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload
+      }).catch(function () {});
+    });
+  }
+
+  function renderFps(a) {
+    var line = $("fpsline");
+    var fps = nz(a.fps);
+    var ft = nz(a.frametime_ms);
+    var low = nz(a.fps_1pct_low);
+
+    var empty = null;
+    if (!agentOnline) empty = "Agent offline";
+    else if (a.rtss_running !== true) empty = "RTSS not running";
+    else if (a.rtss !== true || fps <= 0) empty = "Waiting for the game frame rate";
+
+    if (empty) {
+      line.classList.add("off");
+      line.classList.add("empty");
+      $("fpsStatus").textContent = empty;
+      $("ft").style.display = "none";
+      $("low").style.display = "none";
+      $("rapp").textContent = "";
+      $("rapp").title = "";
+      return;
+    }
+
+    line.classList.remove("off");
+    line.classList.remove("empty");
+    $("ft").style.display = "";
+
+    set("fps", fps.toFixed(0));
+    set("ft", ft > 0 ? ft.toFixed(1) + " ms" : "-- ms");
+
+    if (showLow && low > 0) {
+      $("low").style.display = "";
+      set("lowVal", low.toFixed(0));
+      $("low").title = "1% Low: the average frame rate of the worst 1% of frames over the last " + (nz(a.hud && a.hud.low_window) || 60) + " seconds";
+    } else {
+      $("low").style.display = "none";
+    }
+
+    set("rapp", a.app || "");
+    $("rapp").title = a.app || "";
+  }
+
+  /* ---------------- 数据轮询 ---------------- */
+
+  function applyHw(raw) {
+    if (!raw || typeof raw !== "object") return;
+    hw = raw;
+    render();
+  }
+
+  function pollHw() {
+    if (hwPolling) return;
+    if (!hostBridge()) { render(); return; }
+    hwPolling = true;
+    invoke("get_hardware_status").then(function (s) {
+      applyHw(s);
+    }).catch(function () {
+      render();
+    }).then(function () {
+      hwPolling = false;
+    });
+  }
+
+  function pollAgent() {
+    if (typeof fetch !== "function") { render(); return; }
+    var controller = null;
+    var timer = null;
+    try {
+      controller = new AbortController();
+      timer = setTimeout(function () { try { controller.abort(); } catch (e) {} }, 900);
+    } catch (e) {}
+
+    fetch(AGENT_URL + "?t=" + Date.now(), {
+      cache: "no-store",
+      signal: controller ? controller.signal : undefined
+    }).then(function (res) {
+      return res.json();
+    }).then(function (json) {
+      agentOnline = !!(json && json.ok);
+      agent = json;
+      agentFails = 0;
+      render();
+    }).catch(function () {
+      agentOnline = false;
+      agent = null;
+      agentFails++;
+      if (agentFails >= 3) ensureService(false, true);
+      render();
+    }).then(function () {
+      if (timer) clearTimeout(timer);
+    });
+  }
+
+  function ensureService(force, hardRestart) {
+    var now = Date.now();
+    if (!force && now - lastEnsure < 20000) return;
+    lastEnsure = now;
+
+    if (hardRestart) {
+      invoke("stop_plugin_service", { pluginId: PLUGIN_ID }).then(function () {
+        return invoke("start_plugin_service", { pluginId: PLUGIN_ID });
+      }).catch(function () {
+        invoke("start_plugin_service", { pluginId: PLUGIN_ID }).catch(function () {});
+      });
+      return;
+    }
+
+    invoke("start_plugin_service", { pluginId: PLUGIN_ID }).catch(function () {});
+  }
+
+  function startRtss() {
+    if (startingRtss) return;
+    startingRtss = true;
+    var done = function () {
+      startingRtss = false;
+      setTimeout(pollAgent, 1200);
+      setTimeout(pollAgent, 3500);
+    };
+    if (typeof fetch === "function") {
+      fetch(AGENT_BASE + "/api/rtss/start?t=" + Date.now(), { cache: "no-store" })
+        .then(function (r) { return r.json(); })
+        .then(done)
+        .catch(done);
+    } else {
+      done();
+    }
+  }
+
+  /* ---------------- 事件绑定 ---------------- */
+
+  window.addEventListener("message", function (e) {
+    var msg = e && e.data;
+    if (!msg || typeof msg !== "object") return;
+    if (msg.type === "OPENREVO_TELEMETRY" && msg.payload) applyHw(msg.payload);
+  });
+
+  $("rtssTag").addEventListener("click", function (e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    startRtss();
+  });
+
+  render();
+  pollHw();
+  pollAgent();
+  // 尽早把画布刷透明，并在前几秒多补几次（宿主可能在窗口显示后才初始化 webview 背景）
+  makeWebviewTransparent();
+  setTimeout(makeWebviewTransparent, 300);
+  setTimeout(makeWebviewTransparent, 1200);
+  setTimeout(makeWebviewTransparent, 3000);
+  setTimeout(function () { ensureService(true); }, 700);
+  setTimeout(function () {
+    if (typeof fetch === "function") {
+      fetch(AGENT_BASE + "/api/hud/apply?t=" + Date.now(), { cache: "no-store" }).catch(function () {});
+    }
+  }, 2500);
+  setInterval(pollHw, HW_POLL);
+  setInterval(pollAgent, AGENT_POLL);
+
+  // ---- 页面自更新 ----
+  // OpenRevo 只在启动时读一次插件页，改完 index.html 不重启宿主是不会生效的。
+  // 这里定期把磁盘上的 index.html 抓回来比构建号，不一致就自己刷新，
+  // 免得每次改完都要用户手动重启。
+  function watchBuild() {
+    if (typeof fetch !== "function") return;
+    fetch("index.html?probe=" + Date.now(), { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.text() : ""; })
+      .then(function (html) {
+        if (!html) return;
+        var m = html.match(/PAGE_BUILD\s*=\s*"([^"]+)"/);
+        if (m && m[1] && m[1] !== PAGE_BUILD) location.reload();
+      })
+      .catch(function () {});
+  }
+  setTimeout(watchBuild, 6000);
+  setInterval(watchBuild, 20000);
+})();
+</script>
+</body>
+</html>

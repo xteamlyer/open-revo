@@ -472,10 +472,10 @@
         <span id="title-text">EVA-01 // S² CORE</span>
       </div>
       <div class="hud-actions" data-no-drag="true">
-        <button class="tool-btn" id="btn-sound" data-no-drag="true" title="音效开关">🔊</button>
-        <button class="tool-btn" id="btn-lock" data-no-drag="true" title="锁定拖拽位置">🔓</button>
-        <button class="tool-btn" id="btn-mini" data-no-drag="true" title="切换极简胶囊态">➖</button>
-        <button class="tool-btn" id="btn-close" data-no-drag="true" title="关闭悬浮窗">✕</button>
+        <button class="tool-btn" id="btn-sound" data-no-drag="true" title="Toggle sound effects">🔊</button>
+        <button class="tool-btn" id="btn-lock" data-no-drag="true" title="Lock drag position">🔓</button>
+        <button class="tool-btn" id="btn-mini" data-no-drag="true" title="Switch to the minimal capsule mode">➖</button>
+        <button class="tool-btn" id="btn-close" data-no-drag="true" title="Close the floating widget">✕</button>
       </div>
     </div>
 
@@ -490,7 +490,7 @@
       </div>
 
       <!-- Core SVG Rotator & Energy Disc -->
-      <div class="core-disc" id="core-disc" data-no-drag="true" role="button" tabindex="0" title="点击立即进入暴走强冷 / 解除强冷">
+      <div class="core-disc" id="core-disc" data-no-drag="true" role="button" tabindex="0" title="Click to instantly enter berserk fan boost / release fan boost">
         <div class="shockwave"></div>
         <svg class="core-svg" viewBox="0 0 104 104">
           <!-- Outer Stator Hexagon Ring -->
@@ -550,19 +550,19 @@
     <!-- Bottom Matrix: Power Mode & Power Source -->
     <div class="hud-bottom">
       <!-- Mode Switcher -->
-      <div class="status-card" id="card-mode" data-no-drag="true" role="button" tabindex="0" title="点击循环切换性能模式">
+      <div class="status-card" id="card-mode" data-no-drag="true" role="button" tabindex="0" title="Click to cycle through performance modes">
         <div class="card-label">
           <span>POWER MODE</span>
           <span style="font-size: 8px;">⟳</span>
         </div>
         <div class="card-val" id="val-mode">
           <span>●</span>
-          <span id="text-mode">均衡 BALANCE</span>
+          <span id="text-mode">BALANCE</span>
         </div>
       </div>
 
       <!-- Power Source / Battery Countdown -->
-      <div class="status-card" id="card-battery" data-no-drag="true" title="电源供电与电池状态">
+      <div class="status-card" id="card-battery" data-no-drag="true" title="Power supply and battery status">
         <div class="card-label">
           <span>POWER SOURCE</span>
           <span id="badge-bat-level">--%</span>
@@ -578,15 +578,15 @@
   <!-- ========================================================
        2. MINI CAPSULE VIEWPORT (130 x 42)
        ======================================================== -->
-  <div id="capsule-container" data-tauri-drag-region title="双击恢复完整面板">
+  <div id="capsule-container" data-tauri-drag-region title="Double-click to restore the full panel">
     <div class="capsule-left">
       <span class="pulse-dot" id="capsule-dot"></span>
       <span class="capsule-temp" id="capsule-temp">--°</span>
       <span class="capsule-rpm" id="capsule-rpm">--k</span>
     </div>
     <div class="capsule-actions" data-no-drag="true">
-      <button class="capsule-btn" id="capsule-boost" data-no-drag="true" title="暴走强冷切换">⚡</button>
-      <button class="capsule-btn" id="capsule-expand" data-no-drag="true" title="展开为完整看板">⛶</button>
+      <button class="capsule-btn" id="capsule-boost" data-no-drag="true" title="Toggle berserk fan boost">⚡</button>
+      <button class="capsule-btn" id="capsule-expand" data-no-drag="true" title="Expand to the full dashboard">⛶</button>
     </div>
   </div>
 
@@ -805,7 +805,7 @@
 
       // 2. HUD Elements
       dom.valTemp.innerText = `${temp}`;
-      dom.valSublabel.innerText = boost ? 'BERSERK // 暴走' : (temp >= 82 ? 'OVERHEAT' : 'S² ACTIVE');
+      dom.valSublabel.innerText = boost ? 'BERSERK' : (temp >= 82 ? 'OVERHEAT' : 'S² ACTIVE');
       dom.flankRpm.innerText = `${rpm} RPM`;
       dom.flankPower.innerText = `${power} W`;
       dom.flankStatus.innerText = statusText;
@@ -824,8 +824,8 @@
       }
 
       // Mode Label
-      const modeMap = { 1: '办公 OFFICE', 2: '均衡 BALANCE', 3: '狂暴 TURBO', 4: '自定义 CUSTOM' };
-      dom.textMode.innerText = modeMap[mode] || '均衡 BALANCE';
+      const modeMap = { 1: 'OFFICE', 2: 'BALANCE', 3: 'TURBO', 4: 'CUSTOM' };
+      dom.textMode.innerText = modeMap[mode] || 'BALANCE';
 
       // Power Source / Battery Status
       dom.badgeBatLevel.innerText = `${bat}%`;

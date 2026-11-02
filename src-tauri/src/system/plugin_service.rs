@@ -109,7 +109,7 @@ pub fn get_service_status(plugin_id: &str) -> PluginServiceStatus {
             pid: None,
             port: None,
             code: Some("NO_SERVICE_CONFIGURED".to_string()),
-            message: Some("插件未声明 companion service 伴随服务".to_string()),
+            message: Some("The plugin does not declare a companion service".to_string()),
             detail: None,
         };
     };
@@ -141,7 +141,7 @@ pub fn get_service_status(plugin_id: &str) -> PluginServiceStatus {
             pid: active_pid,
             port: svc.port,
             code: Some("RUNNING".to_string()),
-            message: Some("服务运行中".to_string()),
+            message: Some("Service is running".to_string()),
             detail: None,
         }
     } else {
@@ -151,7 +151,7 @@ pub fn get_service_status(plugin_id: &str) -> PluginServiceStatus {
             pid: None,
             port: svc.port,
             code: Some("STOPPED".to_string()),
-            message: Some("服务未运行".to_string()),
+            message: Some("Service is not running".to_string()),
             detail: None,
         }
     }
@@ -170,7 +170,7 @@ fn canonicalize_safe(p: &Path) -> std::io::Result<PathBuf> {
 /// Start a plugin companion service with sandbox path validation
 pub fn start_service(plugin_id: &str) -> Result<PluginServiceStatus, String> {
     let Some((plugin_dir, svc)) = get_plugin_service_config(plugin_id) else {
-        return Err(format!("插件 '{}' 未在 manifest.json 中声明 companion service", plugin_id));
+        return Err(format!("Plugin '{}' does not declare a companion service in manifest.json", plugin_id));
     };
 
     let exe_path = plugin_dir.join(&svc.executable);
@@ -182,7 +182,7 @@ pub fn start_service(plugin_id: &str) -> Result<PluginServiceStatus, String> {
             pid: None,
             port: svc.port,
             code: Some("PLUGIN_DIR_NOT_FOUND".to_string()),
-            message: Some(format!("插件根目录无效: {}", e)),
+            message: Some(format!("Invalid plugin root directory: {}", e)),
             detail: Some(plugin_dir.display().to_string()),
         }),
     };
@@ -196,8 +196,8 @@ pub fn start_service(plugin_id: &str) -> Result<PluginServiceStatus, String> {
                 pid: None,
                 port: svc.port,
                 code: Some("BINARY_NOT_FOUND".to_string()),
-                message: Some(format!("未找到服务执行程序: {}", svc.executable)),
-                detail: Some(format!("完整搜索路径: {:?}", exe_path)),
+                message: Some(format!("Service executable not found: {}", svc.executable)),
+                detail: Some(format!("Full search path: {:?}", exe_path)),
             });
         }
     };
@@ -210,8 +210,8 @@ pub fn start_service(plugin_id: &str) -> Result<PluginServiceStatus, String> {
             pid: None,
             port: svc.port,
             code: Some("PATH_SECURITY_VIOLATION".to_string()),
-            message: Some("安全拦截：伴随服务执行程序必须位于插件根目录树内部".to_string()),
-            detail: Some(format!("目标: {:?}, 限制目录: {:?}", canon_exe, canon_dir)),
+            message: Some("Safety block: the companion service executable must live inside the plugin root directory tree".to_string()),
+            detail: Some(format!("Target: {:?}, restricted directory: {:?}", canon_exe, canon_dir)),
         });
     }
 
@@ -242,11 +242,11 @@ pub fn start_service(plugin_id: &str) -> Result<PluginServiceStatus, String> {
         Ok(c) => c,
         Err(e) => {
             let (code, msg) = if e.raw_os_error() == Some(1223) {
-                ("UAC_REJECTED", "用户取消了系统管理员提权请求".to_string())
+                ("UAC_REJECTED", "The user cancelled the administrator elevation request".to_string())
             } else if e.kind() == std::io::ErrorKind::PermissionDenied {
-                ("PERMISSION_DENIED", "执行权限被系统拒绝（可能被杀毒软件拦截）".to_string())
+                ("PERMISSION_DENIED", "Execution permission was denied by the system (possibly blocked by antivirus software)".to_string())
             } else {
-                ("SPAWN_FAILED", format!("启动进程失败: {}", e))
+                ("SPAWN_FAILED", format!("Failed to start the process: {}", e))
             };
 
             return Ok(PluginServiceStatus {
@@ -256,7 +256,7 @@ pub fn start_service(plugin_id: &str) -> Result<PluginServiceStatus, String> {
                 port: svc.port,
                 code: Some(code.to_string()),
                 message: Some(msg),
-                detail: Some(format!("执行目标: {:?}, 错误码: {:?}", canon_exe, e.raw_os_error())),
+                detail: Some(format!("Target: {:?}, error code: {:?}", canon_exe, e.raw_os_error())),
             });
         }
     };
@@ -290,7 +290,7 @@ pub fn start_service(plugin_id: &str) -> Result<PluginServiceStatus, String> {
         pid: Some(pid),
         port: svc.port,
         code: Some("OK".to_string()),
-        message: Some("伴随服务启动成功".to_string()),
+        message: Some("Companion service started successfully".to_string()),
         detail: None,
     })
 }
@@ -324,7 +324,7 @@ pub fn stop_service(plugin_id: &str) -> Result<PluginServiceStatus, String> {
         pid: None,
         port,
         code: Some("STOPPED".to_string()),
-        message: Some("伴随服务已停止".to_string()),
+        message: Some("Companion service stopped".to_string()),
         detail: None,
     })
 }

@@ -35,14 +35,14 @@ export const LogoLightingView: React.FC<LogoLightingViewProps> = ({
   }, [isEcDirectLogo, lighting.logo_effect, sendLogo]);
 
   const badgeText = !isLogoSupported
-    ? '未检测到硬件'
+    ? 'No hardware detected'
     : isEcDirectLogo
-    ? '主板 EC 直通盾形徽标 (PWM)'
+    ? 'Direct motherboard EC control for shield logo (PWM)'
     : kbHwInfo?.has_ite7000
-    ? 'ITE 独立徽标控制器 (048D:7000)'
+    ? 'ITE dedicated logo controller (048D:7000)'
     : kbHwInfo?.has_ite7001
-    ? 'ITE 独立炫彩徽标控制器 (048D:7001 文字徽标)'
-    : '全彩发光徽标控制器';
+    ? 'ITE dedicated RGB logo controller (048D:7001 lettering logo)'
+    : 'Full-color illuminated logo controller';
 
   const badgeVariant = !isLogoSupported
     ? 'default'
@@ -51,15 +51,15 @@ export const LogoLightingView: React.FC<LogoLightingViewProps> = ({
     : 'accent';
 
   const description = !isLogoSupported
-    ? '当前机型模具未配置独立 A 面发光徽标硬件，功能已智能停用'
+    ? 'This model has no illuminated lid logo hardware; the feature is disabled.'
     : isEcDirectLogo
-    ? '主板 EC 单区硬件直通调控 (盾形徽标，支持单色常亮、呼吸与彩虹呼吸模式)'
-    : 'A面独立炫彩发光徽标 (支持跑马灯、波浪、对冲、流星等全彩流光动效)';
+    ? 'Direct single-zone motherboard EC control (shield logo; supports static color, breathing, and rainbow breathing)'
+    : 'Independent RGB lid logo with full-color marquee, wave, clash, and meteor effects';
 
   return (
     <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
       <LightHeaderBanner
-        title="A面 炫彩徽标 (A-Cover LOGO)"
+        title="Lid RGB Logo (A-Cover)"
         badgeText={badgeText}
         badgeVariant={badgeVariant}
         description={description}
@@ -71,7 +71,7 @@ export const LogoLightingView: React.FC<LogoLightingViewProps> = ({
 
       <div>
         <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '8px', fontWeight: 600 }}>
-          LOGO 发光模式 (Logo Modes)
+          Logo Lighting Modes
         </div>
         <div
           style={{
@@ -123,10 +123,10 @@ export const LogoLightingView: React.FC<LogoLightingViewProps> = ({
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '4px' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--text-secondary)' }}>
                 <Sun className="w-3.5 h-3.5" style={{ color: 'var(--status-warn)' }} />
-                LOGO 发光亮度
+                Logo Brightness
               </span>
               <span style={{ color: 'var(--color-beast)', fontWeight: 700 }}>
-                {lighting.logo_brightness === 0 ? '关闭 (0)' : `${lighting.logo_brightness} 档`}
+                {lighting.logo_brightness === 0 ? 'Off (0)' : `${lighting.logo_brightness} level`}
               </span>
             </div>
             <input
@@ -152,7 +152,7 @@ export const LogoLightingView: React.FC<LogoLightingViewProps> = ({
               }}
             />
             <div>
-              <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>LOGO 即时色彩</div>
+              <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>Logo Color</div>
               <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
                 RGB: {lighting.logo_color.toUpperCase()}
               </div>
@@ -162,7 +162,7 @@ export const LogoLightingView: React.FC<LogoLightingViewProps> = ({
 
         {/* Right: Color Presets & Direct Picker */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>色彩参考与快速应用：</div>
+          <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>Color Presets and Quick Apply:</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {PRESET_COLORS.map((c) => {
               const isSelected = lighting.logo_color.toLowerCase() === c.hex.toLowerCase();
@@ -191,7 +191,7 @@ export const LogoLightingView: React.FC<LogoLightingViewProps> = ({
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}>
-            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>色盘自定义：</span>
+            <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Custom Color Palette:</span>
             <input
               type="color"
               value={lighting.logo_color}

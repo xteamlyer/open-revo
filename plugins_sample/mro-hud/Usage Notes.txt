@@ -1,0 +1,518 @@
+================================================================
+ MRO Hardware Monitor · OpenRevo plugin pack  v2.1
+ Ported from mro_monitor 0.293.6.3 / 0.293.6.3-beta23.6.3
+ For OpenRevo v0.9.x (open-revo.exe)
+================================================================
+
+[What this is]
+Turns the mro_monitor-style "CPU/GPU temperature · fan speed · power ·
+clocks · VRAM" live monitoring interface into native OpenRevo plugins.
+Temperature / fan / power / utilization data reuses the telemetry the
+OpenRevo microkernel has already collected, so it never fights OpenRevo
+over drivers or the EC.
+
+This pack contains three plugins. mro-monitor works on its own;
+mro-hud and mro-hud-settings must be used together.
+
+[Important · install them as a pair]
+  "MRO HUD" and "MRO HUD · Settings" must be installed and enabled together:
+    · Only "MRO HUD" enabled: the HUD is not shown; instead a full-card
+      warning appears saying "Please enable the 'MRO HUD · Settings' plugin
+      first". The notice disappears once the settings plugin is enabled;
+    · Only "MRO HUD · Settings" enabled: the settings page tries to start
+      the main plugin automatically, and if it still cannot be found it
+      shows "The 'MRO HUD' main plugin was not detected".
+  Whichever one you downloaded, please install the other one too, otherwise
+  full functionality is unavailable. (The plugin list descriptions note
+  this as well.)
+
+  1) mro-monitor  — "MRO Hardware Monitor" (tab)
+     A full dashboard: 4 monitoring cards + a fan boost / performance mode
+     control bar + a temperature trend chart + a VRAM card + a system info
+     bar. An "MRO Hardware Monitor" tab appears in OpenRevo's top capsule
+     bar; the top-right "Pop-out window" button can turn it into a
+     standalone window to use as a secondary monitor display.
+
+  2) mro-hud      — "MRO HUD" (desktop widget) ★ v2.1, display only
+     Recreates the two-row layout of the mro_monitor compact floating window:
+       GPU:  49°  1.9G  2818 RPM · 56%  18.5W  7%  ▮  2.0GB  ▮
+       CPU:  62°  4.7G  2789 RPM · 56%  32.4W  30% ▮  11.8GB ▮
+     In order: temperature, clocks (GHz), fan speed · speed ratio, power (W),
+     utilization, utilization bar, VRAM/memory usage, usage bar. The bottom
+     row taps into RTSS: FPS, frametime, 1% Low, foreground process name.
+
+     Always on top, borderless, skips the taskbar, the whole card can be
+     dragged, and the position is remembered automatically.
+     (The host window itself does not support transparency, so the HUD uses
+      a "per-pixel transparent overlay": the page rasterizes itself into an
+      alpha-carrying PNG and hands it to the companion agent, which displays
+      it pixel by pixel with a layered window (UpdateLayeredWindow). The
+      background is truly transparent and the game shows through; the
+      original WebView is made invisible but still receives the mouse, so
+      dragging and clicking the RTSS tag keep working. The card background
+      lives only in the .bg layer and the text in the .inner layer, each
+      with its own opacity. Rounded corners are applied by the companion
+      agent via DwmSetWindowAttribute(DWMWCP_ROUND).)
+     Layout: 490×104 window, 12px pure-white values (secondary items at 90%
+     white), bold temperatures, bright green GPU label / bright cyan CPU
+     label, 6px progress bars; the FPS row uses 22px digits. Contrast was
+     tuned for "dark background + pure white text" and is clearer than in
+     earlier versions. Default Ctrl+Alt+H shows/hides the HUD and can be
+     changed in the settings page. When RTSS is not running, the companion
+     agent starts it automatically — no need to open MSI Afterburner first.
+     As of v2.1 the HUD is display-only and no longer has a gear icon or
+     settings panel: appearance and 1% Low are both adjusted in the
+     "MRO HUD · Settings" tab inside OpenRevo.
+
+  3) mro-hud-settings — "MRO HUD · Settings" (tab) ★ new in v2.1
+     A standalone settings page for the floating HUD, living as an OpenRevo
+     tab instead of being squeezed into the floating window: four
+     backgrounds (dark / glass / flat / transparent), background opacity,
+     text opacity, overall size, always-on-top, the 1% Low display toggle
+     and its statistics window (15 / 30 / 60 / 120 seconds), with a live
+     preview and direct readouts of the current FPS / frametime / 1% Low /
+     window average / sampled frames, so you can see whether 1% Low changed
+     the way you expected right on the same page.
+
+[Where the floating HUD's data comes from]
+  OpenRevo telemetry: temperature, clocks, fan RPM, power, utilization,
+  VRAM, power supply state, and so on;
+  Local read-only agent mro_agent.exe:
+      - System memory used/total (GlobalMemoryStatusEx)
+      - FPS / frametime / foreground game process from RTSS shared memory
+  The two items OpenRevo does not provide are shown as they actually are,
+  never fabricated:
+      - The fan "· 56%" is the ratio "RPM / 5000 RPM full speed", not the
+        EC duty cycle. The EC duty-cycle register is not exposed (mro_monitor
+        got it by reading the EC directly); hovering that field explains this.
+      - Memory comes from the local agent; while the agent is offline it
+        shows "--" and the host is asked to relaunch it automatically.
+      - Four possible states for the RTSS row:
+          "Agent offline"       the agent is not up; the widget retries
+                                launching it automatically;
+          "RTSS not running"    the agent is starting RTSS automatically
+                                (only works if RTSS is installed);
+          "RTSS ready"          RTSS is running, waiting for the foreground
+                                game to produce frames;
+          "FPS 144 6.9 ms"      the foreground game's frame rate is captured.
+      - Click the small "RTSS" tag in the lower right to manually trigger
+        another start attempt.
+
+[RTSS integration notes (read-only)]
+  - Reads RTSS's RTSSSharedMemoryV2 shared memory (same approach as
+    HWiNFO/Afterburner), takes the entry for the current foreground
+    process, and computes FPS = frames / sample duration and
+    frametime = 1 / FPS;
+  - Does not inject games, does not load RTSSHooks, does not modify RTSS
+    configuration, and never writes any text to the RTSS OSD;
+  - No need to start MSI Afterburner first: if the agent finds RTSS is not
+    running it launches it automatically. Search order:
+    startup argument --rtss-path -> environment variable RTSS_PATH ->
+    registry Uninstall information -> Program Files default directories ->
+    the MSI Afterburner sibling directory -> **the plugin's bundled rtss
+    directory**;
+  - Requires RTSS to be running and the game to have been started after
+    RTSS launched (RTSS only hooks processes at creation time);
+  - In exclusive-fullscreen games OpenRevo's floating window itself is
+    still covered (a physical limitation of Windows top-level windows).
+    That is the difference from RTSS's native OSD: we only read RTSS's
+    data, we do not take over its OSD. For in-game overlays, keep using
+    the RTSS / HWiNFO OSD.
+
+[The bundled RTSS (no client-side install)]
+  - Location: mro-hud\rtss\ — a slimmed-down portable RTSS (about 21 MB),
+    copied from an installed RTSS directory with the video encoder plugins,
+    help docs, SDK and other unrelated content removed;
+  - Purpose: when the client machine **does not have RTSS installed**, the
+    plugin simply starts this copy, so users do not need to install it
+    separately;
+  - Priority: if RTSS is installed on the system, the system copy wins
+    (to avoid two instances fighting over the same shared memory); the
+    bundled copy is only used when the system does not have one. The
+    settings page tags the RTSS status with "bundled" to tell them apart;
+  - Verified: after renaming the system RTSS.exe to simulate "not
+    installed", the agent automatically started the bundled copy, and the
+    shared-memory signature 0x52545353, version 0x00020015 and entry_size
+    12416 were all normal;
+  - Dependency: RTSS needs the VC++ 2015-2022 runtime (VCRUNTIME140.dll).
+    Win10/11 gaming machines almost always have it; if the settings page
+    shows "RTSS failed to start", install
+    https://aka.ms/vs/17/release/vc_redist.x64.exe;
+  - The bundled RTSS keeps its configuration in its own directory
+    (rtss\Profiles\), so it never pollutes the system-installed copy;
+  - If you do not want the bundled copy, just delete the mro-hud\rtss
+    directory and the agent falls back to the system RTSS automatically.
+
+[The HUD does not show in full-screen games]
+  Cause: under exclusive fullscreen the game owns the display output and
+        no window — always-on-top included — can be drawn over it. That is
+        dictated by the Windows display model, not a plugin bug.
+        Borderless windowed mode overlays fine.
+  What we do: the agent probes once a second whether the HUD's center
+        point is covered by another window and re-raises it if so, so
+        cases like "the HUD sinking below after alt-tabbing back from a
+        borderless fullscreen game or after the game steals focus"
+        self-heal.
+  Hint: when the foreground window fills the whole display, a yellow notice
+        appears under "Frame rate readings" in the settings page.
+  Fix: switch the game's display settings to "Borderless Windowed"; if the
+        game only offers "Fullscreen" and "Windowed", pick Windowed and set
+        the resolution to the display's native resolution — that is
+        equivalent to borderless fullscreen.
+
+[The local agent mro_agent.exe]
+  - Location: mro-hud\agent\mro_agent.exe, started automatically by
+    OpenRevo's "companion service" mechanism when the widget is opened
+    (the manifest's service block declares port 18946 and
+    auto_start/auto_stop);
+  - Listens only on 127.0.0.1:18946, endpoints:
+        GET /api/ping         -> {"ok":true,...}
+        GET /api/sensors      -> {"ram_used_mb":...,"fps":...,"fps_1pct_low":...,
+                                  "fps_avg_window":...,"low_bins":...,"low_frames":...,
+                                  "low_span_ms":...,"app":...,"rtss_running":true}
+        GET /api/rtss/start   -> starts RTSS manually, returns {"started":true/false,"running":...}
+        GET /api/hud/settings -> reads/writes HUD settings (bg/bg_alpha/opacity/topmost/show_low/low_window)
+  - RTSS autostart is on by default; add --no-rtss-autostart to turn it
+    off, or --rtss-path "D:\...\RTSS.exe" for a custom path;
+  - The agent does not close RTSS when it exits (RTSS keeps working, so
+    frame statistics continue in-game);
+  - Read-only: no network access, no registry writes, no driver installs,
+    no injection into other processes;
+  - The source mro-hud\agent\mro_agent.cs is included, so you can audit or
+    recompile it yourself: double-click mro-hud\agent\build.cmd (it locates
+    the .NET Framework compiler automatically; on failure it keeps the old
+    mro_agent.exe and backs it up as mro_agent.exe.bak);
+  - If your machine does not need RTSS/memory data, you can delete the
+    agent directory and remove the service block from manifest.json; the
+    HUD keeps showing the other metrics (memory and the RTSS row stay
+    empty).
+
+[Installation]
+Method A (recommended, just double-click)
+  Double-click install.cmd in this directory; the script copies the three
+  plugins to
+      %APPDATA%\OpenRevo\plugins\
+  Then open (or restart) OpenRevo.
+
+Method B (manual)
+  1. Type %APPDATA%\OpenRevo\plugins in the Explorer address bar and press
+     Enter;
+  2. Copy the three folders mro-monitor, mro-hud and mro-hud-settings in
+     their entirety (the layout must be plugins\mro-hud\manifest.json, and
+     remember to bring the agent subdirectory along);
+  3. Open OpenRevo → the "Plugins" page → "Refresh" in the top right;
+  4. Enable "MRO Hardware Monitor", "MRO HUD" and "MRO HUD · Settings" in
+     the plugin list.
+
+After enabling:
+  - Tabs: "MRO Hardware Monitor" and "MRO HUD · Settings" appear in the top
+    capsule bar; just click them;
+  - Floating HUD: first appears in the center of the screen; drag it to move
+    (the position is remembered). When the widget opens, the UI explicitly
+    asks OpenRevo to start mro_agent.exe; a service status indicator appears
+    on the right side of the plugin list card (green = online). Closing the
+    widget stops the agent but does not close RTSS.
+
+[The HUD settings page (MRO HUD · Settings)]
+  - Entry: the "MRO HUD · Settings" tab in OpenRevo's top bar (or click
+    "Pop-out window" in the top right); as of v2.1 the floating HUD has no
+    gear button — settings live only here;
+  - Background style: dark (dark gray-blue gradient) / glass (dark
+    gray-blue base + cool white thin edge) / flat (very dark gray) /
+    transparent (no background at all, the game shows straight through).
+    The HUD is a **true two-layer structure**, displayed by the agent's
+    per-pixel transparent overlay:
+      .bg    background layer, opacity = background opacity; the gradient
+             and bright edge fade together
+      .inner text layer, opacity = text opacity; only the text and the
+             progress bars
+    The two layers are fully independent: adjusting the background never
+    dims the text, and adjusting the text never touches the background;
+  - The "Transparent" preset removes the .bg background layer entirely
+    (display:none) and keeps only the text layer, so the overlay shows just
+    the text with no backdrop — the text floats directly over the game
+    (like the NVIDIA performance overlay).
+    Note: this is achieved by "rasterizing the page into a PNG + the
+    agent's layered window", not through host window transparency (plugin
+    windows in open-revo 0.9.5 do not support transparency).
+    Interaction: press and hold anywhere on the HUD to drag the whole card
+    (the overlay handles dragging itself and the position is remembered, so
+    it returns to the same spot after a restart); click the RTSS tag in the
+    lower right to start RTSS manually. If the overlay misbehaves, the
+    "Per-pixel transparent overlay" switch in the settings page can turn it
+    off and fall back to a normal opaque card.
+  - Hotkeys (three, all customizable); defaults:
+      Ctrl+Alt+H  show / hide the HUD
+      Ctrl+Alt+J  toggle the 1% Low display
+      Ctrl+Alt+K  toggle click-through (requires always-on-top first)
+    After clicking a button, just press the key combination to record it;
+    Esc cancels, and the Clear button disables the hotkey. At least one
+    modifier key is required (Ctrl / Alt / Shift / Win); A-Z, 0-9 and
+    F1-F24 are supported. If registration fails (another program already
+    owns the combination), "Registration failed" appears in the top right
+    of the card; hover for the reason;
+  - Three independent sliders (background and text are fully separated):
+      Background opacity  0% ~ 100%, controls the strength of the .bg
+                          background layer. 100% is a solid card; at 0% the
+                          background vanishes entirely and only the text
+                          floats over the game. Applies to dark / glass /
+                          flat alike; selecting "Transparent" hides this
+                          slider automatically (no background to adjust);
+      Text opacity        20% ~ 100%, applies only to the text and the
+                          progress bars, with zero effect on the
+                          background. Adjust this when you want the HUD to
+                          be less intrusive without washing out the
+                          background;
+      Overall size        70% ~ 160%, scales the window size and the content
+                          together (base 490×104). The window size is
+                          converted for DPI (at 125% scaling, 490 CSS px =
+                          612 physical px); the page genuinely re-lays out
+                          with calc(base × factor), so scaling up stays
+                          sharp and nothing gets clipped;
+  - Always on top: the switch applies to the HUD window immediately via
+    SetWindowPOS; when off, normal windows can cover it, and restarting the
+    widget still restores this setting;
+  - Click-through: only available while "Always on top" is enabled (greyed
+    out otherwise). When enabled it adds WS_EX_TRANSPARENT to the HUD
+    window, so the mouse passes straight through to the game underneath and
+    the HUD becomes a pure display layer. Note: once enabled you can no
+    longer drag or click the HUD — come back to this settings page to turn
+    it off; turning off always-on-top also turns off click-through
+    automatically;
+  - Show 1% Low: controls whether the "1% xx" item in the HUD frame-rate
+    row is shown;
+  - 1% Low statistics window: 15 / 30 / 60 / 120 seconds, deciding how much
+    history is used to compute the low frame rate;
+  - Left side: live preview + frame rate readings (FPS / frametime /
+    1% Low / window average / sampled frames), so you can confirm the
+    result on the spot;
+  - Slider and button changes auto-save (160ms debounce);
+  - Settings are stored in
+    %APPDATA%\OpenRevo\plugins\mro-hud\settings.ini;
+  - The HUD syncs from the agent once a second, so a save shows up on
+    screen within about a second — no restart needed;
+  - While the agent is not running, the settings page automatically asks
+    the host to start the mro-hud companion service; you can also click
+    "Agent offline · click here to start".
+
+[How 1% Low is computed (v2.2 switches to per-frame data)]
+  The old version (v1.2 and earlier) had three problems that made 1% Low
+  both too high and jumpy:
+    1) Only 12 seconds of samples were accumulated — too short a window,
+       so any fluctuation made the whole number jump;
+    2) The average frametime within 100ms was treated as one sample, so
+       single-frame hitches were averaged away and the reading was
+       optimistic;
+    3) floor(n*0.99) was used to index the sorted samples, which with few
+       samples amounts to just taking the maximum — neither a "1%" nor an
+       "average", and extremely noisy.
+  Additionally, RTSS's dwFrames counter resets every 1000ms, and a sample
+  straddling a reset computed "half the frames / the full duration",
+  producing a doubled phantom frametime that the old version never
+  detected.
+
+  v2.2 main path — reads RTSS's per-frame frametime array directly:
+    - Besides the frame counters, each RTSS OSD entry also stores a ring
+      buffer of about 1000 per-frame frametimes at entry offset 416
+      (= 324-byte base header + 92-byte statistics extension), in
+      microseconds; entry_size 12416 minus the first 416 bytes leaves room
+      for 3000 DWORDs;
+    - Read once every 250ms, taking "the longest contiguous run of
+      frametime values" as the sample set (unwritten positions in the ring
+      buffer are 0, and garbage data is not part of that run);
+    - Validation: the frame rate converted from this run's average must
+      fall within 0.6~1.6× the average frame rate RTSS itself reports,
+      otherwise this RTSS version's entry layout differs and we give up
+      and fall back to the approximate sampling below;
+    - 1% Low = sort every frame in the window by frametime descending,
+      take the arithmetic average of the worst 1% of frames, and convert
+      back to a frame rate. One sample per frame, with no interpolation or
+      approximation.
+    This is the same per-frame accuracy class as NVIDIA FrameView /
+    PresentMon.
+
+  v2.2 fallback path (RTSS too old to have the array):
+    - The sampling thread reads the RTSS frame counter on an 8ms cycle
+      (while raising the system timer resolution to 1ms);
+    - Samples are split by "3 accumulated frames or 120ms", so the sample
+      granularity is close to a single frame;
+    - Counter rollback is detected explicitly, and the segment straddling
+      a reset is discarded whole, so no phantom samples are produced;
+    - Any single segment longer than 1 second (pausing, loading screens,
+      alt-tabbing out) is discarded outright and not counted as a stutter;
+    - All samples in the statistics window are sorted by frametime
+      descending, accumulated by frame count up to 1% of the total, then
+      averaged with frame weighting and converted to FPS.
+
+  Both paths share one trait: switching to the desktop for a moment does
+  not reset anything — when the foreground is not a game, the agent keeps
+  using the RTSS entry that is still producing frames, and only clears
+  after 3 seconds with no data.
+
+  Synthetic frametime comparison (ground truth = the frame-weighted
+  average of the worst 1% of the per-frame data):
+      Scenario                        Truth   Fallback   Old
+      120fps + 45ms hitch every 3s    51.6     55.3      72.9
+      60fps steady                    56.6     56.9      58.1
+      144fps + 70ms hitch every 2s    32.8     37.3      51.0
+      30fps  + 120ms hitch every 5s   10.4     13.8      16.0
+  Units: fps. In hitching scenarios the old version overestimated by
+  40%~55% across the board, the fallback path converges within 10%~15%,
+  and the per-frame path has no approximation error.
+
+  Real-machine verification (WorkBuddyAI.exe on this machine, 60fps
+  WebView2):
+      1027 per-frame samples, average 59.19 fps (RTSS itself reported
+      60.1 fps, a 1.5% deviation)
+      Per-frame distribution min 0.60 / p50 16.66 / p99 28.09 / max 89.78 ms
+      1% Low = 22.3 fps (worst 11 frames averaged 44.88 ms)
+
+  The settings page shows which path is currently in use ("Per-frame
+  data" / "Polled sampling"); a yellow banner at the top means a pre-v2.1
+  agent is still running and the 1% Low fix is not in effect.
+
+[Note: editing the agent source requires recompiling]
+  mro_agent.cs is source code — edits do not take effect automatically.
+  Double-click mro-hud\agent\build.cmd to compile, then turn the "MRO HUD"
+  plugin off and on again. On a compile failure the old mro_agent.exe is
+  left untouched and the error is written to agent\build.log.
+
+[The monitor dashboard (tab) interface]
+  CPU card       Junction temperature, utilization, current clock, package
+                 power; the temperature bar changes color at 75°C/88°C.
+  GPU card       Core temperature, utilization, core clock, GPU power.
+  CPU/GPU fans   Live RPM + a 0~5000 RPM progress bar + a speed
+                 percentage; the fan blades spin with the speed.
+  Control bar    "Fan boost" calls set_fan_boost; Office/Balanced/Beast/
+                 Custom call set_power_mode, kept in sync with the main
+                 UI and the chassis Q-Key physical button in real time.
+  Temperature    Line + area chart of the last 90 samples (about 90
+  trend          seconds) for CPU/GPU.
+  VRAM card      VRAM used/total, usage bar, core clock, memory clock, GPU
+                 power.
+  System bar     Battery charge limit, AC/battery, refresh rate, Win key
+                 lock, OEM service status.
+
+[Security boundaries]
+  - Temperature / fan / power and friends all go through OpenRevo's
+    semantic IPC: get_hardware_status / set_fan_boost / set_power_mode —
+    no raw EC register reads, no driver loads;
+  - The agent only reads system memory counters and RTSS shared memory,
+    all strictly read-only;
+  - No network access, no data uploads; no injection, no game process
+    hooking.
+  - The only things that change hardware state are the "Fan boost" and
+    "Performance mode" actions you click yourself.
+
+[Polling and overhead]
+  - Tab page: one get_hardware_status call every 1.5s; if the host pushes
+    telemetry proactively it drops to a 6s fallback;
+  - Settings page: /api/sensors once a second, also syncing the HUD
+    settings and frame rate readings;
+  - HUD: telemetry every 1.5s + the local agent once a second
+    (inter-process loopback HTTP, negligible overhead);
+  - Inside the agent: the 1% Low sampling thread reads shared memory every
+    8ms (about 0.2% CPU), with sorting throttled to once every 200ms; the
+    system timer resolution is only raised to 1ms while the agent runs;
+  - After the widget is closed the agent exits with auto_stop — nothing
+    stays resident.
+
+[Measured results]
+  - OpenRevo v0.9.2 (6ee7ba9), measured: after a restart "MRO Hardware
+    Monitor" appeared in the top bar, live-reading CPU 63°C / GPU 51°C /
+    fans 4657·4723 RPM / power / VRAM / 280Hz;
+  - The new HUD measured with the real agent: memory 12.4GB, RTSS
+    foreground process FPS 57~100, frametime 9.9~17.5ms (sampled with the
+    Oopz window in the foreground).
+   - RTSS autostart, measured: quit MSI Afterburner first, end the RTSS
+     process, keep the widget running — within about a second the agent
+     automatically launched RTSS (parent process = mro_agent.exe) and the
+     FPS row switched to "RTSS ready"; reopening MSI Afterburner then
+     reused that RTSS instance instead of starting another one.
+
+[Compatibility]
+  - OpenRevo v0.9.x (manifest min_host_version = 0.9.0);
+  - Calls host commands through the parent window's
+    __TAURI_INTERNALS__.invoke (verified working on 0.9.2), and is also
+    compatible with the newer host's postMessage telemetry push;
+  - The agent is a .NET Framework 4.x console program (bundled with
+    Windows 10/11), x64;
+  - iGPU-only machines without a dGPU: the GPU row shows "--", everything
+    else is unaffected;
+  - RTSS not installed: the HUD still works, the FPS row just says
+    "RTSS not running".
+
+[Troubleshooting]
+  1. The UI shows "Connecting / waiting for telemetry"
+     - Make sure you opened it from OpenRevo's "Plugins" page, not by
+       double-clicking index.html in a browser;
+     - Click "Refresh" in the top right of the plugins page, or restart
+       OpenRevo.
+  2. The HUD shows "--" for memory and "Agent offline" in the RTSS row
+     - Check whether the mro-hud service indicator in the plugin list is
+       green; if not, click "Start service";
+     - The widget asks the host to restart the agent every 20 seconds, or
+       you can close and reopen the widget;
+     - Check whether port 18946 is occupied: netstat -ano | findstr 18946;
+     - Agent log:
+       %APPDATA%\OpenRevo\plugins\mro-hud\agent\agent.log.
+  3. The RTSS row keeps saying "RTSS not running"
+     - Make sure RivaTuner Statistics Server is installed (by default at
+       C:\Program Files (x86)\RivaTuner Statistics Server\RTSS.exe);
+     - If installed in a non-default location, pass --rtss-path pointing
+       at RTSS.exe to the agent (edit service.args in manifest.json), or
+       set the RTSS_PATH environment variable;
+     - Check agent.log for "rtss start failed" and the specific error.
+  4. RTSS is running but FPS stays at "--"
+     - RTSS only hooks processes that started after it; open RTSS first
+       (the widget does that automatically) and then launch the game;
+     - Confirm RTSS's "Framerate" displays normally in-game;
+     - Run OpenRevo as an administrator (reading shared memory across
+       privilege levels is more reliable that way).
+  5. No tab appears in the top bar / the HUD will not open
+     - Check the directory layout and that the agent subdirectory is
+       complete;
+     - Open %APPDATA%\OpenRevo\config.json, set the matching entry in
+       custom_plugin_toggles to false and restart to safely skip the
+       problem plugin.
+  6. A plugin makes the UI misbehave
+     - Same as above: turn the matching plugin off via config.json's
+       custom_plugin_toggles.
+
+[Uninstall]
+  1. Disable the three plugins in the "Plugins" page (this also stops the
+     agent automatically);
+  2. Delete the %APPDATA%\OpenRevo\plugins\mro-monitor, mro-hud and
+     mro-hud-settings folders;
+  3. Restart OpenRevo.
+
+[File list]
+  mro-monitor\manifest.json      Tab plugin manifest
+  mro-monitor\index.html         The whole dashboard UI and logic (single
+                                 file, no external dependencies)
+  mro-hud\manifest.json          Desktop widget manifest (with the agent
+                                 service declaration)
+  mro-hud\index.html             Floating HUD UI and logic (display only,
+                                 no settings panel)
+  mro-hud\agent\mro_agent.exe    Read-only sensor agent (RTSS FPS + 1% Low
+                                 + memory)
+  mro-hud\agent\mro_agent.cs     Agent source code (auditable / recompilable)
+  mro-hud\agent\build.cmd        One-click agent recompile
+  mro-hud-settings\manifest.json HUD settings page manifest (tab)
+  mro-hud-settings\index.html    The HUD settings page
+                                 (background/opacity/topmost/1% Low + live
+                                 preview)
+  Usage Notes.txt                This file
+  install.cmd                    One-click copy install script
+  preview-dashboard.png          Dashboard UI preview
+  preview-hud.png                New floating HUD preview (with the RTSS
+                                 FPS row)
+  preview-hud-live.png           Live screenshot (after RTSS auto-start)
+  preview-hud-settings.png       HUD settings page preview
+
+[Notes]
+This plugin is a community port and is not affiliated with MECHREVO,
+TongFang, OpenRevo or RivaTuner. The original monitoring program and
+sensor implementation belong to the mro_monitor author; this plugin only
+reuses its UI concepts and metric definitions. Hardware data comes from
+OpenRevo, and FPS/memory from the local read-only agent.

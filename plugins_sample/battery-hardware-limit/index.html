@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="dark" />
-  <title>电池充电上限守护者</title>
+  <title>Battery Charge Limit Guardian</title>
   <style>
     :root {
       color-scheme: dark;
@@ -644,11 +644,11 @@
         </div>
         <div class="header-title-box">
           <h1>
-            电池充电上限守护者
-            <span class="header-badge">官方开源范例</span>
+            Battery Charge Limit Guardian
+            <span class="header-badge">Official open-source sample</span>
           </h1>
           <div class="header-desc">
-            基于微内核硬件网关与同方 EC 固件脉冲触发存储技术 · 零常驻进程 · 重启不丢 · 绝不破坏键盘矩阵
+            Built on the microkernel hardware gateway and TongFang EC firmware pulse-triggered storage · zero resident processes · survives reboot · never breaks the keyboard matrix
           </div>
         </div>
       </div>
@@ -659,7 +659,7 @@
             <line x1="12" y1="8" x2="12" y2="12"></line>
             <line x1="12" y1="16" x2="12.01" y2="16"></line>
           </svg>
-          通道自检
+          Channel self-test
         </button>
         <button class="btn btn-sm" onclick="refreshHardwareState()">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -668,7 +668,7 @@
             <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path>
             <path d="M16 21h5v-5"></path>
           </svg>
-          刷新状态
+          Refresh status
         </button>
       </div>
     </div>
@@ -678,8 +678,8 @@
       <!-- Stat 1: Battery Pct -->
       <div class="stat-card">
         <div class="stat-label">
-          <span>当前电池电量</span>
-          <span id="statAcPill" style="font-size: 10px; color: var(--text-dim);">检测中...</span>
+          <span>Current battery level</span>
+          <span id="statAcPill" style="font-size: 10px; color: var(--text-dim);">Detecting...</span>
         </div>
         <div class="stat-val">
           <span id="statBatteryPct">--</span>
@@ -687,14 +687,14 @@
         </div>
         <div class="stat-hint" id="statBatteryStatus">
           <span class="indicator-dot" id="statChargeDot"></span>
-          <span id="statChargeText">正在读取 BMS...</span>
+          <span id="statChargeText">Reading BMS...</span>
         </div>
       </div>
 
       <!-- Stat 2: Gate status -->
       <div class="stat-card">
         <div class="stat-label">
-          <span>固件限充门控</span>
+          <span>Firmware charge-limit gate</span>
           <span style="font-size: 9.5px; color: var(--text-dim);">EC 0x0742</span>
         </div>
         <div class="stat-val" id="statGateVal">
@@ -702,14 +702,14 @@
         </div>
         <div class="stat-hint" id="statGateHint">
           <span class="indicator-dot" id="statGateDot"></span>
-          <span id="statGateDetail">bit2=未激活 (充满)</span>
+          <span id="statGateDetail">bit2=inactive (full charge)</span>
         </div>
       </div>
 
       <!-- Stat 3: Target Limit in EC -->
       <div class="stat-card">
         <div class="stat-label">
-          <span>当前固件上限</span>
+          <span>Current firmware limit</span>
           <span style="font-size: 9.5px; color: var(--text-dim);">EC 0x07B9</span>
         </div>
         <div class="stat-val">
@@ -717,21 +717,21 @@
           <small id="statLimitUnit">%</small>
         </div>
         <div class="stat-hint" id="statLimitHint">
-          <span id="statLimitDesc">未设置限制</span>
+          <span id="statLimitDesc">No limit set</span>
         </div>
       </div>
 
       <!-- Stat 4: Platform Identity -->
       <div class="stat-card">
         <div class="stat-label">
-          <span>主板平台身份</span>
+          <span>Board platform identity</span>
           <span style="font-size: 9.5px; color: var(--text-dim);">EC 0x07C3</span>
         </div>
         <div class="stat-val">
           <span id="statPlatformVal">0x--</span>
         </div>
         <div class="stat-hint" style="color: var(--status-ok);">
-          <span>● 键盘矩阵正常 (未篡改)</span>
+          <span>● Keyboard matrix normal (not tampered)</span>
         </div>
       </div>
     </div>
@@ -740,18 +740,18 @@
     <div class="card-panel">
       <div class="panel-header">
         <div class="panel-title">
-          <span>设定目标充电上限 (1% ~ 100% 自由可调)</span>
-          <span class="panel-badge">纯数值无级调节</span>
+          <span>Set the target charge limit (freely adjustable from 1% to 100%)</span>
+          <span class="panel-badge">Stepless numeric control</span>
         </div>
         <span style="font-size: 11px; color: var(--text-dim);">
-          关机、拔电源、重启均由固件硬件级保持
+          Maintained at the firmware hardware level across shutdown, power loss and reboot
         </span>
       </div>
 
       <!-- Slider Component -->
       <div class="slider-box">
         <div class="slider-header">
-          <div class="slider-info-title">滑动调节或选择下方快捷推荐档位</div>
+          <div class="slider-info-title">Drag the slider or pick a recommended preset below</div>
           <div class="slider-val-badge"><span id="targetDisplay">80</span>%</div>
         </div>
         <div class="slider-input-wrapper">
@@ -766,34 +766,34 @@
       <div class="preset-grid">
         <div class="preset-capsule" onclick="selectPreset(50)">
           <div class="preset-pct">50%</div>
-          <div class="preset-tag">极致防鼓包</div>
+          <div class="preset-tag">Max swelling protection</div>
         </div>
         <div class="preset-capsule" onclick="selectPreset(60)">
           <div class="preset-pct">60%</div>
-          <div class="preset-tag">原厂工作站</div>
+          <div class="preset-tag">Factory workstation</div>
         </div>
         <div class="preset-capsule" onclick="selectPreset(70)">
           <div class="preset-pct">70%</div>
-          <div class="preset-tag">长效均衡</div>
+          <div class="preset-tag">Long-term balance</div>
         </div>
         <div class="preset-capsule active" onclick="selectPreset(80)">
           <div class="preset-pct">80%</div>
-          <div class="preset-tag">原厂平衡档</div>
+          <div class="preset-tag">Factory balanced</div>
         </div>
         <div class="preset-capsule" onclick="selectPreset(90)">
           <div class="preset-pct">90%</div>
-          <div class="preset-tag">准满电通勤</div>
+          <div class="preset-tag">Near-full commute</div>
         </div>
         <div class="preset-capsule" onclick="selectPreset(100)">
           <div class="preset-pct">100%</div>
-          <div class="preset-tag">充满恢复</div>
+          <div class="preset-tag">Restore full charge</div>
         </div>
       </div>
 
       <!-- Pulse progress bar -->
       <div id="pulseProgress" class="pulse-progress">
         <div class="pulse-text">
-          <span id="pulseStepText">正在执行脉冲存储触发...</span>
+          <span id="pulseStepText">Running the pulse storage trigger...</span>
           <span id="pulseCountdown">2.5s</span>
         </div>
         <div class="pulse-bar-track">
@@ -804,14 +804,14 @@
       <!-- Action Row -->
       <div class="action-row">
         <div class="action-desc">
-          <b>原理保障</b>：写入目标电量后，临时脉冲开放门控 2.5 秒，固件会自动将实时值转录至电池供电存储区 (0x087F)，随即原样恢复平台码，彻底消除任何按键错位。
+          <b>How it works</b>: after the target level is written, the gate is briefly pulsed open for 2.5 seconds. The firmware then copies the live value into the battery-backed storage area (0x087F) and restores the platform code exactly as it was, eliminating any key remapping.
         </div>
         <div class="action-buttons">
           <button id="btnCancel" class="btn btn-danger" onclick="triggerCancelLimit()">
-            取消限充 (恢复充满)
+            Remove limit (restore full charge)
           </button>
           <button id="btnApply" class="btn btn-primary" onclick="triggerApplyLimit()">
-            写入固件并生效
+            Write to firmware and apply
           </button>
         </div>
       </div>
@@ -820,65 +820,65 @@
     <!-- Diagnostic Lab & Custom Manifest Parameters -->
     <div class="lab-accordion">
       <div class="lab-summary" onclick="toggleLab()">
-        <span>🛠️ 极客硬件实验室与机型参数调优 (点击展开 / 折叠)</span>
+        <span>🛠️ Geek hardware lab and model-specific tuning (click to expand / collapse)</span>
         <span id="labToggleIcon">▼</span>
       </div>
       <div id="labBody" class="lab-body" style="display: none;">
         <div class="lab-form-grid">
           <div class="lab-field">
-            <label class="lab-label">通信总线协议 (Protocol)</label>
+            <label class="lab-label">Bus protocol</label>
             <select id="paramProtocol" class="lab-select" onchange="updateLabConfig()">
-              <option value="TongfangDirectEc">TongfangDirectEc (Uniwill / uwacpidriver 原厂直连)</option>
-              <option value="GenericAcpiWmi">GenericAcpiWmi (ACPI MULONG 邮箱)</option>
-              <option value="BldWmiMailbox">BldWmiMailbox (宝龙达双阈值帧)</option>
+              <option value="TongfangDirectEc">TongfangDirectEc (Uniwill / uwacpidriver factory direct)</option>
+              <option value="GenericAcpiWmi">GenericAcpiWmi (ACPI MULONG mailbox)</option>
+              <option value="BldWmiMailbox">BldWmiMailbox (Bld dual-threshold frame)</option>
             </select>
           </div>
           <div class="lab-field">
-            <label class="lab-label">门控脉冲值 (Pulse Value)</label>
+            <label class="lab-label">Gate pulse value</label>
             <div style="display: flex; gap: 6px;">
               <select id="paramPulseVal" class="lab-select" style="flex: 1;" onchange="onPulseSelectChange()">
-                <option value="5" selected>0x05 (游戏本推荐 - 绝不破坏全键盘)</option>
-                <option value="4">0x04 (轻薄本 / 无界推荐)</option>
-                <option value="custom">自定义数值...</option>
+                <option value="5" selected>0x05 (recommended for gaming laptops - never breaks the full keyboard)</option>
+                <option value="4">0x04 (recommended for thin & lights / Wujie series)</option>
+                <option value="custom">Custom value...</option>
               </select>
               <input id="paramPulseCustomInput" class="lab-input" type="text" placeholder="0x05"
                 style="width: 65px; display: none;" onchange="updateLabConfig()" />
             </div>
           </div>
           <div class="lab-field">
-            <label class="lab-label">脉冲保持时间 (Pulse Hold Ms)</label>
+            <label class="lab-label">Pulse hold time (ms)</label>
             <input id="paramPulseHold" class="lab-input" type="number" value="2500" step="100" min="1000" max="8000"
               onchange="updateLabConfig()" />
           </div>
           <div class="lab-field">
-            <label class="lab-label">限充寄存器 (Limit Reg)</label>
+            <label class="lab-label">Limit register</label>
             <input id="paramLimitReg" class="lab-input" type="text" value="0x07B9 (1977)"
               onchange="updateLabConfig()" />
           </div>
           <div class="lab-field">
-            <label class="lab-label">门控寄存器 (Gate Reg)</label>
+            <label class="lab-label">Gate register</label>
             <input id="paramGateReg" class="lab-input" type="text" value="0x07C3 (1987)" onchange="updateLabConfig()" />
           </div>
           <div class="lab-field">
-            <label class="lab-label">状态判定寄存器 (Status Reg)</label>
+            <label class="lab-label">Status register</label>
             <input id="paramStatusReg" class="lab-input" type="text" value="0x0742 (1858)"
               onchange="updateLabConfig()" />
           </div>
         </div>
 
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
-          <span style="font-size: 11px; color: var(--text-dim);">底层执行控制台输出与通讯帧诊断：</span>
+          <span style="font-size: 11px; color: var(--text-dim);">Low-level execution console output and protocol frame diagnostics:</span>
           <button class="btn btn-sm" onclick="exportManifestConfig()">
-            📋 导出当前机型配置为 manifest.json 片段
+            📋 Export the current model configuration as a manifest.json snippet
           </button>
         </div>
 
-        <div id="consoleLog" class="console-box">[*] 硬件网关就绪，等待交互操作...</div>
+        <div id="consoleLog" class="console-box">[*] Hardware gateway ready, waiting for interaction...</div>
       </div>
     </div>
   </div>
 
-  <div id="toast" class="toast">设置已成功写入固件！</div>
+  <div id="toast" class="toast">Settings written to firmware successfully!</div>
 
   <script>
     // --- 状态与配置存储 ---
@@ -913,7 +913,7 @@
         const reqId = 'req_' + Math.random().toString(36).substring(2, 9);
         const timeout = setTimeout(() => {
           window.removeEventListener('message', onMsg);
-          reject(new Error(`RPC [${command}] 超时`));
+          reject(new Error(`RPC [${command}] timed out`));
         }, 6000);
 
         function onMsg(e) {
@@ -921,7 +921,7 @@
           clearTimeout(timeout);
           window.removeEventListener('message', onMsg);
           if (e.data.success) resolve(e.data.payload);
-          else reject(new Error(e.data.error || 'RPC 调用失败'));
+          else reject(new Error(e.data.error || 'RPC call failed'));
         }
 
         window.addEventListener('message', onMsg);
@@ -1200,8 +1200,8 @@
 
       setBusy(true);
       const target = STATE.currentTarget;
-      logConsole(`=== 开始执行限充设定: 目标值 = ${target}% ===`);
-      showProgress(true, '1/5: 正在读取并留存当前主板平台原厂值...', 0);
+      logConsole(`=== Start applying the charge limit: target = ${target}% ===`);
+      showProgress(true, '1/5: Reading and saving the current factory platform value...', 0);
 
       try {
         // Step 1: 读出 0x07C3 原值
@@ -1214,12 +1214,12 @@
         }
 
         // Step 2: 写入实时上限 0x07B9
-        showProgress(true, `2/5: 正在写入实时限充寄存器 (0x${target.toString(16).padStart(2, '0')})...`, 20);
+        showProgress(true, `2/5: Writing the live charge-limit register (0x${target.toString(16).padStart(2, '0')})...`, 20);
         await ecWrite(STATE.limitReg, target);
         logConsole(`[2/5] 写入实时上限 0x07B9 = ${target}% (0x${target.toString(16).toUpperCase().padStart(2, '0')})`);
 
         // Step 3: 临时开门控 pulseVal (例如 0x05 / 0x04) 保持 2.5 秒
-        showProgress(true, `3/5: 脉冲开放平台门控 (0x0${STATE.pulseVal})，触发固件自动抄写入 0x087F 存储区...`, 40);
+        showProgress(true, `3/5: Pulsing the platform gate open (0x0${STATE.pulseVal}), triggering the firmware to copy it into the 0x087F storage area...`, 40);
         await ecWrite(STATE.gateReg, STATE.pulseVal);
         logConsole(`[3/5] 脉冲写入 0x07C3 = 0x0${STATE.pulseVal}，开始倒计时等待固件同步...`);
 
@@ -1239,7 +1239,7 @@
         });
 
         // Step 4: 立即恢复 0x07C3 原值，彻底消除键盘冲突！
-        showProgress(true, '4/5: 立即写回并确认平台原厂值，恢复键盘矩阵安全...', 85);
+        showProgress(true, '4/5: Writing back and confirming the factory platform value, restoring keyboard matrix safety...', 85);
         await ecWrite(STATE.gateReg, origPlat);
         await new Promise((r) => setTimeout(r, 200));
         let restored = await ecRead(STATE.gateReg);
@@ -1251,17 +1251,17 @@
         logConsole(`[4/5] 平台原值已成功还原确认: 0x07C3 = 0x${restored.toString(16).toUpperCase().padStart(2, '0')}`);
 
         // Step 5: 验证门控置位 0x0742 bit2
-        showProgress(true, '5/5: 等待固件控制环路判定并回读门控状态...', 95);
+        showProgress(true, '5/5: Waiting for the firmware control loop to settle, then reading back the gate status...', 95);
         await new Promise((r) => setTimeout(r, 1500));
         await refreshHardwareState();
 
         showProgress(false);
-        showToast(`✅ 固件限充已成功锁定在 ${target}%！`);
+        showToast(`✅ Firmware charge limit successfully locked at ${target}%!`);
         logConsole(`=== 限充设定圆满完成！已写入固件 NVRAM，关机/拔电源不丢 ===\n`);
         savePluginStorage();
       } catch (err) {
         logConsole(`[FAIL] 执行过程发生异常: ${err.message}`);
-        alert(`设定限充失败: ${err.message}`);
+        alert(`Failed to set the charge limit: ${err.message}`);
       } finally {
         showProgress(false);
         setBusy(false);
@@ -1273,7 +1273,7 @@
       if (STATE.isBusy) return;
       setBusy(true);
       logConsole(`=== 开始执行取消限充 (恢复充满 100%) ===`);
-      showProgress(true, '1/3: 正在清零实时上限 (0x07B9 = 0)...', 20);
+      showProgress(true, '1/3: Clearing the live limit (0x07B9 = 0)...', 20);
 
       try {
         let origPlat = 0x07;
@@ -1286,18 +1286,18 @@
         logConsole(`[1/3] 写入 0x07B9 = 0 (清零实时上限)`);
 
         // 同样走一次脉冲，让固件把 0 同步存入 0x087F，彻底解除门控
-        showProgress(true, '2/3: 脉冲同步清空固件 0x087F 存储区...', 60);
+        showProgress(true, '2/3: Pulsing to clear the firmware 0x087F storage area...', 60);
         await ecWrite(STATE.gateReg, STATE.pulseVal);
         await new Promise((r) => setTimeout(r, STATE.pulseHoldMs));
 
         // 还原平台码
-        showProgress(true, '3/3: 还原平台原厂值...', 90);
+        showProgress(true, '3/3: Restoring the factory platform value...', 90);
         await ecWrite(STATE.gateReg, origPlat);
         await new Promise((r) => setTimeout(r, 1000));
 
         await refreshHardwareState();
         showProgress(false);
-        showToast('✅ 已取消限充，恢复原厂充满行为！');
+        showToast('✅ Charge limit removed, factory full-charge behavior restored!');
         logConsole(`=== 已成功恢复充满！门控自动回落 ===\n`);
         STATE.currentTarget = 100;
         document.getElementById('targetSlider').value = 100;
@@ -1306,7 +1306,7 @@
         savePluginStorage();
       } catch (err) {
         logConsole(`[FAIL] 取消过程异常: ${err.message}`);
-        alert(`取消限充失败: ${err.message}`);
+        alert(`Failed to remove the charge limit: ${err.message}`);
       } finally {
         showProgress(false);
         setBusy(false);
@@ -1332,11 +1332,11 @@
     - Gate Status(0x0742) : 0x${vGate.toString(16).toUpperCase().padStart(2, '0')} (bit2_active=${(vGate >> 2) & 1})
         `;
         logConsole(report);
-        alert(`通道探测成功！\nProject: 0x${vPid.toString(16).toUpperCase()} | Platform: 0x${vPlat.toString(16).toUpperCase()} | 限充门控bit2: ${(vGate >> 2) & 1}`);
+        alert(`Channel probe succeeded!\nProject: 0x${vPid.toString(16).toUpperCase()} | Platform: 0x${vPlat.toString(16).toUpperCase()} | Charge-limit gate bit2: ${(vGate >> 2) & 1}`);
         await refreshHardwareState();
       } catch (e) {
         logConsole(`[-] 通道探测失败: ${e.message}`);
-        alert(`通道探测失败，请确认控制台驱动已加载: ${e.message}`);
+        alert(`Channel probe failed. Make sure the console driver is loaded: ${e.message}`);
       }
     }
 
@@ -1356,10 +1356,10 @@
 
         if (vGate !== null) {
           const isGateActive = ((vGate >> STATE.statusBit) & 1) === 1;
-          document.getElementById('statGateVal').textContent = isGateActive ? '已激活' : '未激活';
+          document.getElementById('statGateVal').textContent = isGateActive ? 'Active' : 'Inactive';
           document.getElementById('statGateVal').style.color = isGateActive ? 'var(--status-ok)' : 'var(--text-dim)';
           document.getElementById('statGateDot').className = `indicator-dot ${isGateActive ? 'active' : ''}`;
-          document.getElementById('statGateDetail').textContent = isGateActive ? 'bit2=1 固件控制环路工作中' : 'bit2=0 无硬件限制 (充至100%)';
+          document.getElementById('statGateDetail').textContent = isGateActive ? 'bit2=1 firmware control loop active' : 'bit2=0 no hardware limit (charges to 100%)';
         }
 
         if (vLim !== null) {
@@ -1367,7 +1367,7 @@
           const isReached = (vLim & 0x80) !== 0;
           if (limitNum > 0 && limitNum <= 100) {
             document.getElementById('statLimitVal').textContent = limitNum;
-            document.getElementById('statLimitDesc').textContent = isReached ? '已达上限，停止充电中' : '充电中，接近目标将停充';
+            document.getElementById('statLimitDesc').textContent = isReached ? 'Limit reached, charging stopped' : 'Charging, will stop near the target';
             // 若首次启动尚未持久化过任何目标，同步当前硬件真实限充为初始目标
             if (!STATE._hasLoadedStorage) {
               STATE.currentTarget = limitNum;
@@ -1376,9 +1376,9 @@
               updatePresetCapsules(limitNum);
             }
           } else {
-            document.getElementById('statLimitVal').textContent = '未限制';
+            document.getElementById('statLimitVal').textContent = 'Unlimited';
             document.getElementById('statLimitUnit').textContent = '';
-            document.getElementById('statLimitDesc').textContent = '电池将持续充至 100%';
+            document.getElementById('statLimitDesc').textContent = 'The battery will keep charging to 100%';
           }
         }
       } catch (e) {
@@ -1392,7 +1392,7 @@
         document.getElementById('statBatteryPct').textContent = data.battery_percent;
       }
       const isAc = data.is_ac_online ?? true;
-      document.getElementById('statAcPill').textContent = isAc ? '🔌 外部适配器已连接' : '🔋 电池供电中';
+      document.getElementById('statAcPill').textContent = isAc ? '🔌 External adapter connected' : '🔋 Running on battery';
 
       const isCharging = data.is_charging ?? false;
       const chargeDot = document.getElementById('statChargeDot');
@@ -1400,13 +1400,13 @@
 
       if (!isAc) {
         chargeDot.className = 'indicator-dot';
-        chargeText.textContent = '放电中 (使用电池)';
+        chargeText.textContent = 'Discharging (on battery)';
       } else if (isCharging) {
         chargeDot.className = 'indicator-dot active';
-        chargeText.textContent = '正在充电中...';
+        chargeText.textContent = 'Charging...';
       } else {
         chargeDot.className = 'indicator-dot warn';
-        chargeText.textContent = '未充电 (已达上限或满电)';
+        chargeText.textContent = 'Not charging (limit reached or full)';
       }
     }
 
@@ -1442,9 +1442,9 @@
       };
       const text = JSON.stringify(exportData, null, 2);
       navigator.clipboard.writeText(text).then(() => {
-        showToast('📋 已复制当前机型调优参数到剪贴板！');
+        showToast('📋 Current model tuning parameters copied to clipboard!');
       }).catch(() => {
-        prompt('请复制以下配置 JSON：', text);
+        prompt('Copy the following configuration JSON:', text);
       });
     }
 

@@ -600,7 +600,7 @@ pub fn export_device_diagnostic_report(
     };
 
     let json_str = serde_json::to_string_pretty(&report)
-        .map_err(|e| format!("JSON 序列化失败: {}", e))?;
+        .map_err(|e| format!("JSON serialization failed: {}", e))?;
 
     let desktop_dir = std::env::var("USERPROFILE")
         .map(|p| std::path::PathBuf::from(p).join("Desktop"))
@@ -611,7 +611,7 @@ pub fn export_device_diagnostic_report(
     let target_path = desktop_dir.join(&file_name);
 
     std::fs::write(&target_path, json_str)
-        .map_err(|e| format!("写入报告到桌面失败: {}", e))?;
+        .map_err(|e| format!("Failed to write the report to the desktop: {}", e))?;
 
     let path_str = target_path.to_string_lossy().to_string();
 
@@ -683,18 +683,18 @@ pub fn clear_user_data_dir() -> Result<String, String> {
     // Inviolable security boundaries:
     // Must be absolute, must not touch root drive, must match active config dir
     if !dir.is_absolute() {
-        return Err("安全拦截: 路径不是绝对路径".into());
+        return Err("Safety block: the path is not an absolute path".into());
     }
     if dir.parent().is_none() || dir.to_string_lossy().len() <= 3 {
-        return Err("安全拦截: 拒绝删除磁盘根目录".into());
+        return Err("Safety block: refusing to delete a disk root directory".into());
     }
 
     if !dir.exists() {
-        return Ok("数据目录已为空".into());
+        return Ok("The data directory is already empty".into());
     }
 
     // Safely iterate through entries in OpenRevo directory
-    let read_res = std::fs::read_dir(&dir).map_err(|e| format!("无法读取数据目录: {}", e))?;
+    let read_res = std::fs::read_dir(&dir).map_err(|e| format!("Failed to read the data directory: {}", e))?;
 
     let mut deleted_count = 0;
     for entry_res in read_res {
@@ -722,7 +722,7 @@ pub fn clear_user_data_dir() -> Result<String, String> {
     let _ = std::fs::create_dir_all(crate::system::config::get_profiles_dir());
 
     crate::log_info!("SYSTEM", "User data cleared successfully. Total {} items removed from {:?}", deleted_count, dir);
-    Ok("用户数据已成功清除".into())
+    Ok("The user data has been cleared successfully".into())
 }
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -843,13 +843,13 @@ pub fn check_version_compatibility(min_host_version: Option<&str>) -> (bool, Opt
         if host_ver >= req_ver {
             (true, None)
         } else {
-            (false, Some(format!("需 OpenRevo v{}+ (当前 v{})", req_str, host_ver_str)))
+            (false, Some(format!("Requires OpenRevo v{}+ (current v{})", req_str, host_ver_str)))
         }
     } else if let Ok(req) = semver::VersionReq::parse(clean_req) {
         if req.matches(&host_ver) {
             (true, None)
         } else {
-            (false, Some(format!("需 OpenRevo {} (当前 v{})", req_str, host_ver_str)))
+            (false, Some(format!("Requires OpenRevo {} (current v{})", req_str, host_ver_str)))
         }
     } else {
         (true, None)
@@ -1192,8 +1192,8 @@ pub fn get_custom_plugins() -> Result<Vec<CustomPluginItem>, String> {
                                 id: id.clone(),
                                 name: manifest.name.unwrap_or_else(|| dir_name.clone()),
                                 version: manifest.version.unwrap_or_else(|| "1.0.0".into()),
-                                author: manifest.author.unwrap_or_else(|| "第三方开发者".into()),
-                                description: manifest.description.unwrap_or_else(|| "无插件描述".into()),
+                                author: manifest.author.unwrap_or_else(|| "Third-party developer".into()),
+                                description: manifest.description.unwrap_or_else(|| "No plugin description".into()),
                                 plugin_type,
                                 enabled,
                                 dir_name: dir_name.clone(),
@@ -1230,8 +1230,8 @@ pub fn get_custom_plugins() -> Result<Vec<CustomPluginItem>, String> {
                     id: dir_name.clone(),
                     name: dir_name.clone(),
                     version: "0.1.0".into(),
-                    author: "本地".into(),
-                    description: "本地扩展目录 (未检测到标准 manifest.json)".into(),
+                    author: "Local".into(),
+                    description: "Local extension directory (no standard manifest.json detected)".into(),
                     plugin_type: "directory".into(),
                     enabled,
                     dir_name,
@@ -1280,7 +1280,7 @@ pub fn set_custom_plugin_enabled(id: String, enabled: bool) -> Result<bool, Stri
             if let Ok(manifest) = serde_json::from_str::<RawPluginManifest>(&content) {
                 let (is_compatible, notice) = check_version_compatibility(manifest.min_host_version.as_deref());
                 if !is_compatible {
-                    return Err(notice.unwrap_or_else(|| "当前宿主版本低于插件要求版本".into()));
+                    return Err(notice.unwrap_or_else(|| "The current host version is lower than the version required by this plugin".into()));
                 }
             }
         }
@@ -1567,7 +1567,7 @@ pub fn get_model_capabilities() -> serde_json::Value {
     if platform_channel == crate::hal::platform_probe::PlatformChannelKind::Unknown {
         return serde_json::json!({
             "id": "unadapted_generic",
-            "name": format!("未适配机型 ({})", cpu_name),
+            "name": format!("Unadapted model ({})", cpu_name),
             "form_factor": "unknown",
             "ui_preset": "unadapted_safe",
             "discrete_gpu": crate::driver::gpu_bridge::is_nvidia_dgpu_available(),

@@ -1,0 +1,25 @@
+{
+  "id": "mro-hud-settings",
+  "name": "MRO HUD · Settings",
+  "version": "2.1.0",
+  "author": "OpenRevo Community",
+  "description": "[Note] This plugin must be installed together with the \"MRO HUD\" main plugin; installed on its own, the settings page cannot take effect and full functionality is unavailable. Please download the other plugin as well. [MRO HUD settings page] Four backgrounds - dark / glass / flat / transparent - with background opacity and text opacity fully independent, plus overall size, always-on-top, the 1% Low display and its statistics window, with a live preview and FPS / frametime / 1% Low readings. Changes are written to mro-hud\\settings.ini and the HUD syncs once a second. Requires the companion \"MRO HUD\" main plugin to be running.",
+  "plugin_type": "tab",
+  "entry": "index.html",
+  "window": {
+    "width": 1000,
+    "height": 1040,
+    "decorations": true,
+    "transparent": false,
+    "always_on_top": false,
+    "resizable": true,
+    "skip_taskbar": false
+  },
+  "telemetry": {
+    "enabled": false,
+    "desiredIntervalMs": 5000,
+    "sensors": []
+  },
+  "permissions": [],
+  "min_host_version": "0.9.0"
+}

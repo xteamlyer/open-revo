@@ -246,9 +246,9 @@ pub fn set_power_mode(mode: u8, app: AppHandle, ec_state: State<'_, SharedEcBrid
     // Thin & light laptops rely on onboard EC power envelopes (e.g. 28W/30W/35W) and are fully exempt.
     if !is_thin_and_light && (mode == 3 || mode == 4) && !is_dc && !cfg.unlock_battery_power_limit {
         let msg = if check_dgpu_present() {
-            "在电池或 Type-C 供电下，狂暴模式与自定义模式不可用。请连接 DC 圆口电源适配器，或在【系统】设置中开启“解除离电限制”。"
+            "Beast mode and Custom mode are not available on battery or Type-C power. Please connect the round-barrel DC power adapter, or enable \"Unlock battery-power limits\" in the System settings."
         } else {
-            "在电池供电下，狂暴模式与自定义模式不可用。请连接电源适配器，或在【系统】设置中开启“解除离电限制”。"
+            "Beast mode and Custom mode are not available on battery power. Please connect the power adapter, or enable \"Unlock battery-power limits\" in the System settings."
         };
         return Err(msg.to_string());
     }

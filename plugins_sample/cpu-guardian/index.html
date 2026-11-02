@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>13/14代 CPU 防缩卫士 - OpenRevo</title>
+  <title>13th/14th Gen CPU Guardian - OpenRevo</title>
   <style>
     :root {
       color-scheme: dark;
@@ -632,15 +632,15 @@
         <div class="header-icon">🛡️</div>
         <div class="header-title-box">
           <h1>
-            13/14代 CPU 防缩卫士
-            <span id="service-badge" class="badge-chip warn">嗅探中...</span>
-            <span id="uvp-badge" class="badge-chip ok" style="display:none;">UVP: 已解锁</span>
+            13th/14th Gen CPU Guardian
+            <span id="service-badge" class="badge-chip warn">Probing...</span>
+            <span id="uvp-badge" class="badge-chip ok" style="display:none;">UVP: Unlocked</span>
           </h1>
-          <p>基于 Intel 原厂 7.14 内核通道 · 削峰定频断绝 1.50V+ 死亡脉冲 · 稳态降压 · 瞬变电涌压制</p>
+          <p>Built on the official Intel 7.14 kernel channel · peak-clipping clock locking to eliminate deadly 1.50V+ spikes · steady-state undervolting · transient surge suppression</p>
         </div>
       </div>
       <div class="header-actions">
-        <button id="btn-reset-default" class="btn danger" title="一键将所有参数恢复至出厂安全设置">⚠️ 恢复出厂</button>
+        <button id="btn-reset-default" class="btn danger" title="Restore every parameter to the factory safe settings in one click">⚠️ Restore factory defaults</button>
       </div>
     </div>
 
@@ -649,14 +649,14 @@
       <div class="banner-content">
         <div class="banner-icon">⚙️</div>
         <div>
-          <strong id="banner-service-title">XTU 守护服务已安装但当前处于停止状态</strong>
+          <strong id="banner-service-title">The XTU guardian service is installed but currently stopped</strong>
           <div id="banner-service-desc" style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">
-            检测到底层驱动已安装。点击右侧按钮启动底层服务引擎。
+            The low-level driver is installed. Click the button on the right to start the service engine.
           </div>
         </div>
       </div>
       <div style="display: flex; gap: 8px; flex-shrink: 0;">
-        <button id="btn-smart-service" class="btn primary">▶️ 立即启动服务</button>
+        <button id="btn-smart-service" class="btn primary">▶️ Start service now</button>
       </div>
     </div>
 
@@ -664,35 +664,35 @@
     <div id="xtu-install-guide-card" class="panel-card"
       style="display: none; border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.04);">
       <div class="panel-header">
-        <div class="panel-title" style="color: var(--status-warn);">⚠️ 硬件调控前置环境未就绪：需要 Intel XTU 7.x 官方驱动底座</div>
-        <div class="panel-subtitle">为杜绝 0x50 内核空指针蓝屏，本插件严格依附 Intel 官方通过微软 WHQL 认证的现代 ACPI 扩展驱动栈运行，绝不执行违规危险的第三方内核裸注入。
+        <div class="panel-title" style="color: var(--status-warn);">⚠️ Hardware control prerequisites are not ready: the official Intel XTU 7.x driver stack is required</div>
+        <div class="panel-subtitle">To rule out 0x50 kernel null-pointer blue screens, this plugin strictly relies on Intel's official Microsoft WHQL-certified modern ACPI extension driver stack. It never performs any risky third-party bare kernel injection.
         </div>
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 14px; padding: 6px 0; font-size: 13px; line-height: 1.6;">
         <div
           style="background: rgba(0,0,0,0.25); padding: 12px 16px; border-radius: var(--radius-md); border-left: 3px solid var(--status-warn);">
-          <strong>📌 1. 官方正规下载指引（切勿下错版本）：</strong><br>
-          针对 <strong>13代 / 14代酷睿（如 13900HX / 14900HX）</strong>，请务必下载 <strong>7.x.x 稳定版本</strong>（如 7.14.x）。<br>
-          <span style="color: var(--status-error); font-weight: 600;">⚠️ 严禁下载 10.x.x 版本！</span> 官方 10.x 版本仅适用于 Core
-          Ultra 处理器，无法在 13/14 代机器上工作。
+          <strong>📌 1. Official download guide (make sure you pick the right version):</strong><br>
+          For <strong>13th / 14th Gen Core (e.g. 13900HX / 14900HX)</strong>, make sure to download a <strong>7.x.x stable version</strong> (e.g. 7.14.x).<br>
+          <span style="color: var(--status-error); font-weight: 600;">⚠️ Never download the 10.x.x version!</span> The official 10.x release only supports Core
+          Ultra processors and will not work on 13th/14th gen machines.
         </div>
 
         <div
           style="background: rgba(0,0,0,0.25); padding: 12px 16px; border-radius: var(--radius-md); border-left: 3px solid var(--accent-cyan);">
-          <strong>🚀 2. 纯净机制说明（无需打开 XTU，零窗口打扰）：</strong><br>
-          官方 XTU 7.x 安装后，开机<strong>默认仅注册系统后台服务 (XTU3SERVICE)，绝不会自启任何前台窗口或托盘</strong>。<br>
-          因此您平时<strong>完全不需要打开庞大冗余的 XTU 客户端</strong>！OpenRevo 插件会自动在后台与底层服务握手并执行硬件调谐与守护，享受 100% 纯净、极简的无感体验。
+          <strong>🚀 2. How the clean mechanism works (no need to open XTU, zero window interruptions):</strong><br>
+          After the official XTU 7.x is installed, at boot it <strong>only registers a background system service (XTU3SERVICE) and never auto-starts any foreground window or tray icon</strong>.<br>
+          This means you <strong>never need to open the bulky XTU client</strong>! The OpenRevo plugin automatically handshakes with the low-level service in the background and performs hardware tuning and guarding, giving you a 100% clean, minimal, set-and-forget experience.
         </div>
 
         <div style="display: flex; gap: 12px; margin-top: 6px; flex-wrap: wrap;">
           <a href="https://www.intel.com/content/www/us/en/download/17881/intel-extreme-tuning-utility-intel-xtu.html"
             target="_blank" rel="noopener noreferrer" class="btn primary"
             style="text-decoration: none; padding: 10px 20px;">
-            🌐 打开 Intel 官方下载中心 (选择 7.x.x 版本)
+            🌐 Open the official Intel download center (pick the 7.x.x version)
           </a>
           <button id="btn-guide-refresh" class="btn" style="padding: 10px 20px;">
-            🔄 安装完成并重启后，点击此处立即连接
+            🔄 After installing and rebooting, click here to connect immediately
           </button>
         </div>
       </div>
@@ -703,14 +703,14 @@
       <div class="banner-content">
         <div class="banner-icon">🔒</div>
         <div>
-          <strong>检测到电压调校通道受限（Windows VBS 虚拟化安全拦截）</strong>
+          <strong>Voltage tuning channel is restricted (blocked by Windows VBS virtualization security)</strong>
           <div style="font-size: 12px; color: var(--text-dim); margin-top: 4px; line-height: 1.6;">
-            🔒 <strong>底层拦截原因</strong>：Intel 原厂机制规定，当 Windows 开启了 <strong>基于虚拟化的安全性 (VBS / 核心隔离)</strong> 时，若 BIOS 未开启
-            Undervolt Protection (UVP)，系统将完全封锁 CPU 调压通道。<br>
-            🔓 <strong>推荐解除锁定步骤</strong>：<br>
-            1. 在 Windows 开始菜单搜索并打开【核心隔离】；<br>
-            2. 将【内存完整性】关闭（或以管理员运行 <code>bcdedit /set hypervisorlaunchtype off</code>）后重启电脑；<br>
-            3. 重启后即可完全解锁 MSR 调压控制权（同时消除虚拟机开销，通常可额外提升约 3%~5% 游戏性能）。
+            🔒 <strong>Why it is blocked</strong>: Intel's official mechanism dictates that when Windows has <strong>Virtualization-Based Security (VBS / Core Isolation)</strong> enabled and the BIOS has not enabled
+            Undervolt Protection (UVP), the system completely locks the CPU voltage tuning channel.<br>
+            🔓 <strong>Recommended steps to unlock</strong>:<br>
+            1. Search for and open <strong>Core Isolation</strong> from the Windows Start menu;<br>
+            2. Turn <strong>Memory integrity</strong> off (or run <code>bcdedit /set hypervisorlaunchtype off</code> as an administrator) and reboot;<br>
+            3. After the reboot the MSR voltage control is fully unlocked (this also removes virtualization overhead, typically gaining about 3-5% gaming performance).
           </div>
         </div>
       </div>
@@ -720,71 +720,71 @@
       <!-- One-Click Presets Section -->
       <div class="panel-card">
         <div class="panel-header">
-          <div class="panel-title">⚡ 一键防缩缸安全预设档位</div>
-          <div class="panel-subtitle">针对 13900HX / 14900HX 极端调校场景预先验证的甜点方案</div>
+          <div class="panel-title">⚡ One-click safe anti-degradation presets</div>
+          <div class="panel-subtitle">Pre-validated sweet-spot profiles for 13900HX / 14900HX extreme tuning scenarios</div>
         </div>
 
         <div class="presets-grid">
           <!-- Preset 1: Recommended -->
           <div class="preset-card highlight" id="card-preset-stable">
-            <div class="preset-badge-rec">极力推荐</div>
+            <div class="preset-badge-rec">Highly recommended</div>
             <div>
               <div class="preset-name">
-                稳态长寿档 (5.3G 削峰)
-                <span id="badge-preset-stable" class="badge-active-tag" style="display:none;">已激活</span>
+                Steady-state longevity (5.3G peak clip)
+                <span id="badge-preset-stable" class="badge-active-tag" style="display:none;">Active</span>
               </div>
-              <div class="preset-desc">限制最大睿频至 5.3GHz 避开非线性功耗断崖，大核稳降 60mV，斩断瞬变电涌。</div>
+              <div class="preset-desc">Caps the max turbo at 5.3GHz to avoid the non-linear power cliff, with a solid -60mV P-core undervolt that kills transient surges.</div>
             </div>
             <div class="preset-specs">
-              <div class="spec-row"><span class="spec-label">最大睿频</span><span class="spec-val">53x (5.3 GHz)</span>
+              <div class="spec-row"><span class="spec-label">Max turbo</span><span class="spec-val">53x (5.3 GHz)</span>
               </div>
-              <div class="spec-row"><span class="spec-label">核心电压偏移</span><span class="spec-val">-60 mV</span></div>
-              <div class="spec-row"><span class="spec-label">Ring 缓存偏移</span><span class="spec-val">0 mV (保持 BIOS
-                  基准)</span></div>
-              <div class="spec-row"><span class="spec-label">峰值电流上限</span><span class="spec-val">280 A (Baseline)</span>
+              <div class="spec-row"><span class="spec-label">Core voltage offset</span><span class="spec-val">-60 mV</span></div>
+              <div class="spec-row"><span class="spec-label">Ring cache offset</span><span class="spec-val">0 mV (BIOS
+                  baseline kept)</span></div>
+              <div class="spec-row"><span class="spec-label">Peak current limit</span><span class="spec-val">280 A (Baseline)</span>
               </div>
             </div>
             <button id="btn-preset-stable" class="btn primary"
-              onclick="applyPreset('stable', 53, -60, 0, 280)">一键应用稳态档</button>
+              onclick="applyPreset('stable', 53, -60, 0, 280)">Apply steady-state preset</button>
           </div>
 
           <!-- Preset 2: Moderate -->
           <div class="preset-card" id="card-preset-moderate">
             <div>
               <div class="preset-name">
-                轻度防浪涌档 (5.5G)
-                <span id="badge-preset-moderate" class="badge-active-tag" style="display:none;">已激活</span>
+                Light surge protection (5.5G)
+                <span id="badge-preset-moderate" class="badge-active-tag" style="display:none;">Active</span>
               </div>
-              <div class="preset-desc">保留 5.5GHz 高频响应，轻微降压拉低 VID 曲线，IccMax 限制在 307A 安全线。</div>
+              <div class="preset-desc">Keeps 5.5GHz high-frequency responsiveness, slightly undervolts to pull down the VID curve, and clamps IccMax at the safe 307A line.</div>
             </div>
             <div class="preset-specs">
-              <div class="spec-row"><span class="spec-label">最大睿频</span><span class="spec-val">55x (5.5 GHz)</span>
+              <div class="spec-row"><span class="spec-label">Max turbo</span><span class="spec-val">55x (5.5 GHz)</span>
               </div>
-              <div class="spec-row"><span class="spec-label">核心电压偏移</span><span class="spec-val">-40 mV</span></div>
-              <div class="spec-row"><span class="spec-label">Ring 缓存偏移</span><span class="spec-val">0 mV (保持 BIOS
-                  基准)</span></div>
-              <div class="spec-row"><span class="spec-label">峰值电流上限</span><span class="spec-val">307 A</span></div>
+              <div class="spec-row"><span class="spec-label">Core voltage offset</span><span class="spec-val">-40 mV</span></div>
+              <div class="spec-row"><span class="spec-label">Ring cache offset</span><span class="spec-val">0 mV (BIOS
+                  baseline kept)</span></div>
+              <div class="spec-row"><span class="spec-label">Peak current limit</span><span class="spec-val">307 A</span></div>
             </div>
             <button id="btn-preset-moderate" class="btn"
-              onclick="applyPreset('moderate', 55, -40, 0, 307)">一键应用轻度档</button>
+              onclick="applyPreset('moderate', 55, -40, 0, 307)">Apply light preset</button>
           </div>
 
           <!-- Preset 3: Factory Defaults -->
           <div class="preset-card" id="card-preset-factory">
             <div>
               <div class="preset-name">
-                原厂默认基线档
-                <span id="badge-preset-factory" class="badge-active-tag" style="display:none;">已激活</span>
+                Factory default baseline
+                <span id="badge-preset-factory" class="badge-active-tag" style="display:none;">Active</span>
               </div>
-              <div class="preset-desc">清除所有电压偏移与倍频截断，完全恢复至 BIOS 初始未调谐的工厂状态。</div>
+              <div class="preset-desc">Clears every voltage offset and ratio cap, fully restoring the untouched factory state from the BIOS.</div>
             </div>
             <div class="preset-specs">
-              <div class="spec-row"><span class="spec-label">最大睿频</span><span class="spec-val">原厂出厂倍频</span></div>
-              <div class="spec-row"><span class="spec-label">核心电压偏移</span><span class="spec-val">0 mV</span></div>
-              <div class="spec-row"><span class="spec-label">Ring 缓存偏移</span><span class="spec-val">0 mV</span></div>
-              <div class="spec-row"><span class="spec-label">峰值电流上限</span><span class="spec-val">出厂不受限</span></div>
+              <div class="spec-row"><span class="spec-label">Max turbo</span><span class="spec-val">Factory ratio</span></div>
+              <div class="spec-row"><span class="spec-label">Core voltage offset</span><span class="spec-val">0 mV</span></div>
+              <div class="spec-row"><span class="spec-label">Ring cache offset</span><span class="spec-val">0 mV</span></div>
+              <div class="spec-row"><span class="spec-label">Peak current limit</span><span class="spec-val">Unlimited (factory)</span></div>
             </div>
-            <button id="btn-preset-factory" class="btn danger" onclick="resetToDefaults()">恢复出厂默认</button>
+            <button id="btn-preset-factory" class="btn danger" onclick="resetToDefaults()">Restore factory defaults</button>
           </div>
         </div>
       </div>
@@ -792,8 +792,8 @@
       <!-- Custom Fine-Tuning Sliders Section -->
       <div class="panel-card">
         <div class="panel-header">
-          <div class="panel-title">🎛️ 极客高阶硬件微调</div>
-          <div class="panel-subtitle">免重启动态下发 MSR 寄存器 · 实机回读校验</div>
+          <div class="panel-title">🎛️ Advanced hardware fine-tuning</div>
+          <div class="panel-subtitle">MSR registers applied dynamically without reboot · verified by read-back from the hardware</div>
         </div>
 
         <div class="sliders-grid">
@@ -801,8 +801,8 @@
           <div class="slider-box">
             <div class="slider-top">
               <div class="slider-label-box">
-                <h4>核心电压偏移 (Core Voltage Offset)</h4>
-                <p>整体拉低 VID 曲线，核心降温与防击穿防线</p>
+                <h4>Core Voltage Offset</h4>
+                <p>Pulls the whole VID curve down - the front line for core cooling and breakdown protection</p>
               </div>
               <div id="val-core-offset" class="slider-val-badge">0 mV</div>
             </div>
@@ -810,8 +810,8 @@
               <input type="range" id="input-core-offset" min="-120" max="0" step="5" value="0">
             </div>
             <div class="slider-limits">
-              <span id="limit-core-min">激进 -120 mV</span>
-              <span>出厂 0 mV</span>
+              <span id="limit-core-min">Aggressive -120 mV</span>
+              <span>Factory 0 mV</span>
             </div>
           </div>
 
@@ -819,8 +819,8 @@
           <div class="slider-box">
             <div class="slider-top">
               <div class="slider-label-box">
-                <h4>缓存电压偏移 (Ring Voltage Offset)</h4>
-                <p>14代 HX 架构负值受底层微码保护仅在 BIOS 生效（当前跟随 BIOS 预设）</p>
+                <h4>Ring Voltage Offset</h4>
+                <p>Negative values are protected by the microcode on 14th gen HX and only take effect in the BIOS (currently follows the BIOS preset)</p>
               </div>
               <div id="val-ring-offset" class="slider-val-badge">0 mV</div>
             </div>
@@ -828,8 +828,8 @@
               <input type="range" id="input-ring-offset" min="-80" max="0" step="5" value="0">
             </div>
             <div class="slider-limits">
-              <span id="limit-ring-min">激进 -80 mV</span>
-              <span>出厂 0 mV</span>
+              <span id="limit-ring-min">Aggressive -80 mV</span>
+              <span>Factory 0 mV</span>
             </div>
           </div>
 
@@ -837,8 +837,8 @@
           <div class="slider-box">
             <div class="slider-top">
               <div class="slider-label-box">
-                <h4>最大睿频倍频 (Max Turbo Ratio)</h4>
-                <p>削峰截断高频死区（建议锁 53x = 5.3GHz）</p>
+                <h4>Max Turbo Ratio</h4>
+                <p>Clips the high-frequency dead zone (recommended: lock 53x = 5.3GHz)</p>
               </div>
               <div id="val-max-ratio" class="slider-val-badge">58x (5.8 GHz)</div>
             </div>
@@ -846,8 +846,8 @@
               <input type="range" id="input-max-ratio" min="45" max="58" step="1" value="58">
             </div>
             <div class="slider-limits">
-              <span>节能 45x (4.5 GHz)</span>
-              <span>出厂上限 58x</span>
+              <span>Power-saving 45x (4.5 GHz)</span>
+              <span>Factory cap 58x</span>
             </div>
           </div>
 
@@ -855,8 +855,8 @@
           <div class="slider-box">
             <div class="slider-top">
               <div class="slider-label-box">
-                <h4>供电瞬变电流上限 (Core IccMax)</h4>
-                <p>压制低阻抗电涌（Intel Baseline 建议 280A）</p>
+                <h4>Core IccMax (transient current limit)</h4>
+                <p>Suppresses low-impedance surges (Intel Baseline recommends 280A)</p>
               </div>
               <div id="val-iccmax" class="slider-val-badge">280 A</div>
             </div>
@@ -864,14 +864,14 @@
               <input type="range" id="input-iccmax" min="180" max="400" step="5" value="280">
             </div>
             <div class="slider-limits">
-              <span>保守 180 A</span>
-              <span>极限 400 A</span>
+              <span>Conservative 180 A</span>
+              <span>Extreme 400 A</span>
             </div>
           </div>
         </div>
 
         <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px;">
-          <button id="btn-apply-custom" class="btn primary" style="padding: 9px 24px;">🚀 应用自定义微调参数</button>
+          <button id="btn-apply-custom" class="btn primary" style="padding: 9px 24px;">🚀 Apply custom tuning parameters</button>
         </div>
       </div>
     </div> <!-- end #tuning-sections-container -->
@@ -882,16 +882,16 @@
   <div id="watchdog-modal" class="sys-modal-backdrop">
     <div class="sys-modal-card">
       <div class="sys-modal-header">
-        <span>⏱️ 防蓝屏安全看门狗保护中</span>
+        <span>⏱️ Anti-blue-screen safety watchdog is protecting you</span>
       </div>
       <div class="sys-modal-body">
-        <p>新的调压参数已下发至硬件！请观察系统运行状态。如果设置过激导致不稳定，可等待倒计时结束后自动安全回滚至出厂设置。</p>
+        <p>New voltage parameters have been sent to the hardware! Keep an eye on how the system behaves. If the settings turn out to be too aggressive, you can simply wait for the countdown to end and it will automatically roll back to the factory settings.</p>
         <div id="watchdog-countdown" class="countdown-circle">30</div>
-        <p style="font-size: 11px; color: var(--text-dim); text-align: center;">若系统在倒计时内蓝屏或重启，守护程序下次启动将无条件重置电压。</p>
+        <p style="font-size: 11px; color: var(--text-dim); text-align: center;">If the system blue-screens or reboots during the countdown, the guardian will unconditionally reset the voltages on the next launch.</p>
       </div>
       <div class="sys-modal-actions">
-        <button id="btn-watchdog-rollback" class="btn danger">立即回滚出厂</button>
-        <button id="btn-watchdog-confirm" class="btn success">确认稳定并保持</button>
+        <button id="btn-watchdog-rollback" class="btn danger">Roll back to factory now</button>
+        <button id="btn-watchdog-confirm" class="btn success">Confirm it is stable and keep</button>
       </div>
     </div>
   </div>
@@ -946,7 +946,7 @@
 
     if (btnGuideRefresh) {
       btnGuideRefresh.onclick = () => {
-        showToast('正在重新探测系统 XTU 底层驱动状态...', 'ok');
+        showToast('Re-probing the system XTU driver status...', 'ok');
         refreshStatus();
       };
     }
@@ -1052,14 +1052,14 @@
         factory: document.getElementById('btn-preset-factory')
       };
       const defaultTexts = {
-        stable: '一键应用稳态档',
-        moderate: '一键应用轻度档',
-        factory: '恢复出厂默认'
+        stable: 'Apply steady-state preset',
+        moderate: 'Apply light preset',
+        factory: 'Restore factory defaults'
       };
       const activeTexts = {
-        stable: '✓ 当前运行中',
-        moderate: '✓ 当前运行中',
-        factory: '✓ 已是原厂默认'
+        stable: '✓ Currently running',
+        moderate: '✓ Currently running',
+        factory: '✓ Already at factory defaults'
       };
 
       Object.keys(cards).forEach(key => {
@@ -1106,7 +1106,7 @@
 
     // Refresh Status
     async function refreshStatus() {
-      serviceBadge.textContent = '嗅探中...';
+      serviceBadge.textContent = 'Probing...';
       serviceBadge.className = 'badge-chip warn';
 
       const data = await apiCall('probe');
@@ -1116,7 +1116,7 @@
         uvpBanner.style.display = 'none';
 
         if (currentServiceStatus === 'Stopped') {
-          serviceBadge.textContent = '服务已停止';
+          serviceBadge.textContent = 'Service stopped';
           serviceBadge.className = 'badge-chip warn';
           serviceBanner.style.display = 'flex';
           xtuGuideCard.style.display = 'none';
@@ -1124,11 +1124,11 @@
           tuningContainer.style.opacity = '0.35';
           tuningContainer.style.pointerEvents = 'none';
 
-          bannerServiceTitle.textContent = 'XTU 守护服务已安装但当前处于停止状态';
-          bannerServiceDesc.textContent = '检测到底层驱动底座已就绪。点击右侧按钮启动服务引擎。';
-          btnSmartService.textContent = '▶️ 立即启动服务';
+          bannerServiceTitle.textContent = 'The XTU guardian service is installed but currently stopped';
+          bannerServiceDesc.textContent = 'The low-level driver stack is ready. Click the button on the right to start the service engine.';
+          btnSmartService.textContent = '▶️ Start service now';
         } else if (currentServiceStatus === 'Running') {
-          serviceBadge.textContent = '管道连接中...';
+          serviceBadge.textContent = 'Connecting to pipe...';
           serviceBadge.className = 'badge-chip warn';
           serviceBanner.style.display = 'flex';
           xtuGuideCard.style.display = 'none';
@@ -1136,16 +1136,16 @@
           tuningContainer.style.opacity = '0.35';
           tuningContainer.style.pointerEvents = 'none';
 
-          bannerServiceTitle.textContent = 'XTU 驱动服务已在后台运行 (XTU3SERVICE)';
-          bannerServiceDesc.textContent = '底层驱动已就绪，伴生桥接正在建立 WCF 命名管道连接...';
-          btnSmartService.textContent = '🔄 刷新重试管道';
+          bannerServiceTitle.textContent = 'The XTU driver service is running in the background (XTU3SERVICE)';
+          bannerServiceDesc.textContent = 'The low-level driver is ready, and the companion bridge is establishing the WCF named-pipe connection...';
+          btnSmartService.textContent = '🔄 Refresh and retry the pipe';
           if (probeRetryCount < 6) {
             probeRetryCount++;
             setTimeout(refreshStatus, 1000);
           }
         } else {
           // XTU is Not Installed: Show clean official setup guide and block operations
-          serviceBadge.textContent = '未安装 XTU 7.x 底座';
+          serviceBadge.textContent = 'XTU 7.x stack not installed';
           serviceBadge.className = 'badge-chip error';
           serviceBanner.style.display = 'none';
           xtuGuideCard.style.display = 'block';
@@ -1157,7 +1157,7 @@
       // Connected!
       probeRetryCount = 0;
       currentServiceStatus = 'Running';
-      serviceBadge.textContent = '硬件引擎就绪 (7.14)';
+      serviceBadge.textContent = 'Hardware engine ready (7.14)';
       serviceBadge.className = 'badge-chip ok';
       serviceBanner.style.display = 'none';
       xtuGuideCard.style.display = 'none';
@@ -1168,12 +1168,12 @@
       // UVP check
       if (data.uvp_active) {
         uvpBadge.style.display = 'inline-flex';
-        uvpBadge.textContent = 'UVP 锁定中';
+        uvpBadge.textContent = 'UVP locked';
         uvpBadge.className = 'badge-chip error';
         uvpBanner.style.display = 'flex';
       } else {
         uvpBadge.style.display = 'inline-flex';
-        uvpBadge.textContent = 'UVP: 已解锁';
+        uvpBadge.textContent = 'UVP: Unlocked';
         uvpBadge.className = 'badge-chip ok';
         uvpBanner.style.display = 'none';
       }
@@ -1188,7 +1188,7 @@
           if (k.core_voltage_offset.min !== undefined) {
             inputCoreOffset.min = k.core_voltage_offset.min;
             const minElem = document.getElementById('limit-core-min');
-            if (minElem) minElem.textContent = `极限 ${k.core_voltage_offset.min} mV`;
+            if (minElem) minElem.textContent = `Limit ${k.core_voltage_offset.min} mV`;
           }
         }
         if (k.ring_voltage_offset && k.ring_voltage_offset.supported) {
@@ -1197,7 +1197,7 @@
           if (k.ring_voltage_offset.min >= 0) {
             inputRingOffset.min = 0;
             const minElem = document.getElementById('limit-ring-min');
-            if (minElem) minElem.textContent = `基线 0 mV (BIOS锁)`;
+            if (minElem) minElem.textContent = `Baseline 0 mV (BIOS locked)`;
           }
         }
         if (k.max_turbo_ratio && k.max_turbo_ratio.supported) {
@@ -1216,7 +1216,7 @@
     // Smart Service Activation
     btnSmartService.onclick = async () => {
       btnSmartService.disabled = true;
-      btnSmartService.textContent = '正在启动...';
+      btnSmartService.textContent = 'Starting...';
 
       let res;
       if (currentServiceStatus === 'Stopped') {
@@ -1226,13 +1226,13 @@
       }
 
       btnSmartService.disabled = false;
-      btnSmartService.textContent = '▶️ 立即启动服务';
+      btnSmartService.textContent = '▶️ Start service now';
 
       if (res.success || res.connected) {
-        showToast('守护引擎服务已就绪！', 'ok');
+        showToast('The guardian engine service is ready!', 'ok');
         setTimeout(refreshStatus, 1000);
       } else {
-        showToast(res.error || res.output || '服务启动失败，正在刷新状态', 'warn');
+        showToast(res.error || res.output || 'Failed to start the service, refreshing status', 'warn');
         refreshStatus();
       }
     };
@@ -1260,11 +1260,11 @@
       allActionBtns.forEach(b => { b.disabled = false; });
 
       if (res.success) {
-        showToast('调压参数已下发至 CPU 寄存器！', 'ok');
+        showToast('Voltage parameters have been applied to the CPU registers!', 'ok');
         startWatchdog();
         return true;
       } else {
-        showToast(`应用失败: ${res.error || 'XTU 拒绝了设置'}`, 'error');
+        showToast(`Apply failed: ${res.error || 'XTU rejected the settings'}`, 'error');
         return false;
       }
     }
@@ -1296,7 +1296,7 @@
 
       const res = await apiCall('reset');
       if (res.success) {
-        showToast('已成功恢复出厂默认设置！', 'ok');
+        showToast('Factory default settings restored successfully!', 'ok');
         savePluginStorage({
           active_preset: 'factory',
           max_turbo_ratio: 58,
@@ -1309,7 +1309,7 @@
         refreshStatus();
       } else {
         if (btnFactory) btnFactory.disabled = false;
-        showToast(`恢复失败: ${res.error || '服务未响应'}`, 'error');
+        showToast(`Restore failed: ${res.error || 'service not responding'}`, 'error');
       }
     }
 
@@ -1326,7 +1326,7 @@
         if (countdownSec <= 0) {
           clearInterval(watchdogTimer);
           watchdogModal.classList.remove('active');
-          showToast('倒计时超时，正在自动安全回滚至出厂设置...', 'warn');
+          showToast('Countdown expired, automatically rolling back to the factory settings...', 'warn');
           resetToDefaults();
         }
       }, 1000);
@@ -1335,7 +1335,7 @@
     document.getElementById('btn-watchdog-confirm').onclick = () => {
       if (watchdogTimer) clearInterval(watchdogTimer);
       watchdogModal.classList.remove('active');
-      showToast('设置已确认，保持当前调控状态', 'ok');
+      showToast('Settings confirmed, keeping the current tuning state', 'ok');
     };
 
     document.getElementById('btn-watchdog-rollback').onclick = () => {
@@ -1347,13 +1347,13 @@
     const btnRefreshElem = document.getElementById('btn-refresh');
     if (btnRefreshElem) {
       btnRefreshElem.onclick = () => {
-        showToast('正在刷新硬件通道状态...', 'ok');
+        showToast('Refreshing the hardware channel status...', 'ok');
         refreshStatus();
       };
     }
 
     document.getElementById('btn-reset-default').onclick = () => {
-      if (confirm('确定要将所有电压偏移与倍频恢复为出厂默认设置吗？')) {
+      if (confirm('Are you sure you want to restore all voltage offsets and ratios to their factory defaults?')) {
         resetToDefaults();
       }
     };
