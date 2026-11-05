@@ -28,8 +28,10 @@ export const KeyboardModeGrid: React.FC<KeyboardModeGridProps> = ({
 
   const modes = isSingleZone
     ? [
-        { id: 1, name: 'Static Color', desc: 'Static lighting with one color across the keyboard' },
-        { id: 2, name: 'Rainbow cycle', desc: 'Breathing gradient cycle across the whole keyboard' },
+        { id: 1, name: 'Single-Color Constant On’', desc: 'Static lighting in a single color across the entire keyboard' },
+        { id: 2, name: 'Rainbow Cycle', desc: 'Breathing gradient cycle across the entire keyboard' },
+        { id: 3, name: 'Single-Color Breathing', desc: 'EC hardware breathing (4 fixed colors: white/red/green/blue)' },
+        { id: 4, name: 'Six-Color Rotation', desc: 'Six-color cycling rotation (software-driven)' },
       ]
     : isFourZone
     ? FOURZONE_KEYBOARD_MODES
